@@ -1,0 +1,214 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Anomalías 2026-2",
+    "section": "",
+    "text": "Prefacio\nBienvenidos al material del curso Anomalías 2026-2.\nEste sitio contiene las notas de clase, notebooks y recursos del curso.",
+    "crumbs": [
+      "Prefacio"
+    ]
+  },
+  {
+    "objectID": "index.html#cómo-usar-este-material",
+    "href": "index.html#cómo-usar-este-material",
+    "title": "Anomalías 2026-2",
+    "section": "Cómo usar este material",
+    "text": "Cómo usar este material\nLos capítulos incluyen explicaciones teóricas y notebooks con código ejecutable en Python.\n\n\nAmbiente configurado correctamente.",
+    "crumbs": [
+      "Prefacio"
+    ]
+  },
+  {
+    "objectID": "intro.html",
+    "href": "intro.html",
+    "title": "1  Introducción",
+    "section": "",
+    "text": "1.1 Objetivos del curso",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introducción</span>"
+    ]
+  },
+  {
+    "objectID": "intro.html#objetivos-del-curso",
+    "href": "intro.html#objetivos-del-curso",
+    "title": "1  Introducción",
+    "section": "",
+    "text": "Comprender los fundamentos de la detección de anomalías\nAplicar técnicas estadísticas y de machine learning\nTrabajar con datos reales usando Python",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introducción</span>"
+    ]
+  },
+  {
+    "objectID": "intro.html#herramientas",
+    "href": "intro.html#herramientas",
+    "title": "1  Introducción",
+    "section": "1.2 Herramientas",
+    "text": "1.2 Herramientas\nEste curso utiliza:\n\nPython como lenguaje principal\npandas para manipulación de datos\nmatplotlib para visualización\nJupyter notebooks para ejercicios prácticos",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introducción</span>"
+    ]
+  },
+  {
+    "objectID": "../notebooks/01_exploracion.html",
+    "href": "../notebooks/01_exploracion.html",
+    "title": "2  Exploración de datos",
+    "section": "",
+    "text": "3 Exploración de datos\nEn este notebook exploramos un conjunto de datos para identificar posibles anomalías.\nCode\nimport pandas as pd\nimport matplotlib.pyplot as plt\nimport numpy as np",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Exploración de datos</span>"
+    ]
+  },
+  {
+    "objectID": "../notebooks/01_exploracion.html#generación-de-datos-de-ejemplo",
+    "href": "../notebooks/01_exploracion.html#generación-de-datos-de-ejemplo",
+    "title": "2  Exploración de datos",
+    "section": "3.1 Generación de datos de ejemplo",
+    "text": "3.1 Generación de datos de ejemplo\n\n\nCode\nrng = np.random.default_rng(42)\ndatos = rng.normal(loc=0, scale=1, size=200)\n# Insertar algunas anomalías\ndatos = np.concatenate([datos, rng.normal(loc=5, scale=0.5, size=10)])\n\ndf = pd.DataFrame({\"valor\": datos})\ndf.describe()",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Exploración de datos</span>"
+    ]
+  },
+  {
+    "objectID": "../notebooks/01_exploracion.html#visualización",
+    "href": "../notebooks/01_exploracion.html#visualización",
+    "title": "2  Exploración de datos",
+    "section": "3.2 Visualización",
+    "text": "3.2 Visualización\n\n\nCode\nfig, axes = plt.subplots(1, 2, figsize=(10, 4))\n\naxes[0].hist(df[\"valor\"], bins=30, edgecolor=\"black\")\naxes[0].set_title(\"Histograma\")\n\naxes[1].boxplot(df[\"valor\"])\naxes[1].set_title(\"Boxplot\")\n\nplt.tight_layout()\nplt.show()",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Exploración de datos</span>"
+    ]
+  },
+  {
+    "objectID": "../notebooks/02_deteccion.html",
+    "href": "../notebooks/02_deteccion.html",
+    "title": "3  Detección de anomalías",
+    "section": "",
+    "text": "4 Detección de anomalías\nAplicamos métodos básicos para detectar anomalías en datos univariados.\nCode\nimport pandas as pd\nimport matplotlib.pyplot as plt\nimport numpy as np",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Detección de anomalías</span>"
+    ]
+  },
+  {
+    "objectID": "../notebooks/02_deteccion.html#método-z-score",
+    "href": "../notebooks/02_deteccion.html#método-z-score",
+    "title": "3  Detección de anomalías",
+    "section": "4.1 Método Z-score",
+    "text": "4.1 Método Z-score\n\n\nCode\nrng = np.random.default_rng(42)\ndatos = np.concatenate([\n    rng.normal(loc=0, scale=1, size=200),\n    rng.normal(loc=5, scale=0.5, size=10)\n])\ndf = pd.DataFrame({\"valor\": datos})\n\ndf[\"zscore\"] = (df[\"valor\"] - df[\"valor\"].mean()) / df[\"valor\"].std()\ndf[\"es_anomalia\"] = df[\"zscore\"].abs() &gt; 2\n\nprint(f\"Anomalías detectadas: {df['es_anomalia'].sum()}\")\ndf[df[\"es_anomalia\"]]",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Detección de anomalías</span>"
+    ]
+  },
+  {
+    "objectID": "../notebooks/02_deteccion.html#visualización-de-anomalías",
+    "href": "../notebooks/02_deteccion.html#visualización-de-anomalías",
+    "title": "3  Detección de anomalías",
+    "section": "4.2 Visualización de anomalías",
+    "text": "4.2 Visualización de anomalías\n\n\nCode\nfig, ax = plt.subplots(figsize=(10, 4))\nnormales = df[~df[\"es_anomalia\"]]\nanomalias = df[df[\"es_anomalia\"]]\n\nax.scatter(normales.index, normales[\"valor\"], label=\"Normal\", alpha=0.5)\nax.scatter(anomalias.index, anomalias[\"valor\"], color=\"red\", label=\"Anomalía\", zorder=5)\nax.set_xlabel(\"Índice\")\nax.set_ylabel(\"Valor\")\nax.legend()\nax.set_title(\"Detección de anomalías con Z-score\")\nplt.show()",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Detección de anomalías</span>"
+    ]
+  },
+  {
+    "objectID": "libro/intro.html",
+    "href": "libro/intro.html",
+    "title": "1  Introducción",
+    "section": "",
+    "text": "1.1 Objetivos del curso",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introducción</span>"
+    ]
+  },
+  {
+    "objectID": "libro/intro.html#objetivos-del-curso",
+    "href": "libro/intro.html#objetivos-del-curso",
+    "title": "1  Introducción",
+    "section": "",
+    "text": "Comprender los fundamentos de la detección de anomalías\nAplicar técnicas estadísticas y de machine learning\nTrabajar con datos reales usando Python",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introducción</span>"
+    ]
+  },
+  {
+    "objectID": "libro/intro.html#herramientas",
+    "href": "libro/intro.html#herramientas",
+    "title": "1  Introducción",
+    "section": "1.2 Herramientas",
+    "text": "1.2 Herramientas\nEste curso utiliza:\n\nPython como lenguaje principal\npandas para manipulación de datos\nmatplotlib para visualización\nJupyter notebooks para ejercicios prácticos",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introducción</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/01_exploracion.html",
+    "href": "notebooks/01_exploracion.html",
+    "title": "2  Exploración de datos",
+    "section": "",
+    "text": "3 Exploración de datos\nEn este notebook exploramos un conjunto de datos para identificar posibles anomalías.\nCode\nimport pandas as pd\nimport matplotlib.pyplot as plt\nimport numpy as np",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Exploración de datos</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/01_exploracion.html#generación-de-datos-de-ejemplo",
+    "href": "notebooks/01_exploracion.html#generación-de-datos-de-ejemplo",
+    "title": "2  Exploración de datos",
+    "section": "3.1 Generación de datos de ejemplo",
+    "text": "3.1 Generación de datos de ejemplo\n\n\nCode\nrng = np.random.default_rng(42)\ndatos = rng.normal(loc=0, scale=1, size=200)\n# Insertar algunas anomalías\ndatos = np.concatenate([datos, rng.normal(loc=5, scale=0.5, size=10)])\n\ndf = pd.DataFrame({\"valor\": datos})\ndf.describe()",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Exploración de datos</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/01_exploracion.html#visualización",
+    "href": "notebooks/01_exploracion.html#visualización",
+    "title": "2  Exploración de datos",
+    "section": "3.2 Visualización",
+    "text": "3.2 Visualización\n\n\nCode\nfig, axes = plt.subplots(1, 2, figsize=(10, 4))\n\naxes[0].hist(df[\"valor\"], bins=30, edgecolor=\"black\")\naxes[0].set_title(\"Histograma\")\n\naxes[1].boxplot(df[\"valor\"])\naxes[1].set_title(\"Boxplot\")\n\nplt.tight_layout()\nplt.show()",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Exploración de datos</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/02_deteccion.html",
+    "href": "notebooks/02_deteccion.html",
+    "title": "3  Detección de anomalías",
+    "section": "",
+    "text": "4 Detección de anomalías\nAplicamos métodos básicos para detectar anomalías en datos univariados.\nCode\nimport pandas as pd\nimport matplotlib.pyplot as plt\nimport numpy as np",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Detección de anomalías</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/02_deteccion.html#método-z-score",
+    "href": "notebooks/02_deteccion.html#método-z-score",
+    "title": "3  Detección de anomalías",
+    "section": "4.1 Método Z-score",
+    "text": "4.1 Método Z-score\n\n\nCode\nrng = np.random.default_rng(42)\ndatos = np.concatenate([\n    rng.normal(loc=0, scale=1, size=200),\n    rng.normal(loc=5, scale=0.5, size=10)\n])\ndf = pd.DataFrame({\"valor\": datos})\n\ndf[\"zscore\"] = (df[\"valor\"] - df[\"valor\"].mean()) / df[\"valor\"].std()\ndf[\"es_anomalia\"] = df[\"zscore\"].abs() &gt; 2\n\nprint(f\"Anomalías detectadas: {df['es_anomalia'].sum()}\")\ndf[df[\"es_anomalia\"]]",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Detección de anomalías</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/02_deteccion.html#visualización-de-anomalías",
+    "href": "notebooks/02_deteccion.html#visualización-de-anomalías",
+    "title": "3  Detección de anomalías",
+    "section": "4.2 Visualización de anomalías",
+    "text": "4.2 Visualización de anomalías\n\n\nCode\nfig, ax = plt.subplots(figsize=(10, 4))\nnormales = df[~df[\"es_anomalia\"]]\nanomalias = df[df[\"es_anomalia\"]]\n\nax.scatter(normales.index, normales[\"valor\"], label=\"Normal\", alpha=0.5)\nax.scatter(anomalias.index, anomalias[\"valor\"], color=\"red\", label=\"Anomalía\", zorder=5)\nax.set_xlabel(\"Índice\")\nax.set_ylabel(\"Valor\")\nax.legend()\nax.set_title(\"Detección de anomalías con Z-score\")\nplt.show()",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Detección de anomalías</span>"
+    ]
+  }
+]

@@ -1,0 +1,14 @@
+# Prefacio {.unnumbered}
+
+Bienvenidos al material del curso **Anomalías 2026-2**.
+
+Este sitio contiene las notas de clase, notebooks y recursos del curso.
+
+## Cómo usar este material
+
+Los capítulos incluyen explicaciones teóricas y notebooks con código ejecutable en Python.
+
+```{python}
+#| echo: false
+print("Ambiente configurado correctamente.")
+```

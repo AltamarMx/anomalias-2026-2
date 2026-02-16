@@ -1,0 +1,29 @@
+project:
+  type: book
+  output-dir: docs/
+
+book:
+  title: "Anomalías 2026-2"
+  author: ""
+  date: today
+  date-format: "DD/MM/YYYY"
+  language: es
+  chapters:
+    - index.qmd
+    - libro/intro.qmd
+    - part: "Clases"
+      chapters:
+        - notebooks/001_birthday_problem.ipynb
+        - notebooks/002_triangulo_pascal.ipynb
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    code-fold: true
+    code-tools: true
+
+execute:
+  freeze: auto

@@ -1,0 +1,16 @@
+# Introducción
+
+## Objetivos del curso
+
+- Comprender los fundamentos de la detección de anomalías
+- Aplicar técnicas estadísticas y de machine learning
+- Trabajar con datos reales usando Python
+
+## Herramientas
+
+Este curso utiliza:
+
+- **Python** como lenguaje principal
+- **pandas** para manipulación de datos
+- **matplotlib** para visualización
+- **Jupyter notebooks** para ejercicios prácticos
