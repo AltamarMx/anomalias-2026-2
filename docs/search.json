@@ -20,102 +20,6 @@
     ]
   },
   {
-    "objectID": "intro.html",
-    "href": "intro.html",
-    "title": "1  Introducción",
-    "section": "",
-    "text": "1.1 Objetivos del curso",
-    "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introducción</span>"
-    ]
-  },
-  {
-    "objectID": "intro.html#objetivos-del-curso",
-    "href": "intro.html#objetivos-del-curso",
-    "title": "1  Introducción",
-    "section": "",
-    "text": "Comprender los fundamentos de la detección de anomalías\nAplicar técnicas estadísticas y de machine learning\nTrabajar con datos reales usando Python",
-    "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introducción</span>"
-    ]
-  },
-  {
-    "objectID": "intro.html#herramientas",
-    "href": "intro.html#herramientas",
-    "title": "1  Introducción",
-    "section": "1.2 Herramientas",
-    "text": "1.2 Herramientas\nEste curso utiliza:\n\nPython como lenguaje principal\npandas para manipulación de datos\nmatplotlib para visualización\nJupyter notebooks para ejercicios prácticos",
-    "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introducción</span>"
-    ]
-  },
-  {
-    "objectID": "../notebooks/01_exploracion.html",
-    "href": "../notebooks/01_exploracion.html",
-    "title": "2  Exploración de datos",
-    "section": "",
-    "text": "3 Exploración de datos\nEn este notebook exploramos un conjunto de datos para identificar posibles anomalías.\nCode\nimport pandas as pd\nimport matplotlib.pyplot as plt\nimport numpy as np",
-    "crumbs": [
-      "Clases",
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Exploración de datos</span>"
-    ]
-  },
-  {
-    "objectID": "../notebooks/01_exploracion.html#generación-de-datos-de-ejemplo",
-    "href": "../notebooks/01_exploracion.html#generación-de-datos-de-ejemplo",
-    "title": "2  Exploración de datos",
-    "section": "3.1 Generación de datos de ejemplo",
-    "text": "3.1 Generación de datos de ejemplo\n\n\nCode\nrng = np.random.default_rng(42)\ndatos = rng.normal(loc=0, scale=1, size=200)\n# Insertar algunas anomalías\ndatos = np.concatenate([datos, rng.normal(loc=5, scale=0.5, size=10)])\n\ndf = pd.DataFrame({\"valor\": datos})\ndf.describe()",
-    "crumbs": [
-      "Clases",
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Exploración de datos</span>"
-    ]
-  },
-  {
-    "objectID": "../notebooks/01_exploracion.html#visualización",
-    "href": "../notebooks/01_exploracion.html#visualización",
-    "title": "2  Exploración de datos",
-    "section": "3.2 Visualización",
-    "text": "3.2 Visualización\n\n\nCode\nfig, axes = plt.subplots(1, 2, figsize=(10, 4))\n\naxes[0].hist(df[\"valor\"], bins=30, edgecolor=\"black\")\naxes[0].set_title(\"Histograma\")\n\naxes[1].boxplot(df[\"valor\"])\naxes[1].set_title(\"Boxplot\")\n\nplt.tight_layout()\nplt.show()",
-    "crumbs": [
-      "Clases",
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Exploración de datos</span>"
-    ]
-  },
-  {
-    "objectID": "../notebooks/02_deteccion.html",
-    "href": "../notebooks/02_deteccion.html",
-    "title": "3  Detección de anomalías",
-    "section": "",
-    "text": "4 Detección de anomalías\nAplicamos métodos básicos para detectar anomalías en datos univariados.\nCode\nimport pandas as pd\nimport matplotlib.pyplot as plt\nimport numpy as np",
-    "crumbs": [
-      "Clases",
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Detección de anomalías</span>"
-    ]
-  },
-  {
-    "objectID": "../notebooks/02_deteccion.html#método-z-score",
-    "href": "../notebooks/02_deteccion.html#método-z-score",
-    "title": "3  Detección de anomalías",
-    "section": "4.1 Método Z-score",
-    "text": "4.1 Método Z-score\n\n\nCode\nrng = np.random.default_rng(42)\ndatos = np.concatenate([\n    rng.normal(loc=0, scale=1, size=200),\n    rng.normal(loc=5, scale=0.5, size=10)\n])\ndf = pd.DataFrame({\"valor\": datos})\n\ndf[\"zscore\"] = (df[\"valor\"] - df[\"valor\"].mean()) / df[\"valor\"].std()\ndf[\"es_anomalia\"] = df[\"zscore\"].abs() &gt; 2\n\nprint(f\"Anomalías detectadas: {df['es_anomalia'].sum()}\")\ndf[df[\"es_anomalia\"]]",
-    "crumbs": [
-      "Clases",
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Detección de anomalías</span>"
-    ]
-  },
-  {
-    "objectID": "../notebooks/02_deteccion.html#visualización-de-anomalías",
-    "href": "../notebooks/02_deteccion.html#visualización-de-anomalías",
-    "title": "3  Detección de anomalías",
-    "section": "4.2 Visualización de anomalías",
-    "text": "4.2 Visualización de anomalías\n\n\nCode\nfig, ax = plt.subplots(figsize=(10, 4))\nnormales = df[~df[\"es_anomalia\"]]\nanomalias = df[df[\"es_anomalia\"]]\n\nax.scatter(normales.index, normales[\"valor\"], label=\"Normal\", alpha=0.5)\nax.scatter(anomalias.index, anomalias[\"valor\"], color=\"red\", label=\"Anomalía\", zorder=5)\nax.set_xlabel(\"Índice\")\nax.set_ylabel(\"Valor\")\nax.legend()\nax.set_title(\"Detección de anomalías con Z-score\")\nplt.show()",
-    "crumbs": [
-      "Clases",
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Detección de anomalías</span>"
-    ]
-  },
-  {
     "objectID": "libro/intro.html",
     "href": "libro/intro.html",
     "title": "1  Introducción",
@@ -146,69 +50,80 @@
     ]
   },
   {
-    "objectID": "notebooks/01_exploracion.html",
-    "href": "notebooks/01_exploracion.html",
-    "title": "2  Exploración de datos",
+    "objectID": "notebooks/001_birthday_problem.html",
+    "href": "notebooks/001_birthday_problem.html",
+    "title": "2  El problema del cumpleaños",
     "section": "",
-    "text": "3 Exploración de datos\nEn este notebook exploramos un conjunto de datos para identificar posibles anomalías.\nCode\nimport pandas as pd\nimport matplotlib.pyplot as plt\nimport numpy as np",
+    "text": "2.1 Planteamiento\n¿cuál es la probabilidad de que en un grupo de \\(n\\) personas al menos dos compartan el mismo día de cumpleaños?\nSpoiler alert: con solo 23 personas la probabilidad ya supera el 50%.",
     "crumbs": [
       "Clases",
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Exploración de datos</span>"
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>El problema del cumpleaños</span>"
     ]
   },
   {
-    "objectID": "notebooks/01_exploracion.html#generación-de-datos-de-ejemplo",
-    "href": "notebooks/01_exploracion.html#generación-de-datos-de-ejemplo",
-    "title": "2  Exploración de datos",
-    "section": "3.1 Generación de datos de ejemplo",
-    "text": "3.1 Generación de datos de ejemplo\n\n\nCode\nrng = np.random.default_rng(42)\ndatos = rng.normal(loc=0, scale=1, size=200)\n# Insertar algunas anomalías\ndatos = np.concatenate([datos, rng.normal(loc=5, scale=0.5, size=10)])\n\ndf = pd.DataFrame({\"valor\": datos})\ndf.describe()",
-    "crumbs": [
-      "Clases",
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Exploración de datos</span>"
-    ]
-  },
-  {
-    "objectID": "notebooks/01_exploracion.html#visualización",
-    "href": "notebooks/01_exploracion.html#visualización",
-    "title": "2  Exploración de datos",
-    "section": "3.2 Visualización",
-    "text": "3.2 Visualización\n\n\nCode\nfig, axes = plt.subplots(1, 2, figsize=(10, 4))\n\naxes[0].hist(df[\"valor\"], bins=30, edgecolor=\"black\")\naxes[0].set_title(\"Histograma\")\n\naxes[1].boxplot(df[\"valor\"])\naxes[1].set_title(\"Boxplot\")\n\nplt.tight_layout()\nplt.show()",
-    "crumbs": [
-      "Clases",
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Exploración de datos</span>"
-    ]
-  },
-  {
-    "objectID": "notebooks/02_deteccion.html",
-    "href": "notebooks/02_deteccion.html",
-    "title": "3  Detección de anomalías",
+    "objectID": "notebooks/001_birthday_problem.html#planteamiento",
+    "href": "notebooks/001_birthday_problem.html#planteamiento",
+    "title": "2  El problema del cumpleaños",
     "section": "",
-    "text": "4 Detección de anomalías\nAplicamos métodos básicos para detectar anomalías en datos univariados.\nCode\nimport pandas as pd\nimport matplotlib.pyplot as plt\nimport numpy as np",
+    "text": "2.1.1 Supuestos del modelo\nPara simplificar el análisis, asumimos lo siguiente:\n\nEl año tiene exactamente 365 días (ignoramos años bisiestos).\nLos cumpleaños se distribuyen uniformemente: cada día del año es igualmente probable.\nLos cumpleaños de distintas personas son independientes entre sí.\n\nEstos supuestos no son perfectamente realistas (en la práctica hay meses con más nacimientos que otros), pero simplifican el cálculo y la conclusión cualitativa se mantiene.",
     "crumbs": [
       "Clases",
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Detección de anomalías</span>"
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>El problema del cumpleaños</span>"
     ]
   },
   {
-    "objectID": "notebooks/02_deteccion.html#método-z-score",
-    "href": "notebooks/02_deteccion.html#método-z-score",
-    "title": "3  Detección de anomalías",
-    "section": "4.1 Método Z-score",
-    "text": "4.1 Método Z-score\n\n\nCode\nrng = np.random.default_rng(42)\ndatos = np.concatenate([\n    rng.normal(loc=0, scale=1, size=200),\n    rng.normal(loc=5, scale=0.5, size=10)\n])\ndf = pd.DataFrame({\"valor\": datos})\n\ndf[\"zscore\"] = (df[\"valor\"] - df[\"valor\"].mean()) / df[\"valor\"].std()\ndf[\"es_anomalia\"] = df[\"zscore\"].abs() &gt; 2\n\nprint(f\"Anomalías detectadas: {df['es_anomalia'].sum()}\")\ndf[df[\"es_anomalia\"]]",
+    "objectID": "notebooks/001_birthday_problem.html#solución",
+    "href": "notebooks/001_birthday_problem.html#solución",
+    "title": "2  El problema del cumpleaños",
+    "section": "2.2 Solución",
+    "text": "2.2 Solución\nEn lugar de calcular directamente la probabilidad de que haya al menos una coincidencia (lo cual involucra muchos casos), usamos el complemento: calculamos la probabilidad de que todos tengan cumpleaños distintos y luego restamos de 1.\n\n2.2.1 Construcción paso a paso\nImaginemos que las \\(n\\) personas entran a una sala una por una:\n\nPersona 1: puede tener cualquier cumpleaños. Probabilidad de no repetir: \\(\\frac{365}{365} = 1\\).\nPersona 2: para no repetir, su cumpleaños debe caer en uno de los 364 días restantes: \\(\\frac{364}{365}\\).\nPersona 3: debe evitar los 2 días ya tomados: \\(\\frac{363}{365}\\).\nPersona \\(k\\): debe evitar los \\(k-1\\) días ya ocupados: \\(\\frac{365 - (k-1)}{365}\\).\n\nComo los cumpleaños son independientes, multiplicamos todas estas probabilidades:\n\\[\nP(\\text{todos distintos}) = \\frac{365}{365} \\cdot \\frac{364}{365} \\cdot \\frac{363}{365} \\cdots \\frac{365 - n + 1}{365} = \\prod_{k=0}^{n-1} \\frac{365 - k}{365}\n\\]\nFinalmente, la probabilidad de que al menos dos personas compartan cumpleaños es:\n\\[\nP(\\text{coincidencia}) = 1 - \\prod_{k=0}^{n-1} \\frac{365 - k}{365}\n\\]\nEsta es una expresión exacta que podemos evaluar numéricamente para cualquier valor de \\(n\\).\n\n\nCode\nimport numpy as np\nimport matplotlib.pyplot as plt\n\n\nDefinimos la función prob_analitica(n) que implementa la fórmula exacta. El algoritmo es directo:\n\nInicializamos p_todos_distintos = 1.0 (probabilidad acumulada).\nEn cada iteración \\(k = 0, 1, \\ldots, n-1\\), multiplicamos por \\(\\frac{365 - k}{365}\\), que es la probabilidad de que la persona \\(k+1\\) no repita ningún cumpleaños previo.\nAl final, restamos de 1 para obtener la probabilidad de coincidencia.\n\nLuego evaluamos la función para todos los tamaños de grupo de 1 a 80 y buscamos el primer \\(n\\) donde \\(P &gt; 0.5\\).\n\n\nCode\ndef prob_analitica(n, dias=365):\n    \"\"\"Probabilidad exacta de al menos una coincidencia en un grupo de n personas.\"\"\"\n    p_todos_distintos = 1.0\n    for k in range(n):\n        p_todos_distintos *= (dias - k) / dias\n    return 1 - p_todos_distintos\n\n\nfor n in range(1, 101):\n    p = prob_analitica(n)\n    print(f\"n = {n:3d} personas → P(coincidencia) = {p:.4f}\")\n\n\nn =   1 personas → P(coincidencia) = 0.0000\nn =   2 personas → P(coincidencia) = 0.0027\nn =   3 personas → P(coincidencia) = 0.0082\nn =   4 personas → P(coincidencia) = 0.0164\nn =   5 personas → P(coincidencia) = 0.0271\nn =   6 personas → P(coincidencia) = 0.0405\nn =   7 personas → P(coincidencia) = 0.0562\nn =   8 personas → P(coincidencia) = 0.0743\nn =   9 personas → P(coincidencia) = 0.0946\nn =  10 personas → P(coincidencia) = 0.1169\nn =  11 personas → P(coincidencia) = 0.1411\nn =  12 personas → P(coincidencia) = 0.1670\nn =  13 personas → P(coincidencia) = 0.1944\nn =  14 personas → P(coincidencia) = 0.2231\nn =  15 personas → P(coincidencia) = 0.2529\nn =  16 personas → P(coincidencia) = 0.2836\nn =  17 personas → P(coincidencia) = 0.3150\nn =  18 personas → P(coincidencia) = 0.3469\nn =  19 personas → P(coincidencia) = 0.3791\nn =  20 personas → P(coincidencia) = 0.4114\nn =  21 personas → P(coincidencia) = 0.4437\nn =  22 personas → P(coincidencia) = 0.4757\nn =  23 personas → P(coincidencia) = 0.5073\nn =  24 personas → P(coincidencia) = 0.5383\nn =  25 personas → P(coincidencia) = 0.5687\nn =  26 personas → P(coincidencia) = 0.5982\nn =  27 personas → P(coincidencia) = 0.6269\nn =  28 personas → P(coincidencia) = 0.6545\nn =  29 personas → P(coincidencia) = 0.6810\nn =  30 personas → P(coincidencia) = 0.7063\nn =  31 personas → P(coincidencia) = 0.7305\nn =  32 personas → P(coincidencia) = 0.7533\nn =  33 personas → P(coincidencia) = 0.7750\nn =  34 personas → P(coincidencia) = 0.7953\nn =  35 personas → P(coincidencia) = 0.8144\nn =  36 personas → P(coincidencia) = 0.8322\nn =  37 personas → P(coincidencia) = 0.8487\nn =  38 personas → P(coincidencia) = 0.8641\nn =  39 personas → P(coincidencia) = 0.8782\nn =  40 personas → P(coincidencia) = 0.8912\nn =  41 personas → P(coincidencia) = 0.9032\nn =  42 personas → P(coincidencia) = 0.9140\nn =  43 personas → P(coincidencia) = 0.9239\nn =  44 personas → P(coincidencia) = 0.9329\nn =  45 personas → P(coincidencia) = 0.9410\nn =  46 personas → P(coincidencia) = 0.9483\nn =  47 personas → P(coincidencia) = 0.9548\nn =  48 personas → P(coincidencia) = 0.9606\nn =  49 personas → P(coincidencia) = 0.9658\nn =  50 personas → P(coincidencia) = 0.9704\nn =  51 personas → P(coincidencia) = 0.9744\nn =  52 personas → P(coincidencia) = 0.9780\nn =  53 personas → P(coincidencia) = 0.9811\nn =  54 personas → P(coincidencia) = 0.9839\nn =  55 personas → P(coincidencia) = 0.9863\nn =  56 personas → P(coincidencia) = 0.9883\nn =  57 personas → P(coincidencia) = 0.9901\nn =  58 personas → P(coincidencia) = 0.9917\nn =  59 personas → P(coincidencia) = 0.9930\nn =  60 personas → P(coincidencia) = 0.9941\nn =  61 personas → P(coincidencia) = 0.9951\nn =  62 personas → P(coincidencia) = 0.9959\nn =  63 personas → P(coincidencia) = 0.9966\nn =  64 personas → P(coincidencia) = 0.9972\nn =  65 personas → P(coincidencia) = 0.9977\nn =  66 personas → P(coincidencia) = 0.9981\nn =  67 personas → P(coincidencia) = 0.9984\nn =  68 personas → P(coincidencia) = 0.9987\nn =  69 personas → P(coincidencia) = 0.9990\nn =  70 personas → P(coincidencia) = 0.9992\nn =  71 personas → P(coincidencia) = 0.9993\nn =  72 personas → P(coincidencia) = 0.9995\nn =  73 personas → P(coincidencia) = 0.9996\nn =  74 personas → P(coincidencia) = 0.9996\nn =  75 personas → P(coincidencia) = 0.9997\nn =  76 personas → P(coincidencia) = 0.9998\nn =  77 personas → P(coincidencia) = 0.9998\nn =  78 personas → P(coincidencia) = 0.9999\nn =  79 personas → P(coincidencia) = 0.9999\nn =  80 personas → P(coincidencia) = 0.9999\nn =  81 personas → P(coincidencia) = 0.9999\nn =  82 personas → P(coincidencia) = 0.9999\nn =  83 personas → P(coincidencia) = 1.0000\nn =  84 personas → P(coincidencia) = 1.0000\nn =  85 personas → P(coincidencia) = 1.0000\nn =  86 personas → P(coincidencia) = 1.0000\nn =  87 personas → P(coincidencia) = 1.0000\nn =  88 personas → P(coincidencia) = 1.0000\nn =  89 personas → P(coincidencia) = 1.0000\nn =  90 personas → P(coincidencia) = 1.0000\nn =  91 personas → P(coincidencia) = 1.0000\nn =  92 personas → P(coincidencia) = 1.0000\nn =  93 personas → P(coincidencia) = 1.0000\nn =  94 personas → P(coincidencia) = 1.0000\nn =  95 personas → P(coincidencia) = 1.0000\nn =  96 personas → P(coincidencia) = 1.0000\nn =  97 personas → P(coincidencia) = 1.0000\nn =  98 personas → P(coincidencia) = 1.0000\nn =  99 personas → P(coincidencia) = 1.0000\nn = 100 personas → P(coincidencia) = 1.0000",
     "crumbs": [
       "Clases",
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Detección de anomalías</span>"
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>El problema del cumpleaños</span>"
     ]
   },
   {
-    "objectID": "notebooks/02_deteccion.html#visualización-de-anomalías",
-    "href": "notebooks/02_deteccion.html#visualización-de-anomalías",
-    "title": "3  Detección de anomalías",
-    "section": "4.2 Visualización de anomalías",
-    "text": "4.2 Visualización de anomalías\n\n\nCode\nfig, ax = plt.subplots(figsize=(10, 4))\nnormales = df[~df[\"es_anomalia\"]]\nanomalias = df[df[\"es_anomalia\"]]\n\nax.scatter(normales.index, normales[\"valor\"], label=\"Normal\", alpha=0.5)\nax.scatter(anomalias.index, anomalias[\"valor\"], color=\"red\", label=\"Anomalía\", zorder=5)\nax.set_xlabel(\"Índice\")\nax.set_ylabel(\"Valor\")\nax.legend()\nax.set_title(\"Detección de anomalías con Z-score\")\nplt.show()",
+    "objectID": "notebooks/001_birthday_problem.html#simulación-por-monte-carlo",
+    "href": "notebooks/001_birthday_problem.html#simulación-por-monte-carlo",
+    "title": "2  El problema del cumpleaños",
+    "section": "2.3 Simulación por Monte Carlo",
+    "text": "2.3 Simulación por Monte Carlo\nAntes de armar la simulación completa, veamos paso a paso cómo funciona un solo experimento. Supongamos un grupo de 5 personas:\nPaso 1 — Generar cumpleaños aleatorios: asignamos a cada persona un número entero entre 0 y 364. Cada número representa un día del año (0 = 1 de enero, 364 = 31 de diciembre).\nPaso 2 — Detectar repetidos: convertimos la lista a un conjunto (set), que automáticamente elimina duplicados. Si el conjunto tiene menos elementos que la lista original, significa que al menos dos personas comparten cumpleaños.\n\n\nCode\n# Paso 1: Generar cumpleaños aleatorios para 5 personas\nrng = np.random.default_rng(42)\nn = \ncumples = rng.integers(0, 365, size=n)\nprint(f\"Grupo de {n} personas\")\nprint(f\"Cumpleaños generados (día del año): {cumples}\")\n\n\nGrupo de 40 personas\nCumpleaños generados (día del año): [ 32 282 238 160 158 313  31 254  73  34 192 356 268 277 261 286 187  46\n 306 164 182 135  66 338 285 235 146 300 199 161 164  82  33 202 324  23\n 313 302 101 230]\n\n\n\n\nCode\n# Paso 2: Convertir a conjunto para eliminar duplicados\ncumples_unicos = set(cumples)\nprint(f\"Cumpleaños únicos (sin repetidos):  {cumples_unicos} y son {len(cumples_unicos)}\")\n\n\nCumpleaños únicos (sin repetidos):  {np.int64(261), np.int64(135), np.int64(268), np.int64(146), np.int64(277), np.int64(23), np.int64(282), np.int64(285), np.int64(286), np.int64(158), np.int64(32), np.int64(160), np.int64(34), np.int64(31), np.int64(164), np.int64(161), np.int64(33), np.int64(300), np.int64(46), np.int64(302), np.int64(306), np.int64(182), np.int64(313), np.int64(187), np.int64(192), np.int64(66), np.int64(324), np.int64(199), np.int64(73), np.int64(202), np.int64(338), np.int64(82), np.int64(356), np.int64(101), np.int64(230), np.int64(235), np.int64(238), np.int64(254)} y son 38\n\n\n\n\nCode\n# Paso 3: Comparar tamaños\nprint(f\"\\nTotal de personas:           {len(cumples)}\")\nprint(f\"Cumpleaños distintos:        {len(cumples_unicos)}\")\n\nif len(cumples_unicos) &lt; n:\n    print(\"→ ¡Hay al menos una coincidencia!\")\nelse:\n    print(\"→ No hay coincidencias en este grupo.\")\n\n\n\nTotal de personas:           40\nCumpleaños distintos:        38\n→ ¡Hay al menos una coincidencia!\n\n\n\n2.3.1 La simulación completa\nAhora encapsulamos esta lógica en una función simular_cumpleanos que repite el experimento n_sim veces y cuenta en qué fracción hubo coincidencia. Luego la ejecutamos para grupos de 1 a 100 personas.\n\n\nCode\ndef simular_cumpleanos(n, n_sim=1000, dias=365, seed=42):\n    \"\"\"Estima la probabilidad de coincidencia por simulación.\"\"\"\n    rng = np.random.default_rng(seed)\n    coincidencias = 0\n    for _ in range(n_sim):\n        cumples = rng.integers(0, dias, size=n)\n        if len(set(cumples)) &lt; n:\n            coincidencias += 1\n    return coincidencias / n_sim\n\n\n# Simular para varios tamaños de grupo (1 a 100 personas)\nns_sim = np.arange(1, 101)\nprobs_sim = [simular_cumpleanos(n) for n in ns_sim]\nprobs_sim\n\n\n[0.0,\n 0.004,\n 0.006,\n 0.02,\n 0.02,\n 0.046,\n 0.058,\n 0.073,\n 0.103,\n 0.114,\n 0.137,\n 0.167,\n 0.209,\n 0.216,\n 0.262,\n 0.283,\n 0.301,\n 0.348,\n 0.361,\n 0.397,\n 0.429,\n 0.455,\n 0.493,\n 0.534,\n 0.553,\n 0.6,\n 0.611,\n 0.637,\n 0.656,\n 0.703,\n 0.714,\n 0.756,\n 0.761,\n 0.793,\n 0.776,\n 0.81,\n 0.855,\n 0.867,\n 0.874,\n 0.877,\n 0.894,\n 0.898,\n 0.915,\n 0.934,\n 0.947,\n 0.944,\n 0.958,\n 0.963,\n 0.964,\n 0.963,\n 0.972,\n 0.976,\n 0.977,\n 0.981,\n 0.984,\n 0.982,\n 0.988,\n 0.982,\n 0.988,\n 0.989,\n 0.993,\n 0.993,\n 0.995,\n 0.999,\n 0.997,\n 0.996,\n 0.997,\n 0.998,\n 0.996,\n 0.998,\n 0.999,\n 1.0,\n 0.999,\n 0.998,\n 1.0,\n 1.0,\n 1.0,\n 1.0,\n 1.0,\n 1.0,\n 1.0,\n 1.0,\n 1.0,\n 1.0,\n 1.0,\n 1.0,\n 1.0,\n 1.0,\n 1.0,\n 1.0,\n 1.0,\n 1.0,\n 1.0,\n 1.0,\n 1.0,\n 1.0,\n 1.0,\n 1.0,\n 1.0,\n 1.0]",
     "crumbs": [
       "Clases",
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Detección de anomalías</span>"
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>El problema del cumpleaños</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/001_birthday_problem.html#comparación-analítica-vs.-simulación",
+    "href": "notebooks/001_birthday_problem.html#comparación-analítica-vs.-simulación",
+    "title": "2  El problema del cumpleaños",
+    "section": "2.4 Comparación: analítica vs. simulación",
+    "text": "2.4 Comparación: analítica vs. simulación\nEl siguiente gráfico superpone ambos resultados: la curva azul es la solución analítica exacta y los puntos rojos son las estimaciones por simulación. Si la simulación está bien implementada, los puntos deberían caer muy cerca de la curva teórica.\n\n\nCode\nns = np.arange(1, 101)\nprobs = [prob_analitica(n) for n in ns]\n\nfig, ax = plt.subplots(figsize=(10, 5))\n\nax.plot(ns, probs, label=\"Analítica\", linewidth=2)\nax.scatter(ns_sim, probs_sim, s=12, color=\"red\", label=\"Simulación\", zorder=5)\nax.axhline(0.5, color=\"gray\", linestyle=\"--\", alpha=0.7, label=\"P = 0.5\")\nax.axvline(23, color=\"gray\", linestyle=\":\", alpha=0.7, label=\"n = 23\")\n\nax.set_xlabel(\"Número de personas (n)\")\nax.set_ylabel(\"P(al menos una coincidencia)\")\nax.set_title(\"El problema del cumpleaños\")\nax.legend()\nax.set_xlim(1, 100)\nax.set_ylim(0, 1.05)\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\n\n\n\n\n\nCode\nfrom math import comb\n\nfor n in [10, 23, 30, 50, 70]:\n    pares = comb(n, 2)\n    print(f\"n = {n:2d} → {pares:4d} pares, P = {prob_analitica(n):.4f}\")",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>El problema del cumpleaños</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/002_triangulo_pascal.html",
+    "href": "notebooks/002_triangulo_pascal.html",
+    "title": "3  Tarea 1: Triángulo de Pascal y la distribución Gaussiana",
+    "section": "",
+    "text": "3.1 Tarea 1 — Fecha de entrega: próxima clase\nEn esta tarea van a explorar la relación entre el triángulo de Pascal y la distribución Gaussiana. El trabajo se entrega en esta misma libreta, agregando las celdas de código y texto que consideren necesarias.\nEmpiecen escribiendo una función triangulo_pascal(N) que construya el triángulo de Pascal desde el renglón 0 hasta el renglón \\(N\\). Verifiquen que funciona imprimiendo los primeros renglones.\nUna vez que tengan el triángulo, grafiquen varios renglones como sucesiones de puntos conectados, todos en el mismo gráfico. Pueden usar una función graficar_renglones(triangulo, renglones) para esto. Elijan al menos 5 renglones de distintos tamaños.\nEl siguiente paso es normalizar cada renglón dividiendo entre su valor máximo, de modo que el pico siempre quede en 1. Escriban una función normalizar(renglon) que haga esto. Repitan la gráfica anterior pero con los renglones normalizados. Ahora las formas son comparables, pero cada renglón tiene un ancho diferente en el eje horizontal.\nAntes de comparar con la Gaussiana, necesitan resolver el problema del eje horizontal: cada renglón tiene un número distinto de puntos, así que no se pueden superponer directamente. Escriban una función reescalar_x(renglon, escala) que tome las posiciones \\(k = 0, 1, \\ldots, n\\) de un renglón y las transforme a un eje centrado en cero, con un ancho controlado por el parámetro escala. Repitan la gráfica de los renglones normalizados pero ahora con el eje horizontal reescalado.\nFinalmente, escriban una función graficar_pascal_vs_gauss(N, escala) que haga lo siguiente: calcule el triángulo hasta el renglón \\(N\\), normalice los renglones seleccionados, escale el eje horizontal de cada renglón para que todos queden centrados en cero con un ancho controlado por el parámetro escala, y grafique encima una curva Gaussiana normalizada a pico 1, es decir \\(G(x) = e^{-(x-\\mu)^2 / 2\\sigma^2}\\).",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Tarea 1: Triángulo de Pascal y la distribución Gaussiana</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/002_triangulo_pascal.html#tarea-1-fecha-de-entrega-próxima-clase",
+    "href": "notebooks/002_triangulo_pascal.html#tarea-1-fecha-de-entrega-próxima-clase",
+    "title": "3  Tarea 1: Triángulo de Pascal y la distribución Gaussiana",
+    "section": "",
+    "text": "3.1.1 Entregables\nLa libreta debe contener: las funciones triangulo_pascal, normalizar, reescalar_x, graficar_renglones y graficar_pascal_vs_gauss funcionando correctamente.",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Tarea 1: Triángulo de Pascal y la distribución Gaussiana</span>"
     ]
   }
 ]

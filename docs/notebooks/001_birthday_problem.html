@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>2&nbsp; El problema del cumpleaños – Anomalías 2026-2</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../notebooks/002_triangulo_pascal.html" rel="next">
+<link href="../libro/intro.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-70a47bd5681a7291082a5b9f83d58762.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notebooks/001_birthday_problem.html">Clases</a></li><li class="breadcrumb-item"><a href="../notebooks/001_birthday_problem.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">El problema del cumpleaños</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="../index.html" class="sidebar-logo-link">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Anomalías 2026-2</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prefacio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../libro/intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introducción</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Clases</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/001_birthday_problem.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">El problema del cumpleaños</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/002_triangulo_pascal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Tarea 1: Triángulo de Pascal y la distribución Gaussiana</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#planteamiento" id="toc-planteamiento" class="nav-link active" data-scroll-target="#planteamiento"><span class="header-section-number">2.1</span> Planteamiento</a>
+  <ul class="collapse">
+  <li><a href="#supuestos-del-modelo" id="toc-supuestos-del-modelo" class="nav-link" data-scroll-target="#supuestos-del-modelo"><span class="header-section-number">2.1.1</span> Supuestos del modelo</a></li>
+  </ul></li>
+  <li><a href="#solución" id="toc-solución" class="nav-link" data-scroll-target="#solución"><span class="header-section-number">2.2</span> Solución</a>
+  <ul class="collapse">
+  <li><a href="#construcción-paso-a-paso" id="toc-construcción-paso-a-paso" class="nav-link" data-scroll-target="#construcción-paso-a-paso"><span class="header-section-number">2.2.1</span> Construcción paso a paso</a></li>
+  </ul></li>
+  <li><a href="#simulación-por-monte-carlo" id="toc-simulación-por-monte-carlo" class="nav-link" data-scroll-target="#simulación-por-monte-carlo"><span class="header-section-number">2.3</span> Simulación por Monte Carlo</a>
+  <ul class="collapse">
+  <li><a href="#la-simulación-completa" id="toc-la-simulación-completa" class="nav-link" data-scroll-target="#la-simulación-completa"><span class="header-section-number">2.3.1</span> La simulación completa</a></li>
+  </ul></li>
+  <li><a href="#comparación-analítica-vs.-simulación" id="toc-comparación-analítica-vs.-simulación" class="nav-link" data-scroll-target="#comparación-analítica-vs.-simulación"><span class="header-section-number">2.4</span> Comparación: analítica vs.&nbsp;simulación</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notebooks/001_birthday_problem.html">Clases</a></li><li class="breadcrumb-item"><a href="../notebooks/001_birthday_problem.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">El problema del cumpleaños</span></a></li></ol></nav>
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">El problema del cumpleaños</span></h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li></ul></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="planteamiento" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="planteamiento"><span class="header-section-number">2.1</span> Planteamiento</h2>
+<p><strong>¿cuál es la probabilidad de que en un grupo de <span class="math inline">\(n\)</span> personas al menos dos compartan el mismo día de cumpleaños?</strong></p>
+<p>Spoiler alert: con solo <strong>23 personas</strong> la probabilidad ya supera el 50%.</p>
+<section id="supuestos-del-modelo" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1" class="anchored" data-anchor-id="supuestos-del-modelo"><span class="header-section-number">2.1.1</span> Supuestos del modelo</h3>
+<p>Para simplificar el análisis, asumimos lo siguiente:</p>
+<ol type="1">
+<li>El año tiene exactamente <strong>365 días</strong> (ignoramos años bisiestos).</li>
+<li>Los cumpleaños se distribuyen <strong>uniformemente</strong>: cada día del año es igualmente probable.</li>
+<li>Los cumpleaños de distintas personas son <strong>independientes</strong> entre sí.</li>
+</ol>
+<p>Estos supuestos no son perfectamente realistas (en la práctica hay meses con más nacimientos que otros), pero simplifican el cálculo y la conclusión cualitativa se mantiene.</p>
+</section>
+</section>
+<section id="solución" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="solución"><span class="header-section-number">2.2</span> Solución</h2>
+<p>En lugar de calcular directamente la probabilidad de que haya al menos una coincidencia (lo cual involucra muchos casos), usamos el <strong>complemento</strong>: calculamos la probabilidad de que <strong>todos</strong> tengan cumpleaños distintos y luego restamos de 1.</p>
+<section id="construcción-paso-a-paso" class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1" class="anchored" data-anchor-id="construcción-paso-a-paso"><span class="header-section-number">2.2.1</span> Construcción paso a paso</h3>
+<p>Imaginemos que las <span class="math inline">\(n\)</span> personas entran a una sala una por una:</p>
+<ul>
+<li><strong>Persona 1</strong>: puede tener cualquier cumpleaños. Probabilidad de no repetir: <span class="math inline">\(\frac{365}{365} = 1\)</span>.</li>
+<li><strong>Persona 2</strong>: para no repetir, su cumpleaños debe caer en uno de los 364 días restantes: <span class="math inline">\(\frac{364}{365}\)</span>.</li>
+<li><strong>Persona 3</strong>: debe evitar los 2 días ya tomados: <span class="math inline">\(\frac{363}{365}\)</span>.</li>
+<li><strong>Persona <span class="math inline">\(k\)</span></strong>: debe evitar los <span class="math inline">\(k-1\)</span> días ya ocupados: <span class="math inline">\(\frac{365 - (k-1)}{365}\)</span>.</li>
+</ul>
+<p>Como los cumpleaños son independientes, multiplicamos todas estas probabilidades:</p>
+<p><span class="math display">\[
+P(\text{todos distintos}) = \frac{365}{365} \cdot \frac{364}{365} \cdot \frac{363}{365} \cdots \frac{365 - n + 1}{365} = \prod_{k=0}^{n-1} \frac{365 - k}{365}
+\]</span></p>
+<p>Finalmente, la probabilidad de que <strong>al menos dos</strong> personas compartan cumpleaños es:</p>
+<p><span class="math display">\[
+P(\text{coincidencia}) = 1 - \prod_{k=0}^{n-1} \frac{365 - k}{365}
+\]</span></p>
+<p>Esta es una expresión exacta que podemos evaluar numéricamente para cualquier valor de <span class="math inline">\(n\)</span>.</p>
+<div id="cell-3" class="cell" data-execution_count="2">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>Definimos la función <code>prob_analitica(n)</code> que implementa la fórmula exacta. El algoritmo es directo:</p>
+<ol type="1">
+<li>Inicializamos <code>p_todos_distintos = 1.0</code> (probabilidad acumulada).</li>
+<li>En cada iteración <span class="math inline">\(k = 0, 1, \ldots, n-1\)</span>, multiplicamos por <span class="math inline">\(\frac{365 - k}{365}\)</span>, que es la probabilidad de que la persona <span class="math inline">\(k+1\)</span> no repita ningún cumpleaños previo.</li>
+<li>Al final, restamos de 1 para obtener la probabilidad de coincidencia.</li>
+</ol>
+<p>Luego evaluamos la función para todos los tamaños de grupo de 1 a 80 y buscamos el primer <span class="math inline">\(n\)</span> donde <span class="math inline">\(P &gt; 0.5\)</span>.</p>
+<div id="cell-5" class="cell" data-execution_count="3">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> prob_analitica(n, dias<span class="op">=</span><span class="dv">365</span>):</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Probabilidad exacta de al menos una coincidencia en un grupo de n personas."""</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    p_todos_distintos <span class="op">=</span> <span class="fl">1.0</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(n):</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        p_todos_distintos <span class="op">*=</span> (dias <span class="op">-</span> k) <span class="op">/</span> dias</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">1</span> <span class="op">-</span> p_todos_distintos</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">101</span>):</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    p <span class="op">=</span> prob_analitica(n)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"n = </span><span class="sc">{</span>n<span class="sc">:3d}</span><span class="ss"> personas → P(coincidencia) = </span><span class="sc">{</span>p<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>n =   1 personas → P(coincidencia) = 0.0000
+n =   2 personas → P(coincidencia) = 0.0027
+n =   3 personas → P(coincidencia) = 0.0082
+n =   4 personas → P(coincidencia) = 0.0164
+n =   5 personas → P(coincidencia) = 0.0271
+n =   6 personas → P(coincidencia) = 0.0405
+n =   7 personas → P(coincidencia) = 0.0562
+n =   8 personas → P(coincidencia) = 0.0743
+n =   9 personas → P(coincidencia) = 0.0946
+n =  10 personas → P(coincidencia) = 0.1169
+n =  11 personas → P(coincidencia) = 0.1411
+n =  12 personas → P(coincidencia) = 0.1670
+n =  13 personas → P(coincidencia) = 0.1944
+n =  14 personas → P(coincidencia) = 0.2231
+n =  15 personas → P(coincidencia) = 0.2529
+n =  16 personas → P(coincidencia) = 0.2836
+n =  17 personas → P(coincidencia) = 0.3150
+n =  18 personas → P(coincidencia) = 0.3469
+n =  19 personas → P(coincidencia) = 0.3791
+n =  20 personas → P(coincidencia) = 0.4114
+n =  21 personas → P(coincidencia) = 0.4437
+n =  22 personas → P(coincidencia) = 0.4757
+n =  23 personas → P(coincidencia) = 0.5073
+n =  24 personas → P(coincidencia) = 0.5383
+n =  25 personas → P(coincidencia) = 0.5687
+n =  26 personas → P(coincidencia) = 0.5982
+n =  27 personas → P(coincidencia) = 0.6269
+n =  28 personas → P(coincidencia) = 0.6545
+n =  29 personas → P(coincidencia) = 0.6810
+n =  30 personas → P(coincidencia) = 0.7063
+n =  31 personas → P(coincidencia) = 0.7305
+n =  32 personas → P(coincidencia) = 0.7533
+n =  33 personas → P(coincidencia) = 0.7750
+n =  34 personas → P(coincidencia) = 0.7953
+n =  35 personas → P(coincidencia) = 0.8144
+n =  36 personas → P(coincidencia) = 0.8322
+n =  37 personas → P(coincidencia) = 0.8487
+n =  38 personas → P(coincidencia) = 0.8641
+n =  39 personas → P(coincidencia) = 0.8782
+n =  40 personas → P(coincidencia) = 0.8912
+n =  41 personas → P(coincidencia) = 0.9032
+n =  42 personas → P(coincidencia) = 0.9140
+n =  43 personas → P(coincidencia) = 0.9239
+n =  44 personas → P(coincidencia) = 0.9329
+n =  45 personas → P(coincidencia) = 0.9410
+n =  46 personas → P(coincidencia) = 0.9483
+n =  47 personas → P(coincidencia) = 0.9548
+n =  48 personas → P(coincidencia) = 0.9606
+n =  49 personas → P(coincidencia) = 0.9658
+n =  50 personas → P(coincidencia) = 0.9704
+n =  51 personas → P(coincidencia) = 0.9744
+n =  52 personas → P(coincidencia) = 0.9780
+n =  53 personas → P(coincidencia) = 0.9811
+n =  54 personas → P(coincidencia) = 0.9839
+n =  55 personas → P(coincidencia) = 0.9863
+n =  56 personas → P(coincidencia) = 0.9883
+n =  57 personas → P(coincidencia) = 0.9901
+n =  58 personas → P(coincidencia) = 0.9917
+n =  59 personas → P(coincidencia) = 0.9930
+n =  60 personas → P(coincidencia) = 0.9941
+n =  61 personas → P(coincidencia) = 0.9951
+n =  62 personas → P(coincidencia) = 0.9959
+n =  63 personas → P(coincidencia) = 0.9966
+n =  64 personas → P(coincidencia) = 0.9972
+n =  65 personas → P(coincidencia) = 0.9977
+n =  66 personas → P(coincidencia) = 0.9981
+n =  67 personas → P(coincidencia) = 0.9984
+n =  68 personas → P(coincidencia) = 0.9987
+n =  69 personas → P(coincidencia) = 0.9990
+n =  70 personas → P(coincidencia) = 0.9992
+n =  71 personas → P(coincidencia) = 0.9993
+n =  72 personas → P(coincidencia) = 0.9995
+n =  73 personas → P(coincidencia) = 0.9996
+n =  74 personas → P(coincidencia) = 0.9996
+n =  75 personas → P(coincidencia) = 0.9997
+n =  76 personas → P(coincidencia) = 0.9998
+n =  77 personas → P(coincidencia) = 0.9998
+n =  78 personas → P(coincidencia) = 0.9999
+n =  79 personas → P(coincidencia) = 0.9999
+n =  80 personas → P(coincidencia) = 0.9999
+n =  81 personas → P(coincidencia) = 0.9999
+n =  82 personas → P(coincidencia) = 0.9999
+n =  83 personas → P(coincidencia) = 1.0000
+n =  84 personas → P(coincidencia) = 1.0000
+n =  85 personas → P(coincidencia) = 1.0000
+n =  86 personas → P(coincidencia) = 1.0000
+n =  87 personas → P(coincidencia) = 1.0000
+n =  88 personas → P(coincidencia) = 1.0000
+n =  89 personas → P(coincidencia) = 1.0000
+n =  90 personas → P(coincidencia) = 1.0000
+n =  91 personas → P(coincidencia) = 1.0000
+n =  92 personas → P(coincidencia) = 1.0000
+n =  93 personas → P(coincidencia) = 1.0000
+n =  94 personas → P(coincidencia) = 1.0000
+n =  95 personas → P(coincidencia) = 1.0000
+n =  96 personas → P(coincidencia) = 1.0000
+n =  97 personas → P(coincidencia) = 1.0000
+n =  98 personas → P(coincidencia) = 1.0000
+n =  99 personas → P(coincidencia) = 1.0000
+n = 100 personas → P(coincidencia) = 1.0000</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="simulación-por-monte-carlo" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="simulación-por-monte-carlo"><span class="header-section-number">2.3</span> Simulación por Monte Carlo</h2>
+<p>Antes de armar la simulación completa, veamos paso a paso cómo funciona <strong>un solo experimento</strong>. Supongamos un grupo de 5 personas:</p>
+<p><strong>Paso 1 — Generar cumpleaños aleatorios:</strong> asignamos a cada persona un número entero entre 0 y 364. Cada número representa un día del año (0 = 1 de enero, 364 = 31 de diciembre).</p>
+<p><strong>Paso 2 — Detectar repetidos:</strong> convertimos la lista a un conjunto (<code>set</code>), que automáticamente elimina duplicados. Si el conjunto tiene <strong>menos elementos</strong> que la lista original, significa que al menos dos personas comparten cumpleaños.</p>
+<div id="cell-7" class="cell" data-execution_count="12">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Paso 1: Generar cumpleaños aleatorios para 5 personas</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">42</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>cumples <span class="op">=</span> rng.integers(<span class="dv">0</span>, <span class="dv">365</span>, size<span class="op">=</span>n)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Grupo de </span><span class="sc">{</span>n<span class="sc">}</span><span class="ss"> personas"</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Cumpleaños generados (día del año): </span><span class="sc">{</span>cumples<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Grupo de 40 personas
+Cumpleaños generados (día del año): [ 32 282 238 160 158 313  31 254  73  34 192 356 268 277 261 286 187  46
+ 306 164 182 135  66 338 285 235 146 300 199 161 164  82  33 202 324  23
+ 313 302 101 230]</code></pre>
+</div>
+</div>
+<div id="cell-8" class="cell" data-execution_count="13">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Paso 2: Convertir a conjunto para eliminar duplicados</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>cumples_unicos <span class="op">=</span> <span class="bu">set</span>(cumples)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Cumpleaños únicos (sin repetidos):  </span><span class="sc">{</span>cumples_unicos<span class="sc">}</span><span class="ss"> y son </span><span class="sc">{</span><span class="bu">len</span>(cumples_unicos)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Cumpleaños únicos (sin repetidos):  {np.int64(261), np.int64(135), np.int64(268), np.int64(146), np.int64(277), np.int64(23), np.int64(282), np.int64(285), np.int64(286), np.int64(158), np.int64(32), np.int64(160), np.int64(34), np.int64(31), np.int64(164), np.int64(161), np.int64(33), np.int64(300), np.int64(46), np.int64(302), np.int64(306), np.int64(182), np.int64(313), np.int64(187), np.int64(192), np.int64(66), np.int64(324), np.int64(199), np.int64(73), np.int64(202), np.int64(338), np.int64(82), np.int64(356), np.int64(101), np.int64(230), np.int64(235), np.int64(238), np.int64(254)} y son 38</code></pre>
+</div>
+</div>
+<div id="cell-9" class="cell" data-execution_count="14">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Paso 3: Comparar tamaños</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Total de personas:           </span><span class="sc">{</span><span class="bu">len</span>(cumples)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Cumpleaños distintos:        </span><span class="sc">{</span><span class="bu">len</span>(cumples_unicos)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">len</span>(cumples_unicos) <span class="op">&lt;</span> n:</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"→ ¡Hay al menos una coincidencia!"</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"→ No hay coincidencias en este grupo."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Total de personas:           40
+Cumpleaños distintos:        38
+→ ¡Hay al menos una coincidencia!</code></pre>
+</div>
+</div>
+<section id="la-simulación-completa" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="la-simulación-completa"><span class="header-section-number">2.3.1</span> La simulación completa</h3>
+<p>Ahora encapsulamos esta lógica en una función <code>simular_cumpleanos</code> que repite el experimento <code>n_sim</code> veces y cuenta en qué fracción hubo coincidencia. Luego la ejecutamos para grupos de 1 a 100 personas.</p>
+<div id="cell-11" class="cell" data-execution_count="17">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> simular_cumpleanos(n, n_sim<span class="op">=</span><span class="dv">1000</span>, dias<span class="op">=</span><span class="dv">365</span>, seed<span class="op">=</span><span class="dv">42</span>):</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Estima la probabilidad de coincidencia por simulación."""</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    rng <span class="op">=</span> np.random.default_rng(seed)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    coincidencias <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(n_sim):</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>        cumples <span class="op">=</span> rng.integers(<span class="dv">0</span>, dias, size<span class="op">=</span>n)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">len</span>(<span class="bu">set</span>(cumples)) <span class="op">&lt;</span> n:</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>            coincidencias <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> coincidencias <span class="op">/</span> n_sim</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Simular para varios tamaños de grupo (1 a 100 personas)</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>ns_sim <span class="op">=</span> np.arange(<span class="dv">1</span>, <span class="dv">101</span>)</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>probs_sim <span class="op">=</span> [simular_cumpleanos(n) <span class="cf">for</span> n <span class="kw">in</span> ns_sim]</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>probs_sim</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="17">
+<pre><code>[0.0,
+ 0.004,
+ 0.006,
+ 0.02,
+ 0.02,
+ 0.046,
+ 0.058,
+ 0.073,
+ 0.103,
+ 0.114,
+ 0.137,
+ 0.167,
+ 0.209,
+ 0.216,
+ 0.262,
+ 0.283,
+ 0.301,
+ 0.348,
+ 0.361,
+ 0.397,
+ 0.429,
+ 0.455,
+ 0.493,
+ 0.534,
+ 0.553,
+ 0.6,
+ 0.611,
+ 0.637,
+ 0.656,
+ 0.703,
+ 0.714,
+ 0.756,
+ 0.761,
+ 0.793,
+ 0.776,
+ 0.81,
+ 0.855,
+ 0.867,
+ 0.874,
+ 0.877,
+ 0.894,
+ 0.898,
+ 0.915,
+ 0.934,
+ 0.947,
+ 0.944,
+ 0.958,
+ 0.963,
+ 0.964,
+ 0.963,
+ 0.972,
+ 0.976,
+ 0.977,
+ 0.981,
+ 0.984,
+ 0.982,
+ 0.988,
+ 0.982,
+ 0.988,
+ 0.989,
+ 0.993,
+ 0.993,
+ 0.995,
+ 0.999,
+ 0.997,
+ 0.996,
+ 0.997,
+ 0.998,
+ 0.996,
+ 0.998,
+ 0.999,
+ 1.0,
+ 0.999,
+ 0.998,
+ 1.0,
+ 1.0,
+ 1.0,
+ 1.0,
+ 1.0,
+ 1.0,
+ 1.0,
+ 1.0,
+ 1.0,
+ 1.0,
+ 1.0,
+ 1.0,
+ 1.0,
+ 1.0,
+ 1.0,
+ 1.0,
+ 1.0,
+ 1.0,
+ 1.0,
+ 1.0,
+ 1.0,
+ 1.0,
+ 1.0,
+ 1.0,
+ 1.0,
+ 1.0]</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="comparación-analítica-vs.-simulación" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="comparación-analítica-vs.-simulación"><span class="header-section-number">2.4</span> Comparación: analítica vs.&nbsp;simulación</h2>
+<p>El siguiente gráfico superpone ambos resultados: la curva azul es la solución analítica exacta y los puntos rojos son las estimaciones por simulación. Si la simulación está bien implementada, los puntos deberían caer muy cerca de la curva teórica.</p>
+<div id="cell-13" class="cell" data-execution_count="18">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>ns <span class="op">=</span> np.arange(<span class="dv">1</span>, <span class="dv">101</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>probs <span class="op">=</span> [prob_analitica(n) <span class="cf">for</span> n <span class="kw">in</span> ns]</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>))</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>ax.plot(ns, probs, label<span class="op">=</span><span class="st">"Analítica"</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>ax.scatter(ns_sim, probs_sim, s<span class="op">=</span><span class="dv">12</span>, color<span class="op">=</span><span class="st">"red"</span>, label<span class="op">=</span><span class="st">"Simulación"</span>, zorder<span class="op">=</span><span class="dv">5</span>)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>ax.axhline(<span class="fl">0.5</span>, color<span class="op">=</span><span class="st">"gray"</span>, linestyle<span class="op">=</span><span class="st">"--"</span>, alpha<span class="op">=</span><span class="fl">0.7</span>, label<span class="op">=</span><span class="st">"P = 0.5"</span>)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>ax.axvline(<span class="dv">23</span>, color<span class="op">=</span><span class="st">"gray"</span>, linestyle<span class="op">=</span><span class="st">":"</span>, alpha<span class="op">=</span><span class="fl">0.7</span>, label<span class="op">=</span><span class="st">"n = 23"</span>)</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Número de personas (n)"</span>)</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"P(al menos una coincidencia)"</span>)</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"El problema del cumpleaños"</span>)</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>ax.legend()</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>ax.set_xlim(<span class="dv">1</span>, <span class="dv">100</span>)</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>ax.set_ylim(<span class="dv">0</span>, <span class="fl">1.05</span>)</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="001_birthday_problem_files/figure-html/cell-8-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-14" class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> math <span class="im">import</span> comb</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> n <span class="kw">in</span> [<span class="dv">10</span>, <span class="dv">23</span>, <span class="dv">30</span>, <span class="dv">50</span>, <span class="dv">70</span>]:</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    pares <span class="op">=</span> comb(n, <span class="dv">2</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"n = </span><span class="sc">{</span>n<span class="sc">:2d}</span><span class="ss"> → </span><span class="sc">{</span>pares<span class="sc">:4d}</span><span class="ss"> pares, P = </span><span class="sc">{</span>prob_analitica(n)<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../libro/intro.html" class="pagination-link" aria-label="Introducción">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introducción</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../notebooks/002_triangulo_pascal.html" class="pagination-link" aria-label="Tarea 1: Triángulo de Pascal y la distribución Gaussiana">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Tarea 1: Triángulo de Pascal y la distribución Gaussiana</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
