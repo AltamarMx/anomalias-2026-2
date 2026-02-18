@@ -204,7 +204,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../notebooks/002_triangulo_pascal.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Tarea 1: Triángulo de Pascal y la distribución Gaussiana</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">002_triangulo_pascal.html</span></span></a>
   </div>
 </li>
       </ul>
@@ -293,7 +293,7 @@ P(\text{todos distintos}) = \frac{365}{365} \cdot \frac{364}{365} \cdot \frac{36
 P(\text{coincidencia}) = 1 - \prod_{k=0}^{n-1} \frac{365 - k}{365}
 \]</span></p>
 <p>Esta es una expresión exacta que podemos evaluar numéricamente para cualquier valor de <span class="math inline">\(n\)</span>.</p>
-<div id="cell-3" class="cell" data-execution_count="2">
+<div id="cell-3" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -307,7 +307,7 @@ P(\text{coincidencia}) = 1 - \prod_{k=0}^{n-1} \frac{365 - k}{365}
 <li>Al final, restamos de 1 para obtener la probabilidad de coincidencia.</li>
 </ol>
 <p>Luego evaluamos la función para todos los tamaños de grupo de 1 a 80 y buscamos el primer <span class="math inline">\(n\)</span> donde <span class="math inline">\(P &gt; 0.5\)</span>.</p>
-<div id="cell-5" class="cell" data-execution_count="3">
+<div id="cell-5" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> prob_analitica(n, dias<span class="op">=</span><span class="dv">365</span>):</span>
@@ -318,111 +318,375 @@ P(\text{coincidencia}) = 1 - \prod_{k=0}^{n-1} \frac{365 - k}{365}
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">1</span> <span class="op">-</span> p_todos_distintos</span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">101</span>):</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">365</span>):</span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    p <span class="op">=</span> prob_analitica(n)</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"n = </span><span class="sc">{</span>n<span class="sc">:3d}</span><span class="ss"> personas → P(coincidencia) = </span><span class="sc">{</span>p<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"n = </span><span class="sc">{</span>n<span class="sc">:3d}</span><span class="ss"> personas → P(coincidencia) = </span><span class="sc">{</span>p<span class="sc">:.12f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>n =   1 personas → P(coincidencia) = 0.0000
-n =   2 personas → P(coincidencia) = 0.0027
-n =   3 personas → P(coincidencia) = 0.0082
-n =   4 personas → P(coincidencia) = 0.0164
-n =   5 personas → P(coincidencia) = 0.0271
-n =   6 personas → P(coincidencia) = 0.0405
-n =   7 personas → P(coincidencia) = 0.0562
-n =   8 personas → P(coincidencia) = 0.0743
-n =   9 personas → P(coincidencia) = 0.0946
-n =  10 personas → P(coincidencia) = 0.1169
-n =  11 personas → P(coincidencia) = 0.1411
-n =  12 personas → P(coincidencia) = 0.1670
-n =  13 personas → P(coincidencia) = 0.1944
-n =  14 personas → P(coincidencia) = 0.2231
-n =  15 personas → P(coincidencia) = 0.2529
-n =  16 personas → P(coincidencia) = 0.2836
-n =  17 personas → P(coincidencia) = 0.3150
-n =  18 personas → P(coincidencia) = 0.3469
-n =  19 personas → P(coincidencia) = 0.3791
-n =  20 personas → P(coincidencia) = 0.4114
-n =  21 personas → P(coincidencia) = 0.4437
-n =  22 personas → P(coincidencia) = 0.4757
-n =  23 personas → P(coincidencia) = 0.5073
-n =  24 personas → P(coincidencia) = 0.5383
-n =  25 personas → P(coincidencia) = 0.5687
-n =  26 personas → P(coincidencia) = 0.5982
-n =  27 personas → P(coincidencia) = 0.6269
-n =  28 personas → P(coincidencia) = 0.6545
-n =  29 personas → P(coincidencia) = 0.6810
-n =  30 personas → P(coincidencia) = 0.7063
-n =  31 personas → P(coincidencia) = 0.7305
-n =  32 personas → P(coincidencia) = 0.7533
-n =  33 personas → P(coincidencia) = 0.7750
-n =  34 personas → P(coincidencia) = 0.7953
-n =  35 personas → P(coincidencia) = 0.8144
-n =  36 personas → P(coincidencia) = 0.8322
-n =  37 personas → P(coincidencia) = 0.8487
-n =  38 personas → P(coincidencia) = 0.8641
-n =  39 personas → P(coincidencia) = 0.8782
-n =  40 personas → P(coincidencia) = 0.8912
-n =  41 personas → P(coincidencia) = 0.9032
-n =  42 personas → P(coincidencia) = 0.9140
-n =  43 personas → P(coincidencia) = 0.9239
-n =  44 personas → P(coincidencia) = 0.9329
-n =  45 personas → P(coincidencia) = 0.9410
-n =  46 personas → P(coincidencia) = 0.9483
-n =  47 personas → P(coincidencia) = 0.9548
-n =  48 personas → P(coincidencia) = 0.9606
-n =  49 personas → P(coincidencia) = 0.9658
-n =  50 personas → P(coincidencia) = 0.9704
-n =  51 personas → P(coincidencia) = 0.9744
-n =  52 personas → P(coincidencia) = 0.9780
-n =  53 personas → P(coincidencia) = 0.9811
-n =  54 personas → P(coincidencia) = 0.9839
-n =  55 personas → P(coincidencia) = 0.9863
-n =  56 personas → P(coincidencia) = 0.9883
-n =  57 personas → P(coincidencia) = 0.9901
-n =  58 personas → P(coincidencia) = 0.9917
-n =  59 personas → P(coincidencia) = 0.9930
-n =  60 personas → P(coincidencia) = 0.9941
-n =  61 personas → P(coincidencia) = 0.9951
-n =  62 personas → P(coincidencia) = 0.9959
-n =  63 personas → P(coincidencia) = 0.9966
-n =  64 personas → P(coincidencia) = 0.9972
-n =  65 personas → P(coincidencia) = 0.9977
-n =  66 personas → P(coincidencia) = 0.9981
-n =  67 personas → P(coincidencia) = 0.9984
-n =  68 personas → P(coincidencia) = 0.9987
-n =  69 personas → P(coincidencia) = 0.9990
-n =  70 personas → P(coincidencia) = 0.9992
-n =  71 personas → P(coincidencia) = 0.9993
-n =  72 personas → P(coincidencia) = 0.9995
-n =  73 personas → P(coincidencia) = 0.9996
-n =  74 personas → P(coincidencia) = 0.9996
-n =  75 personas → P(coincidencia) = 0.9997
-n =  76 personas → P(coincidencia) = 0.9998
-n =  77 personas → P(coincidencia) = 0.9998
-n =  78 personas → P(coincidencia) = 0.9999
-n =  79 personas → P(coincidencia) = 0.9999
-n =  80 personas → P(coincidencia) = 0.9999
-n =  81 personas → P(coincidencia) = 0.9999
-n =  82 personas → P(coincidencia) = 0.9999
-n =  83 personas → P(coincidencia) = 1.0000
-n =  84 personas → P(coincidencia) = 1.0000
-n =  85 personas → P(coincidencia) = 1.0000
-n =  86 personas → P(coincidencia) = 1.0000
-n =  87 personas → P(coincidencia) = 1.0000
-n =  88 personas → P(coincidencia) = 1.0000
-n =  89 personas → P(coincidencia) = 1.0000
-n =  90 personas → P(coincidencia) = 1.0000
-n =  91 personas → P(coincidencia) = 1.0000
-n =  92 personas → P(coincidencia) = 1.0000
-n =  93 personas → P(coincidencia) = 1.0000
-n =  94 personas → P(coincidencia) = 1.0000
-n =  95 personas → P(coincidencia) = 1.0000
-n =  96 personas → P(coincidencia) = 1.0000
-n =  97 personas → P(coincidencia) = 1.0000
-n =  98 personas → P(coincidencia) = 1.0000
-n =  99 personas → P(coincidencia) = 1.0000
-n = 100 personas → P(coincidencia) = 1.0000</code></pre>
+<pre><code>n =   1 personas → P(coincidencia) = 0.000000000000
+n =   2 personas → P(coincidencia) = 0.002739726027
+n =   3 personas → P(coincidencia) = 0.008204165885
+n =   4 personas → P(coincidencia) = 0.016355912467
+n =   5 personas → P(coincidencia) = 0.027135573700
+n =   6 personas → P(coincidencia) = 0.040462483649
+n =   7 personas → P(coincidencia) = 0.056235703096
+n =   8 personas → P(coincidencia) = 0.074335292352
+n =   9 personas → P(coincidencia) = 0.094623833889
+n =  10 personas → P(coincidencia) = 0.116948177711
+n =  11 personas → P(coincidencia) = 0.141141378322
+n =  12 personas → P(coincidencia) = 0.167024788838
+n =  13 personas → P(coincidencia) = 0.194410275232
+n =  14 personas → P(coincidencia) = 0.223102512005
+n =  15 personas → P(coincidencia) = 0.252901319764
+n =  16 personas → P(coincidencia) = 0.283604005253
+n =  17 personas → P(coincidencia) = 0.315007665297
+n =  18 personas → P(coincidencia) = 0.346911417872
+n =  19 personas → P(coincidencia) = 0.379118526032
+n =  20 personas → P(coincidencia) = 0.411438383581
+n =  21 personas → P(coincidencia) = 0.443688335165
+n =  22 personas → P(coincidencia) = 0.475695307663
+n =  23 personas → P(coincidencia) = 0.507297234324
+n =  24 personas → P(coincidencia) = 0.538344257915
+n =  25 personas → P(coincidencia) = 0.568699703969
+n =  26 personas → P(coincidencia) = 0.598240820136
+n =  27 personas → P(coincidencia) = 0.626859282263
+n =  28 personas → P(coincidencia) = 0.654461472342
+n =  29 personas → P(coincidencia) = 0.680968537478
+n =  30 personas → P(coincidencia) = 0.706316242719
+n =  31 personas → P(coincidencia) = 0.730454633729
+n =  32 personas → P(coincidencia) = 0.753347527850
+n =  33 personas → P(coincidencia) = 0.774971854176
+n =  34 personas → P(coincidencia) = 0.795316864620
+n =  35 personas → P(coincidencia) = 0.814383238875
+n =  36 personas → P(coincidencia) = 0.832182106380
+n =  37 personas → P(coincidencia) = 0.848734008216
+n =  38 personas → P(coincidencia) = 0.864067821082
+n =  39 personas → P(coincidencia) = 0.878219664367
+n =  40 personas → P(coincidencia) = 0.891231809818
+n =  41 personas → P(coincidencia) = 0.903151611482
+n =  42 personas → P(coincidencia) = 0.914030471562
+n =  43 personas → P(coincidencia) = 0.923922855656
+n =  44 personas → P(coincidencia) = 0.932885368551
+n =  45 personas → P(coincidencia) = 0.940975899466
+n =  46 personas → P(coincidencia) = 0.948252843367
+n =  47 personas → P(coincidencia) = 0.954774402833
+n =  48 personas → P(coincidencia) = 0.960597972879
+n =  49 personas → P(coincidencia) = 0.965779609323
+n =  50 personas → P(coincidencia) = 0.970373579578
+n =  51 personas → P(coincidencia) = 0.974431993334
+n =  52 personas → P(coincidencia) = 0.978004509334
+n =  53 personas → P(coincidencia) = 0.981138113484
+n =  54 personas → P(coincidencia) = 0.983876962759
+n =  55 personas → P(coincidencia) = 0.986262288816
+n =  56 personas → P(coincidencia) = 0.988332354885
+n =  57 personas → P(coincidencia) = 0.990122459341
+n =  58 personas → P(coincidencia) = 0.991664979389
+n =  59 personas → P(coincidencia) = 0.992989448418
+n =  60 personas → P(coincidencia) = 0.994122660865
+n =  61 personas → P(coincidencia) = 0.995088798805
+n =  62 personas → P(coincidencia) = 0.995909574895
+n =  63 personas → P(coincidencia) = 0.996604386831
+n =  64 personas → P(coincidencia) = 0.997190478967
+n =  65 personas → P(coincidencia) = 0.997683107312
+n =  66 personas → P(coincidencia) = 0.998095704640
+n =  67 personas → P(coincidencia) = 0.998440042979
+n =  68 personas → P(coincidencia) = 0.998726391254
+n =  69 personas → P(coincidencia) = 0.998963666308
+n =  70 personas → P(coincidencia) = 0.999159575965
+n =  71 personas → P(coincidencia) = 0.999320753177
+n =  72 personas → P(coincidencia) = 0.999452880641
+n =  73 personas → P(coincidencia) = 0.999560805556
+n =  74 personas → P(coincidencia) = 0.999648644445
+n =  75 personas → P(coincidencia) = 0.999719878174
+n =  76 personas → P(coincidencia) = 0.999777437453
+n =  77 personas → P(coincidencia) = 0.999823779244
+n =  78 personas → P(coincidencia) = 0.999860954581
+n =  79 personas → P(coincidencia) = 0.999890668397
+n =  80 personas → P(coincidencia) = 0.999914331949
+n =  81 personas → P(coincidencia) = 0.999933108508
+n =  82 personas → P(coincidencia) = 0.999947952922
+n =  83 personas → P(coincidencia) = 0.999959645690
+n =  84 personas → P(coincidencia) = 0.999968822149
+n =  85 personas → P(coincidencia) = 0.999975997326
+n =  86 personas → P(coincidencia) = 0.999981586990
+n =  87 personas → P(coincidencia) = 0.999985925398
+n =  88 personas → P(coincidencia) = 0.999989280166
+n =  89 personas → P(coincidencia) = 0.999991864674
+n =  90 personas → P(coincidencia) = 0.999993848356
+n =  91 personas → P(coincidencia) = 0.999995365200
+n =  92 personas → P(coincidencia) = 0.999996520725
+n =  93 personas → P(coincidencia) = 0.999997397693
+n =  94 personas → P(coincidencia) = 0.999998060747
+n =  95 personas → P(coincidencia) = 0.999998560171
+n =  96 personas → P(coincidencia) = 0.999998934921
+n =  97 personas → P(coincidencia) = 0.999999215051
+n =  98 personas → P(coincidencia) = 0.999999423654
+n =  99 personas → P(coincidencia) = 0.999999578399
+n = 100 personas → P(coincidencia) = 0.999999692751
+n = 101 personas → P(coincidencia) = 0.999999776929
+n = 102 personas → P(coincidencia) = 0.999999838655
+n = 103 personas → P(coincidencia) = 0.999999883743
+n = 104 personas → P(coincidencia) = 0.999999916550
+n = 105 personas → P(coincidencia) = 0.999999940328
+n = 106 personas → P(coincidencia) = 0.999999957494
+n = 107 personas → P(coincidencia) = 0.999999969838
+n = 108 personas → P(coincidencia) = 0.999999978680
+n = 109 personas → P(coincidencia) = 0.999999984988
+n = 110 personas → P(coincidencia) = 0.999999989471
+n = 111 personas → P(coincidencia) = 0.999999992644
+n = 112 personas → P(coincidencia) = 0.999999994881
+n = 113 personas → P(coincidencia) = 0.999999996452
+n = 114 personas → P(coincidencia) = 0.999999997550
+n = 115 personas → P(coincidencia) = 0.999999998315
+n = 116 personas → P(coincidencia) = 0.999999998846
+n = 117 personas → P(coincidencia) = 0.999999999213
+n = 118 personas → P(coincidencia) = 0.999999999465
+n = 119 personas → P(coincidencia) = 0.999999999638
+n = 120 personas → P(coincidencia) = 0.999999999756
+n = 121 personas → P(coincidencia) = 0.999999999836
+n = 122 personas → P(coincidencia) = 0.999999999891
+n = 123 personas → P(coincidencia) = 0.999999999927
+n = 124 personas → P(coincidencia) = 0.999999999952
+n = 125 personas → P(coincidencia) = 0.999999999968
+n = 126 personas → P(coincidencia) = 0.999999999979
+n = 127 personas → P(coincidencia) = 0.999999999986
+n = 128 personas → P(coincidencia) = 0.999999999991
+n = 129 personas → P(coincidencia) = 0.999999999994
+n = 130 personas → P(coincidencia) = 0.999999999996
+n = 131 personas → P(coincidencia) = 0.999999999998
+n = 132 personas → P(coincidencia) = 0.999999999998
+n = 133 personas → P(coincidencia) = 0.999999999999
+n = 134 personas → P(coincidencia) = 0.999999999999
+n = 135 personas → P(coincidencia) = 1.000000000000
+n = 136 personas → P(coincidencia) = 1.000000000000
+n = 137 personas → P(coincidencia) = 1.000000000000
+n = 138 personas → P(coincidencia) = 1.000000000000
+n = 139 personas → P(coincidencia) = 1.000000000000
+n = 140 personas → P(coincidencia) = 1.000000000000
+n = 141 personas → P(coincidencia) = 1.000000000000
+n = 142 personas → P(coincidencia) = 1.000000000000
+n = 143 personas → P(coincidencia) = 1.000000000000
+n = 144 personas → P(coincidencia) = 1.000000000000
+n = 145 personas → P(coincidencia) = 1.000000000000
+n = 146 personas → P(coincidencia) = 1.000000000000
+n = 147 personas → P(coincidencia) = 1.000000000000
+n = 148 personas → P(coincidencia) = 1.000000000000
+n = 149 personas → P(coincidencia) = 1.000000000000
+n = 150 personas → P(coincidencia) = 1.000000000000
+n = 151 personas → P(coincidencia) = 1.000000000000
+n = 152 personas → P(coincidencia) = 1.000000000000
+n = 153 personas → P(coincidencia) = 1.000000000000
+n = 154 personas → P(coincidencia) = 1.000000000000
+n = 155 personas → P(coincidencia) = 1.000000000000
+n = 156 personas → P(coincidencia) = 1.000000000000
+n = 157 personas → P(coincidencia) = 1.000000000000
+n = 158 personas → P(coincidencia) = 1.000000000000
+n = 159 personas → P(coincidencia) = 1.000000000000
+n = 160 personas → P(coincidencia) = 1.000000000000
+n = 161 personas → P(coincidencia) = 1.000000000000
+n = 162 personas → P(coincidencia) = 1.000000000000
+n = 163 personas → P(coincidencia) = 1.000000000000
+n = 164 personas → P(coincidencia) = 1.000000000000
+n = 165 personas → P(coincidencia) = 1.000000000000
+n = 166 personas → P(coincidencia) = 1.000000000000
+n = 167 personas → P(coincidencia) = 1.000000000000
+n = 168 personas → P(coincidencia) = 1.000000000000
+n = 169 personas → P(coincidencia) = 1.000000000000
+n = 170 personas → P(coincidencia) = 1.000000000000
+n = 171 personas → P(coincidencia) = 1.000000000000
+n = 172 personas → P(coincidencia) = 1.000000000000
+n = 173 personas → P(coincidencia) = 1.000000000000
+n = 174 personas → P(coincidencia) = 1.000000000000
+n = 175 personas → P(coincidencia) = 1.000000000000
+n = 176 personas → P(coincidencia) = 1.000000000000
+n = 177 personas → P(coincidencia) = 1.000000000000
+n = 178 personas → P(coincidencia) = 1.000000000000
+n = 179 personas → P(coincidencia) = 1.000000000000
+n = 180 personas → P(coincidencia) = 1.000000000000
+n = 181 personas → P(coincidencia) = 1.000000000000
+n = 182 personas → P(coincidencia) = 1.000000000000
+n = 183 personas → P(coincidencia) = 1.000000000000
+n = 184 personas → P(coincidencia) = 1.000000000000
+n = 185 personas → P(coincidencia) = 1.000000000000
+n = 186 personas → P(coincidencia) = 1.000000000000
+n = 187 personas → P(coincidencia) = 1.000000000000
+n = 188 personas → P(coincidencia) = 1.000000000000
+n = 189 personas → P(coincidencia) = 1.000000000000
+n = 190 personas → P(coincidencia) = 1.000000000000
+n = 191 personas → P(coincidencia) = 1.000000000000
+n = 192 personas → P(coincidencia) = 1.000000000000
+n = 193 personas → P(coincidencia) = 1.000000000000
+n = 194 personas → P(coincidencia) = 1.000000000000
+n = 195 personas → P(coincidencia) = 1.000000000000
+n = 196 personas → P(coincidencia) = 1.000000000000
+n = 197 personas → P(coincidencia) = 1.000000000000
+n = 198 personas → P(coincidencia) = 1.000000000000
+n = 199 personas → P(coincidencia) = 1.000000000000
+n = 200 personas → P(coincidencia) = 1.000000000000
+n = 201 personas → P(coincidencia) = 1.000000000000
+n = 202 personas → P(coincidencia) = 1.000000000000
+n = 203 personas → P(coincidencia) = 1.000000000000
+n = 204 personas → P(coincidencia) = 1.000000000000
+n = 205 personas → P(coincidencia) = 1.000000000000
+n = 206 personas → P(coincidencia) = 1.000000000000
+n = 207 personas → P(coincidencia) = 1.000000000000
+n = 208 personas → P(coincidencia) = 1.000000000000
+n = 209 personas → P(coincidencia) = 1.000000000000
+n = 210 personas → P(coincidencia) = 1.000000000000
+n = 211 personas → P(coincidencia) = 1.000000000000
+n = 212 personas → P(coincidencia) = 1.000000000000
+n = 213 personas → P(coincidencia) = 1.000000000000
+n = 214 personas → P(coincidencia) = 1.000000000000
+n = 215 personas → P(coincidencia) = 1.000000000000
+n = 216 personas → P(coincidencia) = 1.000000000000
+n = 217 personas → P(coincidencia) = 1.000000000000
+n = 218 personas → P(coincidencia) = 1.000000000000
+n = 219 personas → P(coincidencia) = 1.000000000000
+n = 220 personas → P(coincidencia) = 1.000000000000
+n = 221 personas → P(coincidencia) = 1.000000000000
+n = 222 personas → P(coincidencia) = 1.000000000000
+n = 223 personas → P(coincidencia) = 1.000000000000
+n = 224 personas → P(coincidencia) = 1.000000000000
+n = 225 personas → P(coincidencia) = 1.000000000000
+n = 226 personas → P(coincidencia) = 1.000000000000
+n = 227 personas → P(coincidencia) = 1.000000000000
+n = 228 personas → P(coincidencia) = 1.000000000000
+n = 229 personas → P(coincidencia) = 1.000000000000
+n = 230 personas → P(coincidencia) = 1.000000000000
+n = 231 personas → P(coincidencia) = 1.000000000000
+n = 232 personas → P(coincidencia) = 1.000000000000
+n = 233 personas → P(coincidencia) = 1.000000000000
+n = 234 personas → P(coincidencia) = 1.000000000000
+n = 235 personas → P(coincidencia) = 1.000000000000
+n = 236 personas → P(coincidencia) = 1.000000000000
+n = 237 personas → P(coincidencia) = 1.000000000000
+n = 238 personas → P(coincidencia) = 1.000000000000
+n = 239 personas → P(coincidencia) = 1.000000000000
+n = 240 personas → P(coincidencia) = 1.000000000000
+n = 241 personas → P(coincidencia) = 1.000000000000
+n = 242 personas → P(coincidencia) = 1.000000000000
+n = 243 personas → P(coincidencia) = 1.000000000000
+n = 244 personas → P(coincidencia) = 1.000000000000
+n = 245 personas → P(coincidencia) = 1.000000000000
+n = 246 personas → P(coincidencia) = 1.000000000000
+n = 247 personas → P(coincidencia) = 1.000000000000
+n = 248 personas → P(coincidencia) = 1.000000000000
+n = 249 personas → P(coincidencia) = 1.000000000000
+n = 250 personas → P(coincidencia) = 1.000000000000
+n = 251 personas → P(coincidencia) = 1.000000000000
+n = 252 personas → P(coincidencia) = 1.000000000000
+n = 253 personas → P(coincidencia) = 1.000000000000
+n = 254 personas → P(coincidencia) = 1.000000000000
+n = 255 personas → P(coincidencia) = 1.000000000000
+n = 256 personas → P(coincidencia) = 1.000000000000
+n = 257 personas → P(coincidencia) = 1.000000000000
+n = 258 personas → P(coincidencia) = 1.000000000000
+n = 259 personas → P(coincidencia) = 1.000000000000
+n = 260 personas → P(coincidencia) = 1.000000000000
+n = 261 personas → P(coincidencia) = 1.000000000000
+n = 262 personas → P(coincidencia) = 1.000000000000
+n = 263 personas → P(coincidencia) = 1.000000000000
+n = 264 personas → P(coincidencia) = 1.000000000000
+n = 265 personas → P(coincidencia) = 1.000000000000
+n = 266 personas → P(coincidencia) = 1.000000000000
+n = 267 personas → P(coincidencia) = 1.000000000000
+n = 268 personas → P(coincidencia) = 1.000000000000
+n = 269 personas → P(coincidencia) = 1.000000000000
+n = 270 personas → P(coincidencia) = 1.000000000000
+n = 271 personas → P(coincidencia) = 1.000000000000
+n = 272 personas → P(coincidencia) = 1.000000000000
+n = 273 personas → P(coincidencia) = 1.000000000000
+n = 274 personas → P(coincidencia) = 1.000000000000
+n = 275 personas → P(coincidencia) = 1.000000000000
+n = 276 personas → P(coincidencia) = 1.000000000000
+n = 277 personas → P(coincidencia) = 1.000000000000
+n = 278 personas → P(coincidencia) = 1.000000000000
+n = 279 personas → P(coincidencia) = 1.000000000000
+n = 280 personas → P(coincidencia) = 1.000000000000
+n = 281 personas → P(coincidencia) = 1.000000000000
+n = 282 personas → P(coincidencia) = 1.000000000000
+n = 283 personas → P(coincidencia) = 1.000000000000
+n = 284 personas → P(coincidencia) = 1.000000000000
+n = 285 personas → P(coincidencia) = 1.000000000000
+n = 286 personas → P(coincidencia) = 1.000000000000
+n = 287 personas → P(coincidencia) = 1.000000000000
+n = 288 personas → P(coincidencia) = 1.000000000000
+n = 289 personas → P(coincidencia) = 1.000000000000
+n = 290 personas → P(coincidencia) = 1.000000000000
+n = 291 personas → P(coincidencia) = 1.000000000000
+n = 292 personas → P(coincidencia) = 1.000000000000
+n = 293 personas → P(coincidencia) = 1.000000000000
+n = 294 personas → P(coincidencia) = 1.000000000000
+n = 295 personas → P(coincidencia) = 1.000000000000
+n = 296 personas → P(coincidencia) = 1.000000000000
+n = 297 personas → P(coincidencia) = 1.000000000000
+n = 298 personas → P(coincidencia) = 1.000000000000
+n = 299 personas → P(coincidencia) = 1.000000000000
+n = 300 personas → P(coincidencia) = 1.000000000000
+n = 301 personas → P(coincidencia) = 1.000000000000
+n = 302 personas → P(coincidencia) = 1.000000000000
+n = 303 personas → P(coincidencia) = 1.000000000000
+n = 304 personas → P(coincidencia) = 1.000000000000
+n = 305 personas → P(coincidencia) = 1.000000000000
+n = 306 personas → P(coincidencia) = 1.000000000000
+n = 307 personas → P(coincidencia) = 1.000000000000
+n = 308 personas → P(coincidencia) = 1.000000000000
+n = 309 personas → P(coincidencia) = 1.000000000000
+n = 310 personas → P(coincidencia) = 1.000000000000
+n = 311 personas → P(coincidencia) = 1.000000000000
+n = 312 personas → P(coincidencia) = 1.000000000000
+n = 313 personas → P(coincidencia) = 1.000000000000
+n = 314 personas → P(coincidencia) = 1.000000000000
+n = 315 personas → P(coincidencia) = 1.000000000000
+n = 316 personas → P(coincidencia) = 1.000000000000
+n = 317 personas → P(coincidencia) = 1.000000000000
+n = 318 personas → P(coincidencia) = 1.000000000000
+n = 319 personas → P(coincidencia) = 1.000000000000
+n = 320 personas → P(coincidencia) = 1.000000000000
+n = 321 personas → P(coincidencia) = 1.000000000000
+n = 322 personas → P(coincidencia) = 1.000000000000
+n = 323 personas → P(coincidencia) = 1.000000000000
+n = 324 personas → P(coincidencia) = 1.000000000000
+n = 325 personas → P(coincidencia) = 1.000000000000
+n = 326 personas → P(coincidencia) = 1.000000000000
+n = 327 personas → P(coincidencia) = 1.000000000000
+n = 328 personas → P(coincidencia) = 1.000000000000
+n = 329 personas → P(coincidencia) = 1.000000000000
+n = 330 personas → P(coincidencia) = 1.000000000000
+n = 331 personas → P(coincidencia) = 1.000000000000
+n = 332 personas → P(coincidencia) = 1.000000000000
+n = 333 personas → P(coincidencia) = 1.000000000000
+n = 334 personas → P(coincidencia) = 1.000000000000
+n = 335 personas → P(coincidencia) = 1.000000000000
+n = 336 personas → P(coincidencia) = 1.000000000000
+n = 337 personas → P(coincidencia) = 1.000000000000
+n = 338 personas → P(coincidencia) = 1.000000000000
+n = 339 personas → P(coincidencia) = 1.000000000000
+n = 340 personas → P(coincidencia) = 1.000000000000
+n = 341 personas → P(coincidencia) = 1.000000000000
+n = 342 personas → P(coincidencia) = 1.000000000000
+n = 343 personas → P(coincidencia) = 1.000000000000
+n = 344 personas → P(coincidencia) = 1.000000000000
+n = 345 personas → P(coincidencia) = 1.000000000000
+n = 346 personas → P(coincidencia) = 1.000000000000
+n = 347 personas → P(coincidencia) = 1.000000000000
+n = 348 personas → P(coincidencia) = 1.000000000000
+n = 349 personas → P(coincidencia) = 1.000000000000
+n = 350 personas → P(coincidencia) = 1.000000000000
+n = 351 personas → P(coincidencia) = 1.000000000000
+n = 352 personas → P(coincidencia) = 1.000000000000
+n = 353 personas → P(coincidencia) = 1.000000000000
+n = 354 personas → P(coincidencia) = 1.000000000000
+n = 355 personas → P(coincidencia) = 1.000000000000
+n = 356 personas → P(coincidencia) = 1.000000000000
+n = 357 personas → P(coincidencia) = 1.000000000000
+n = 358 personas → P(coincidencia) = 1.000000000000
+n = 359 personas → P(coincidencia) = 1.000000000000
+n = 360 personas → P(coincidencia) = 1.000000000000
+n = 361 personas → P(coincidencia) = 1.000000000000
+n = 362 personas → P(coincidencia) = 1.000000000000
+n = 363 personas → P(coincidencia) = 1.000000000000
+n = 364 personas → P(coincidencia) = 1.000000000000</code></pre>
 </div>
 </div>
 </section>
@@ -432,24 +696,24 @@ n = 100 personas → P(coincidencia) = 1.0000</code></pre>
 <p>Antes de armar la simulación completa, veamos paso a paso cómo funciona <strong>un solo experimento</strong>. Supongamos un grupo de 5 personas:</p>
 <p><strong>Paso 1 — Generar cumpleaños aleatorios:</strong> asignamos a cada persona un número entero entre 0 y 364. Cada número representa un día del año (0 = 1 de enero, 364 = 31 de diciembre).</p>
 <p><strong>Paso 2 — Detectar repetidos:</strong> convertimos la lista a un conjunto (<code>set</code>), que automáticamente elimina duplicados. Si el conjunto tiene <strong>menos elementos</strong> que la lista original, significa que al menos dos personas comparten cumpleaños.</p>
-<div id="cell-7" class="cell" data-execution_count="12">
+<div id="cell-7" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Paso 1: Generar cumpleaños aleatorios para 5 personas</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">42</span>)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">50</span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>cumples <span class="op">=</span> rng.integers(<span class="dv">0</span>, <span class="dv">365</span>, size<span class="op">=</span>n)</span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Grupo de </span><span class="sc">{</span>n<span class="sc">}</span><span class="ss"> personas"</span>)</span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Cumpleaños generados (día del año): </span><span class="sc">{</span>cumples<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>Grupo de 40 personas
+<pre><code>Grupo de 50 personas
 Cumpleaños generados (día del año): [ 32 282 238 160 158 313  31 254  73  34 192 356 268 277 261 286 187  46
  306 164 182 135  66 338 285 235 146 300 199 161 164  82  33 202 324  23
- 313 302 101 230]</code></pre>
+ 313 302 101 230  60 276 255 129  24 354 162 325 247 284]</code></pre>
 </div>
 </div>
-<div id="cell-8" class="cell" data-execution_count="13">
+<div id="cell-8" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Paso 2: Convertir a conjunto para eliminar duplicados</span></span>
@@ -457,10 +721,10 @@ Cumpleaños generados (día del año): [ 32 282 238 160 158 313  31 254  73  34 
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Cumpleaños únicos (sin repetidos):  </span><span class="sc">{</span>cumples_unicos<span class="sc">}</span><span class="ss"> y son </span><span class="sc">{</span><span class="bu">len</span>(cumples_unicos)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>Cumpleaños únicos (sin repetidos):  {np.int64(261), np.int64(135), np.int64(268), np.int64(146), np.int64(277), np.int64(23), np.int64(282), np.int64(285), np.int64(286), np.int64(158), np.int64(32), np.int64(160), np.int64(34), np.int64(31), np.int64(164), np.int64(161), np.int64(33), np.int64(300), np.int64(46), np.int64(302), np.int64(306), np.int64(182), np.int64(313), np.int64(187), np.int64(192), np.int64(66), np.int64(324), np.int64(199), np.int64(73), np.int64(202), np.int64(338), np.int64(82), np.int64(356), np.int64(101), np.int64(230), np.int64(235), np.int64(238), np.int64(254)} y son 38</code></pre>
+<pre><code>Cumpleaños únicos (sin repetidos):  {np.int64(129), np.int64(261), np.int64(135), np.int64(268), np.int64(146), np.int64(276), np.int64(277), np.int64(23), np.int64(24), np.int64(282), np.int64(284), np.int64(285), np.int64(286), np.int64(158), np.int64(32), np.int64(160), np.int64(34), np.int64(31), np.int64(164), np.int64(161), np.int64(33), np.int64(162), np.int64(300), np.int64(46), np.int64(302), np.int64(306), np.int64(182), np.int64(313), np.int64(187), np.int64(60), np.int64(192), np.int64(66), np.int64(324), np.int64(325), np.int64(199), np.int64(73), np.int64(202), np.int64(338), np.int64(82), np.int64(354), np.int64(356), np.int64(101), np.int64(230), np.int64(235), np.int64(238), np.int64(247), np.int64(254), np.int64(255)} y son 48</code></pre>
 </div>
 </div>
-<div id="cell-9" class="cell" data-execution_count="14">
+<div id="cell-9" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Paso 3: Comparar tamaños</span></span>
@@ -474,15 +738,15 @@ Cumpleaños generados (día del año): [ 32 282 238 160 158 313  31 254  73  34 
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>
-Total de personas:           40
-Cumpleaños distintos:        38
+Total de personas:           50
+Cumpleaños distintos:        48
 → ¡Hay al menos una coincidencia!</code></pre>
 </div>
 </div>
 <section id="la-simulación-completa" class="level3" data-number="2.3.1">
 <h3 data-number="2.3.1" class="anchored" data-anchor-id="la-simulación-completa"><span class="header-section-number">2.3.1</span> La simulación completa</h3>
 <p>Ahora encapsulamos esta lógica en una función <code>simular_cumpleanos</code> que repite el experimento <code>n_sim</code> veces y cuenta en qué fracción hubo coincidencia. Luego la ejecutamos para grupos de 1 a 100 personas.</p>
-<div id="cell-11" class="cell" data-execution_count="17">
+<div id="cell-11" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> simular_cumpleanos(n, n_sim<span class="op">=</span><span class="dv">1000</span>, dias<span class="op">=</span><span class="dv">365</span>, seed<span class="op">=</span><span class="dv">42</span>):</span>
@@ -501,7 +765,7 @@ Cumpleaños distintos:        38
 <span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>probs_sim <span class="op">=</span> [simular_cumpleanos(n) <span class="cf">for</span> n <span class="kw">in</span> ns_sim]</span>
 <span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>probs_sim</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="17">
+<div class="cell-output cell-output-display" data-execution_count="9">
 <pre><code>[0.0,
  0.004,
  0.006,
@@ -638,16 +902,6 @@ Cumpleaños distintos:        38
 </figure>
 </div>
 </div>
-</div>
-<div id="cell-14" class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> math <span class="im">import</span> comb</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> n <span class="kw">in</span> [<span class="dv">10</span>, <span class="dv">23</span>, <span class="dv">30</span>, <span class="dv">50</span>, <span class="dv">70</span>]:</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    pares <span class="op">=</span> comb(n, <span class="dv">2</span>)</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"n = </span><span class="sc">{</span>n<span class="sc">:2d}</span><span class="ss"> → </span><span class="sc">{</span>pares<span class="sc">:4d}</span><span class="ss"> pares, P = </span><span class="sc">{</span>prob_analitica(n)<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
 </div>
 
 
@@ -1112,8 +1366,8 @@ Cumpleaños distintos:        38
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../notebooks/002_triangulo_pascal.html" class="pagination-link" aria-label="Tarea 1: Triángulo de Pascal y la distribución Gaussiana">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Tarea 1: Triángulo de Pascal y la distribución Gaussiana</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../notebooks/002_triangulo_pascal.html" class="pagination-link" aria-label="002_triangulo_pascal.html">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">002_triangulo_pascal.html</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

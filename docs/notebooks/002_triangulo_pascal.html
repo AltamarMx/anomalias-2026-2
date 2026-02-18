@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>3&nbsp; Tarea 1: Triángulo de Pascal y la distribución Gaussiana – Anomalías 2026-2</title>
+<title>3&nbsp; norm_x = exponente/2/4 – Anomalías 2026-2</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -70,35 +105,6 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 </head>
 
@@ -111,7 +117,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notebooks/001_birthday_problem.html">Clases</a></li><li class="breadcrumb-item"><a href="../notebooks/002_triangulo_pascal.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Tarea 1: Triángulo de Pascal y la distribución Gaussiana</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notebooks/001_birthday_problem.html">Clases</a></li><li class="breadcrumb-item"><a href="../notebooks/002_triangulo_pascal.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">002_triangulo_pascal.html</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -168,7 +174,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../notebooks/002_triangulo_pascal.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Tarea 1: Triángulo de Pascal y la distribución Gaussiana</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">002_triangulo_pascal.html</span></span></a>
   </div>
 </li>
       </ul>
@@ -178,24 +184,15 @@ window.Quarto = {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
-   
-  <ul>
-  <li><a href="#tarea-1-fecha-de-entrega-próxima-clase" id="toc-tarea-1-fecha-de-entrega-próxima-clase" class="nav-link active" data-scroll-target="#tarea-1-fecha-de-entrega-próxima-clase"><span class="header-section-number">3.1</span> Tarea 1 — Fecha de entrega: próxima clase</a>
-  <ul class="collapse">
-  <li><a href="#entregables" id="toc-entregables" class="nav-link" data-scroll-target="#entregables"><span class="header-section-number">3.1.1</span> Entregables</a></li>
-  </ul></li>
-  </ul>
-</nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notebooks/001_birthday_problem.html">Clases</a></li><li class="breadcrumb-item"><a href="../notebooks/002_triangulo_pascal.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Tarea 1: Triángulo de Pascal y la distribución Gaussiana</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notebooks/001_birthday_problem.html">Clases</a></li><li class="breadcrumb-item"><a href="../notebooks/002_triangulo_pascal.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">002_triangulo_pascal.html</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Tarea 1: Triángulo de Pascal y la distribución Gaussiana</span></h1>
+<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">norm_x = exponente/2/4</span></h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li></ul></div></div>
 </div>
 
 
@@ -212,21 +209,127 @@ window.Quarto = {
 </header>
 
 
-<section id="tarea-1-fecha-de-entrega-próxima-clase" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="tarea-1-fecha-de-entrega-próxima-clase"><span class="header-section-number">3.1</span> Tarea 1 — Fecha de entrega: próxima clase</h2>
-<p>En esta tarea van a explorar la relación entre el triángulo de Pascal y la distribución Gaussiana. El trabajo se entrega en esta misma libreta, agregando las celdas de código y texto que consideren necesarias.</p>
-<p>Empiecen escribiendo una función <code>triangulo_pascal(N)</code> que construya el triángulo de Pascal desde el renglón 0 hasta el renglón <span class="math inline">\(N\)</span>. Verifiquen que funciona imprimiendo los primeros renglones.</p>
-<p>Una vez que tengan el triángulo, grafiquen varios renglones como sucesiones de puntos conectados, todos en el mismo gráfico. Pueden usar una función <code>graficar_renglones(triangulo, renglones)</code> para esto. Elijan al menos 5 renglones de distintos tamaños.</p>
-<p>El siguiente paso es normalizar cada renglón dividiendo entre su valor máximo, de modo que el pico siempre quede en 1. Escriban una función <code>normalizar(renglon)</code> que haga esto. Repitan la gráfica anterior pero con los renglones normalizados. Ahora las formas son comparables, pero cada renglón tiene un ancho diferente en el eje horizontal.</p>
-<p>Antes de comparar con la Gaussiana, necesitan resolver el problema del eje horizontal: cada renglón tiene un número distinto de puntos, así que no se pueden superponer directamente. Escriban una función <code>reescalar_x(renglon, escala)</code> que tome las posiciones <span class="math inline">\(k = 0, 1, \ldots, n\)</span> de un renglón y las transforme a un eje centrado en cero, con un ancho controlado por el parámetro <code>escala</code>. Repitan la gráfica de los renglones normalizados pero ahora con el eje horizontal reescalado.</p>
-<p>Finalmente, escriban una función <code>graficar_pascal_vs_gauss(N, escala)</code> que haga lo siguiente: calcule el triángulo hasta el renglón <span class="math inline">\(N\)</span>, normalice los renglones seleccionados, escale el eje horizontal de cada renglón para que todos queden centrados en cero con un ancho controlado por el parámetro <code>escala</code>, y grafique encima una curva Gaussiana normalizada a pico 1, es decir <span class="math inline">\(G(x) = e^{-(x-\mu)^2 / 2\sigma^2}\)</span>.</p>
-<section id="entregables" class="level3" data-number="3.1.1">
-<h3 data-number="3.1.1" class="anchored" data-anchor-id="entregables"><span class="header-section-number">3.1.1</span> Entregables</h3>
-<p>La libreta debe contener: las funciones <code>triangulo_pascal</code>, <code>normalizar</code>, <code>reescalar_x</code>, <code>graficar_renglones</code> y <code>graficar_pascal_vs_gauss</code> funcionando correctamente.</p>
+<div id="3bf8ebd6-94e3-4ca9-881a-ed47506d1e32" class="cell" data-execution_count="13">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="002_triangulo_pascal_files/figure-html/8e4f1941-10d0-4608-9a3a-b34fcab069a5-1-f90b97ce-4358-472d-8066-2b3c8a016db3.png" class="img-fluid figure-img"></p>
+<figcaption>image.png</figcaption>
+</figure>
+</div>
+<div id="87c237df-9e8f-47e6-a03b-94851570f35e" class="cell" data-execution_count="63">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gaussiana(x,mu<span class="op">=</span><span class="dv">0</span>, sigma<span class="op">=</span><span class="dv">2</span>):</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    coeficiente <span class="op">=</span> <span class="fl">1.</span> <span class="op">/</span> (sigma <span class="op">*</span> np.sqrt(<span class="dv">2</span> <span class="op">*</span>np.pi))</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    exponente    <span class="op">=</span> <span class="op">-</span><span class="fl">0.5</span> <span class="op">*</span> ((x <span class="op">-</span> mu) <span class="op">/</span> sigma) <span class="op">**</span> <span class="dv">2</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    gauss <span class="op">=</span> coeficiente<span class="op">*</span>np.exp(exponente)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> gauss</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="5fb810af-718e-4b00-829d-96a49802bfee" class="cell" data-execution_count="64">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">12</span>,<span class="dv">3</span>))</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">100</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>funcion <span class="op">=</span> gaussiana(x)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>ax.plot(x, funcion)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>ax.grid()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="002_triangulo_pascal_files/figure-html/cell-4-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="002_triangulo_pascal_files/figure-html/d7632e14-e60f-4fcb-ae51-c5f29f94a9fe-1-c4e69623-7c22-4fb1-998e-9b35f92b6b69.png" class="img-fluid figure-img"></p>
+<figcaption>image.png</figcaption>
+</figure>
+</div>
+<div id="1c22c0da-40bb-435a-87b3-746bface4512" class="cell" data-scrolled="true" data-execution_count="65">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> constante(exponente, coeficiente):</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> math.factorial(exponente)<span class="op">/</span>(math.factorial(coeficiente) <span class="op">*</span> math.factorial(exponente<span class="op">-</span>coeficiente))</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>exponente <span class="op">=</span> <span class="dv">6</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> renglon(exponente):</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.array([constante(exponente,coeficiente) <span class="cf">for</span> coeficiente <span class="kw">in</span> <span class="bu">range</span>(exponente<span class="op">+</span><span class="dv">1</span>)])</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>renglon(exponente)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="65">
+<pre><code>array([ 1.,  6., 15., 20., 15.,  6.,  1.])</code></pre>
+</div>
+</div>
+<div id="a553287a-960a-4d21-ace4-8f2f810b34ad" class="cell" data-execution_count="68">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="op">*</span>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">12</span>,<span class="dv">3</span>))</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>exponente <span class="op">=</span> <span class="dv">50</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">51</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>resultado <span class="op">=</span> renglon(exponente)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>resultado <span class="op">=</span> resultado<span class="op">/</span><span class="bu">sum</span>(resultado)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co"># ax.bar(range(len(resultado)) , resultado)</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>ax.plot(x,resultado)</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co"># ax.bar(x,resultado,alpha=0.1)</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="co"># ax.plot(resultado)</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">100</span>)</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>funcion <span class="op">=</span> gaussiana(x)</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>ax.plot(x, funcion)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="002_triangulo_pascal_files/figure-html/cell-6-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="e4efef5e-5981-42a5-b4e6-34152ea53741" class="cell" data-execution_count="67">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>resultado</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="67">
+<pre><code>array([3.55271368e-15, 1.77635684e-13, 4.35207426e-12, 6.96331881e-11,
+       8.18189960e-10, 7.52734763e-09, 5.64551073e-08, 3.54860674e-07,
+       1.90737612e-06, 8.90108858e-06, 3.64944632e-05, 1.32707139e-04,
+       4.31298201e-04, 1.26071782e-03, 3.33189709e-03, 7.99655302e-03,
+       1.74924597e-02, 3.49849195e-02, 6.41390190e-02, 1.08023611e-01,
+       1.67436597e-01, 2.39195139e-01, 3.15302683e-01, 3.83846744e-01,
+       4.31827587e-01, 4.49100691e-01, 4.31827587e-01, 3.83846744e-01,
+       3.15302683e-01, 2.39195139e-01, 1.67436597e-01, 1.08023611e-01,
+       6.41390190e-02, 3.49849195e-02, 1.74924597e-02, 7.99655302e-03,
+       3.33189709e-03, 1.26071782e-03, 4.31298201e-04, 1.32707139e-04,
+       3.64944632e-05, 8.90108858e-06, 1.90737612e-06, 3.54860674e-07,
+       5.64551073e-08, 7.52734763e-09, 8.18189960e-10, 6.96331881e-11,
+       4.35207426e-12, 1.77635684e-13, 3.55271368e-15])</code></pre>
+</div>
+</div>
 
 
-</section>
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
