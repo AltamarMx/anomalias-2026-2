@@ -125,5 +125,16 @@
       "Clases",
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>003_sampling_distribution.html</span>"
     ]
+  },
+  {
+    "objectID": "notebooks/004_Central_limit_teorem.html",
+    "href": "notebooks/004_Central_limit_teorem.html",
+    "title": "5  Parameters for the distribution",
+    "section": "",
+    "text": "Code\nimport numpy as np\nimport scipy as sp\nimport scipy.special as spsp\nimport matplotlib.pyplot as plt\n\n\n\n\nCode\nn = 100       # Number of trials (large n for good agreement)\np = 0.5        # Probability of success (e.g., fair coin)\nq = 1 - p      # Probability of failure\n\n\n\n\nCode\nPXbinomial = []\nfor k in range(n+1):\n    probX = spsp.comb(n,k)*p**k * q**(n-k)\n    PXbinomial.append(probX)\n\nmu = n*p\nsigma = np.sqrt(n*p*q)\n\nX = np.arange(-5,n,0.01)\nPXnomal = (1/(sigma*np.sqrt(2*np.pi))) * np.exp(-((X-mu)**2)/(2*sigma**2))\n\n\n\n\nCode\nfig,ax = plt.subplots(figsize=(12,6))\n\nax.plot(PXbinomial, label='binomial')\nax.plot(X,PXnomal,label='normal')\n\n# ax.set_xlim(,5)\nax.legend()",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>004_Central_limit_teorem.html</span>"
+    ]
   }
 ]

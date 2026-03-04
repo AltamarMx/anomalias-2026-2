@@ -16,6 +16,7 @@ book:
         - notebooks/001_birthday_problem.ipynb
         - notebooks/002_triangulo_pascal.ipynb
         - notebooks/003_sampling_distribution.ipynb
+        - notebooks/004_Central_limit_teorem.ipynb
 
 format:
   html:
