@@ -17,6 +17,8 @@ book:
         - notebooks/002_triangulo_pascal.ipynb
         - notebooks/003_sampling_distribution.ipynb
         - notebooks/004_Central_limit_teorem.ipynb
+        - notebooks/005_DistribucionNormal_Seleccion.ipynb
+        - notebooks/006_experimentos_nueve.ipynb
 
 format:
   html:
@@ -24,7 +26,7 @@ format:
     toc: true
     toc-depth: 3
     number-sections: true
-    code-fold: true
+    code-fold: false
     code-tools: true
 
 execute:

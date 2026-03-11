@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -74,10 +74,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-27c261d06b905028a18691de25d09dde.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-70a47bd5681a7291082a5b9f83d58762.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -160,7 +160,9 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="../index.html" class="sidebar-logo-link">
+      </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="../">Anomalías 2026-2</a> 
     </div>
@@ -217,6 +219,18 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">004_Central_limit_teorem.html</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/005_DistribucionNormal_Seleccion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">005_DistribucionNormal_Seleccion.html</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/006_experimentos_nueve.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">006_experimentos_nueve.html</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -250,7 +264,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notebooks/001_birthday_problem.html">Clases</a></li><li class="breadcrumb-item"><a href="../notebooks/001_birthday_problem.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">El problema del cumpleaños</span></a></li></ol></nav>
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">El problema del cumpleaños</span></h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li></ul></div></div>
+<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">El problema del cumpleaños</span></h1>
 </div>
 
 
@@ -304,11 +318,8 @@ P(\text{coincidencia}) = 1 - \prod_{k=0}^{n-1} \frac{365 - k}{365}
 \]</span></p>
 <p>Esta es una expresión exacta que podemos evaluar numéricamente para cualquier valor de <span class="math inline">\(n\)</span>.</p>
 <div id="cell-3" class="cell" data-execution_count="1">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
 </div>
 <p>Definimos la función <code>prob_analitica(n)</code> que implementa la fórmula exacta. El algoritmo es directo:</p>
 <ol type="1">
@@ -318,8 +329,6 @@ P(\text{coincidencia}) = 1 - \prod_{k=0}^{n-1} \frac{365 - k}{365}
 </ol>
 <p>Luego evaluamos la función para todos los tamaños de grupo de 1 a 80 y buscamos el primer <span class="math inline">\(n\)</span> donde <span class="math inline">\(P &gt; 0.5\)</span>.</p>
 <div id="cell-5" class="cell" data-execution_count="5">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> prob_analitica(n, dias<span class="op">=</span><span class="dv">365</span>):</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Probabilidad exacta de al menos una coincidencia en un grupo de n personas."""</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    p_todos_distintos <span class="op">=</span> <span class="fl">1.0</span></span>
@@ -331,7 +340,6 @@ P(\text{coincidencia}) = 1 - \prod_{k=0}^{n-1} \frac{365 - k}{365}
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">365</span>):</span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    p <span class="op">=</span> prob_analitica(n)</span>
 <span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"n = </span><span class="sc">{</span>n<span class="sc">:3d}</span><span class="ss"> personas → P(coincidencia) = </span><span class="sc">{</span>p<span class="sc">:.12f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>n =   1 personas → P(coincidencia) = 0.000000000000
 n =   2 personas → P(coincidencia) = 0.002739726027
@@ -707,15 +715,12 @@ n = 364 personas → P(coincidencia) = 1.000000000000</code></pre>
 <p><strong>Paso 1 — Generar cumpleaños aleatorios:</strong> asignamos a cada persona un número entero entre 0 y 364. Cada número representa un día del año (0 = 1 de enero, 364 = 31 de diciembre).</p>
 <p><strong>Paso 2 — Detectar repetidos:</strong> convertimos la lista a un conjunto (<code>set</code>), que automáticamente elimina duplicados. Si el conjunto tiene <strong>menos elementos</strong> que la lista original, significa que al menos dos personas comparten cumpleaños.</p>
 <div id="cell-7" class="cell" data-execution_count="6">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Paso 1: Generar cumpleaños aleatorios para 5 personas</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">42</span>)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">50</span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>cumples <span class="op">=</span> rng.integers(<span class="dv">0</span>, <span class="dv">365</span>, size<span class="op">=</span>n)</span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Grupo de </span><span class="sc">{</span>n<span class="sc">}</span><span class="ss"> personas"</span>)</span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Cumpleaños generados (día del año): </span><span class="sc">{</span>cumples<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Grupo de 50 personas
 Cumpleaños generados (día del año): [ 32 282 238 160 158 313  31 254  73  34 192 356 268 277 261 286 187  46
@@ -724,19 +729,14 @@ Cumpleaños generados (día del año): [ 32 282 238 160 158 313  31 254  73  34 
 </div>
 </div>
 <div id="cell-8" class="cell" data-execution_count="7">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Paso 2: Convertir a conjunto para eliminar duplicados</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>cumples_unicos <span class="op">=</span> <span class="bu">set</span>(cumples)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Cumpleaños únicos (sin repetidos):  </span><span class="sc">{</span>cumples_unicos<span class="sc">}</span><span class="ss"> y son </span><span class="sc">{</span><span class="bu">len</span>(cumples_unicos)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Cumpleaños únicos (sin repetidos):  {np.int64(129), np.int64(261), np.int64(135), np.int64(268), np.int64(146), np.int64(276), np.int64(277), np.int64(23), np.int64(24), np.int64(282), np.int64(284), np.int64(285), np.int64(286), np.int64(158), np.int64(32), np.int64(160), np.int64(34), np.int64(31), np.int64(164), np.int64(161), np.int64(33), np.int64(162), np.int64(300), np.int64(46), np.int64(302), np.int64(306), np.int64(182), np.int64(313), np.int64(187), np.int64(60), np.int64(192), np.int64(66), np.int64(324), np.int64(325), np.int64(199), np.int64(73), np.int64(202), np.int64(338), np.int64(82), np.int64(354), np.int64(356), np.int64(101), np.int64(230), np.int64(235), np.int64(238), np.int64(247), np.int64(254), np.int64(255)} y son 48</code></pre>
 </div>
 </div>
 <div id="cell-9" class="cell" data-execution_count="8">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Paso 3: Comparar tamaños</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Total de personas:           </span><span class="sc">{</span><span class="bu">len</span>(cumples)<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Cumpleaños distintos:        </span><span class="sc">{</span><span class="bu">len</span>(cumples_unicos)<span class="sc">}</span><span class="ss">"</span>)</span>
@@ -745,7 +745,6 @@ Cumpleaños generados (día del año): [ 32 282 238 160 158 313  31 254  73  34 
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"→ ¡Hay al menos una coincidencia!"</span>)</span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"→ No hay coincidencias en este grupo."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Total de personas:           50
@@ -757,8 +756,6 @@ Cumpleaños distintos:        48
 <h3 data-number="2.3.1" class="anchored" data-anchor-id="la-simulación-completa"><span class="header-section-number">2.3.1</span> La simulación completa</h3>
 <p>Ahora encapsulamos esta lógica en una función <code>simular_cumpleanos</code> que repite el experimento <code>n_sim</code> veces y cuenta en qué fracción hubo coincidencia. Luego la ejecutamos para grupos de 1 a 100 personas.</p>
 <div id="cell-11" class="cell" data-execution_count="9">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> simular_cumpleanos(n, n_sim<span class="op">=</span><span class="dv">1000</span>, dias<span class="op">=</span><span class="dv">365</span>, seed<span class="op">=</span><span class="dv">42</span>):</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Estima la probabilidad de coincidencia por simulación."""</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    rng <span class="op">=</span> np.random.default_rng(seed)</span>
@@ -774,7 +771,6 @@ Cumpleaños distintos:        48
 <span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>ns_sim <span class="op">=</span> np.arange(<span class="dv">1</span>, <span class="dv">101</span>)</span>
 <span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>probs_sim <span class="op">=</span> [simular_cumpleanos(n) <span class="cf">for</span> n <span class="kw">in</span> ns_sim]</span>
 <span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>probs_sim</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
 <div class="cell-output cell-output-display" data-execution_count="9">
 <pre><code>[0.0,
  0.004,
@@ -884,8 +880,6 @@ Cumpleaños distintos:        48
 <h2 data-number="2.4" class="anchored" data-anchor-id="comparación-analítica-vs.-simulación"><span class="header-section-number">2.4</span> Comparación: analítica vs.&nbsp;simulación</h2>
 <p>El siguiente gráfico superpone ambos resultados: la curva azul es la solución analítica exacta y los puntos rojos son las estimaciones por simulación. Si la simulación está bien implementada, los puntos deberían caer muy cerca de la curva teórica.</p>
 <div id="cell-13" class="cell" data-execution_count="18">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>ns <span class="op">=</span> np.arange(<span class="dv">1</span>, <span class="dv">101</span>)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>probs <span class="op">=</span> [prob_analitica(n) <span class="cf">for</span> n <span class="kw">in</span> ns]</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -904,7 +898,6 @@ Cumpleaños distintos:        48
 <span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>ax.set_ylim(<span class="dv">0</span>, <span class="fl">1.05</span>)</span>
 <span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
 <span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">

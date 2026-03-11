@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -65,6 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
+<link href="../notebooks/005_DistribucionNormal_Seleccion.html" rel="next">
 <link href="../notebooks/003_sampling_distribution.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -73,10 +74,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-27c261d06b905028a18691de25d09dde.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-70a47bd5681a7291082a5b9f83d58762.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -130,7 +131,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="../index.html" class="sidebar-logo-link">
+      </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="../">Anomalías 2026-2</a> 
     </div>
@@ -187,6 +190,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">004_Central_limit_teorem.html</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/005_DistribucionNormal_Seleccion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">005_DistribucionNormal_Seleccion.html</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/006_experimentos_nueve.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">006_experimentos_nueve.html</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -202,7 +217,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notebooks/001_birthday_problem.html">Clases</a></li><li class="breadcrumb-item"><a href="../notebooks/004_Central_limit_teorem.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">004_Central_limit_teorem.html</span></a></li></ol></nav>
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Parameters for the distribution</span></h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li></ul></div></div>
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Parameters for the distribution</span></h1>
 </div>
 
 
@@ -219,26 +234,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<div id="d3a6e5c8-cdaf-4167-9af1-956e7483e418" class="cell" data-execution_count="11">
-<details class="code-fold">
-<summary>Code</summary>
+<div id="d3a6e5c8-cdaf-4167-9af1-956e7483e418" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy <span class="im">as</span> sp</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy.special <span class="im">as</span> spsp</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
 </div>
-<div id="d2f49817-cc69-43bf-bf6c-91082b6d536a" class="cell" data-execution_count="37">
-<details class="code-fold">
-<summary>Code</summary>
+<div id="d2f49817-cc69-43bf-bf6c-91082b6d536a" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">100</span>       <span class="co"># Number of trials (large n for good agreement)</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> <span class="fl">0.5</span>        <span class="co"># Probability of success (e.g., fair coin)</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>q <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> p      <span class="co"># Probability of failure</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
 </div>
-<div id="8a29ed72-166f-4ada-b96a-a6d917060ba3" class="cell" data-execution_count="38">
-<details class="code-fold">
-<summary>Code</summary>
+<div id="8a29ed72-166f-4ada-b96a-a6d917060ba3" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>PXbinomial <span class="op">=</span> []</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(n<span class="op">+</span><span class="dv">1</span>):</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    probX <span class="op">=</span> spsp.comb(n,k)<span class="op">*</span>p<span class="op">**</span>k <span class="op">*</span> q<span class="op">**</span>(n<span class="op">-</span>k)</span>
@@ -247,27 +254,183 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>mu <span class="op">=</span> n<span class="op">*</span>p</span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>sigma <span class="op">=</span> np.sqrt(n<span class="op">*</span>p<span class="op">*</span>q)</span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.arange(<span class="op">-</span><span class="dv">5</span>,n,<span class="fl">0.01</span>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.arange(<span class="dv">0</span>,n,<span class="dv">1</span>)</span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>PXnomal <span class="op">=</span> (<span class="dv">1</span><span class="op">/</span>(sigma<span class="op">*</span>np.sqrt(<span class="dv">2</span><span class="op">*</span>np.pi))) <span class="op">*</span> np.exp(<span class="op">-</span>((X<span class="op">-</span>mu)<span class="op">**</span><span class="dv">2</span>)<span class="op">/</span>(<span class="dv">2</span><span class="op">*</span>sigma<span class="op">**</span><span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
 </div>
-<div id="7ddadbb0-3317-4e7c-960c-5035bac5ebf7" class="cell" data-execution_count="40">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>fig,ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">12</span>,<span class="dv">6</span>))</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>ax.plot(PXbinomial, label<span class="op">=</span><span class="st">'binomial'</span>)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>ax.plot(X,PXnomal,label<span class="op">=</span><span class="st">'normal'</span>)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># ax.set_xlim(,5)</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>ax.legend()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
+<div id="ace2b09e-8996-4009-88bb-263649a19aa7" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>PXbinomial</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<pre><code>[np.float64(7.888609052210118e-31),
+ np.float64(7.888609052210118e-29),
+ np.float64(3.9048614808440084e-27),
+ np.float64(1.275588083742376e-25),
+ np.float64(3.093301103075262e-24),
+ np.float64(5.939138117904503e-23),
+ np.float64(9.403635353348797e-22),
+ np.float64(1.2627738903068384e-20),
+ np.float64(1.4679746474816996e-19),
+ np.float64(1.5005963063146263e-18),
+ np.float64(1.3655426387463099e-17),
+ np.float64(1.1172621589742536e-16),
+ np.float64(8.286361012392381e-16),
+ np.float64(5.609228993004073e-15),
+ np.float64(3.485735159938246e-14),
+ np.float64(1.9984881583645938e-13),
+ np.float64(1.0616968341311906e-12),
+ np.float64(5.2460314157070584e-12),
+ np.float64(2.4190033750204773e-11),
+ np.float64(1.0439909302719957e-10),
+ np.float64(4.228163267601648e-10),
+ np.float64(1.6107288638482468e-09),
+ np.float64(5.783980920182311e-09),
+ np.float64(1.9615239642357167e-08),
+ np.float64(6.293222718589643e-08),
+ np.float64(1.9131397064512288e-07),
+ np.float64(5.518672230147774e-07),
+ np.float64(1.512524981596038e-06),
+ np.float64(3.943368702018236e-06),
+ np.float64(9.790432639493874e-06),
+ np.float64(2.317069058013542e-05),
+ np.float64(5.232091421320828e-05),
+ np.float64(0.00011281697127223167),
+ np.float64(0.00023247133474277385),
+ np.float64(0.0004581052772872489),
+ np.float64(0.0008638556657416497),
+ np.float64(0.001559739396477965),
+ np.float64(0.0026979276047186932),
+ np.float64(0.004472879976244109),
+ np.float64(0.007110732269926618),
+ np.float64(0.010843866711637914),
+ np.float64(0.015869073236543674),
+ np.float64(0.022292269546572548),
+ np.float64(0.03006864264421444),
+ np.float64(0.038952559789097),
+ np.float64(0.04847429662643116),
+ np.float64(0.05795839814029894),
+ np.float64(0.06659049999097996),
+ np.float64(0.07352701040670828),
+ np.float64(0.07802866410507776),
+ np.float64(0.07958923738718095),
+ np.float64(0.07802866410507776),
+ np.float64(0.07352701040670828),
+ np.float64(0.06659049999097996),
+ np.float64(0.05795839814029894),
+ np.float64(0.04847429662643116),
+ np.float64(0.038952559789097),
+ np.float64(0.03006864264421444),
+ np.float64(0.022292269546572548),
+ np.float64(0.015869073236543674),
+ np.float64(0.010843866711637914),
+ np.float64(0.007110732269926618),
+ np.float64(0.004472879976244109),
+ np.float64(0.0026979276047186932),
+ np.float64(0.001559739396477965),
+ np.float64(0.0008638556657416497),
+ np.float64(0.0004581052772872489),
+ np.float64(0.00023247133474277385),
+ np.float64(0.00011281697127223167),
+ np.float64(5.232091421320828e-05),
+ np.float64(2.317069058013542e-05),
+ np.float64(9.790432639493874e-06),
+ np.float64(3.943368702018236e-06),
+ np.float64(1.512524981596038e-06),
+ np.float64(5.518672230147774e-07),
+ np.float64(1.9131397064512288e-07),
+ np.float64(6.293222718589643e-08),
+ np.float64(1.9615239642357167e-08),
+ np.float64(5.783980920182311e-09),
+ np.float64(1.6107288638482468e-09),
+ np.float64(4.228163267601648e-10),
+ np.float64(1.0439909302719957e-10),
+ np.float64(2.4190033750204773e-11),
+ np.float64(5.2460314157070584e-12),
+ np.float64(1.0616968341311906e-12),
+ np.float64(1.9984881583645938e-13),
+ np.float64(3.485735159938246e-14),
+ np.float64(5.609228993004073e-15),
+ np.float64(8.286361012392381e-16),
+ np.float64(1.1172621589742536e-16),
+ np.float64(1.3655426387463099e-17),
+ np.float64(1.5005963063146263e-18),
+ np.float64(1.4679746474816996e-19),
+ np.float64(1.2627738903068384e-20),
+ np.float64(9.403635353348797e-22),
+ np.float64(5.939138117904503e-23),
+ np.float64(3.093301103075262e-24),
+ np.float64(1.275588083742376e-25),
+ np.float64(3.9048614808440084e-27),
+ np.float64(7.888609052210118e-29),
+ np.float64(7.888609052210118e-31)]</code></pre>
+</div>
+</div>
+<div id="cb759449-b13e-4739-afbf-795d4242afe1" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>PXnomal</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>array([1.53891973e-23, 1.11460000e-22, 7.75622386e-22, 5.18572940e-21,
+       3.33117606e-20, 2.05595471e-19, 1.21915163e-18, 6.94592550e-18,
+       3.80216308e-17, 1.99967575e-16, 1.01045422e-15, 4.90571057e-15,
+       2.28831298e-14, 1.02555073e-13, 4.41597993e-13, 1.82694408e-12,
+       7.26192300e-12, 2.77335999e-11, 1.01762806e-10, 3.58756782e-10,
+       1.21517657e-09, 3.95463928e-09, 1.23652410e-08, 3.71472369e-08,
+       1.07220707e-07, 2.97343903e-07, 7.92259818e-07, 2.02817041e-06,
+       4.98849426e-06, 1.17886136e-05, 2.67660452e-05, 5.83893852e-05,
+       1.22380386e-04, 2.46443834e-04, 4.76817640e-04, 8.86369682e-04,
+       1.58309032e-03, 2.71659385e-03, 4.47890606e-03, 7.09491857e-03,
+       1.07981933e-02, 1.57900317e-02, 2.21841669e-02, 2.99454931e-02,
+       3.88372110e-02, 4.83941449e-02, 5.79383106e-02, 6.66449206e-02,
+       7.36540281e-02, 7.82085388e-02, 7.97884561e-02, 7.82085388e-02,
+       7.36540281e-02, 6.66449206e-02, 5.79383106e-02, 4.83941449e-02,
+       3.88372110e-02, 2.99454931e-02, 2.21841669e-02, 1.57900317e-02,
+       1.07981933e-02, 7.09491857e-03, 4.47890606e-03, 2.71659385e-03,
+       1.58309032e-03, 8.86369682e-04, 4.76817640e-04, 2.46443834e-04,
+       1.22380386e-04, 5.83893852e-05, 2.67660452e-05, 1.17886136e-05,
+       4.98849426e-06, 2.02817041e-06, 7.92259818e-07, 2.97343903e-07,
+       1.07220707e-07, 3.71472369e-08, 1.23652410e-08, 3.95463928e-09,
+       1.21517657e-09, 3.58756782e-10, 1.01762806e-10, 2.77335999e-11,
+       7.26192300e-12, 1.82694408e-12, 4.41597993e-13, 1.02555073e-13,
+       2.28831298e-14, 4.90571057e-15, 1.01045422e-15, 1.99967575e-16,
+       3.80216308e-17, 6.94592550e-18, 1.21915163e-18, 2.05595471e-19,
+       3.33117606e-20, 5.18572940e-21, 7.75622386e-22, 1.11460000e-22])</code></pre>
+</div>
+</div>
+<div id="7ddadbb0-3317-4e7c-960c-5035bac5ebf7" class="cell" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameters for the distribution</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">20</span>       <span class="co"># Number of trials (large n for good agreement)</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> <span class="fl">.5</span>        <span class="co"># Probability of success (e.g., fair coin)</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>q <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> p      <span class="co"># Probability of failure</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>PXbinomial <span class="op">=</span> []</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(n<span class="op">+</span><span class="dv">1</span>):</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    probX <span class="op">=</span> spsp.comb(n,k)<span class="op">*</span>p<span class="op">**</span>k <span class="op">*</span> q<span class="op">**</span>(n<span class="op">-</span>k)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    PXbinomial.append(probX)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>mu <span class="op">=</span> n<span class="op">*</span>p</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>sigma <span class="op">=</span> np.sqrt(n<span class="op">*</span>p<span class="op">*</span>q)</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.arange(<span class="op">-</span><span class="dv">2</span>,n,<span class="fl">.01</span>)</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>PXnomal <span class="op">=</span> (<span class="dv">1</span><span class="op">/</span>(sigma<span class="op">*</span>np.sqrt(<span class="dv">2</span><span class="op">*</span>np.pi))) <span class="op">*</span> np.exp(<span class="op">-</span>((X<span class="op">-</span>mu)<span class="op">**</span><span class="dv">2</span>)<span class="op">/</span>(<span class="dv">2</span><span class="op">*</span>sigma<span class="op">**</span><span class="dv">2</span>))</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>fig,ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">12</span>,<span class="dv">6</span>))</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>ax.plot(PXbinomial, label<span class="op">=</span><span class="st">'binomial'</span>)</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>ax.plot(X,PXnomal,label<span class="op">=</span><span class="st">'normal'</span>)</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a><span class="co"># ax.set_xlim(,5)</span></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>ax.legend()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="004_Central_limit_teorem_files/figure-html/cell-5-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="004_Central_limit_teorem_files/figure-html/cell-7-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
+</div>
+</div>
+<div id="c39de966-5e8f-4a17-b233-90ca4ca88d25" class="cell" data-execution_count="16">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>np.<span class="bu">sum</span>(PXbinomial)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="16">
+<pre><code>np.float64(1.0)</code></pre>
 </div>
 </div>
 
@@ -732,6 +895,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="../notebooks/005_DistribucionNormal_Seleccion.html" class="pagination-link" aria-label="005_DistribucionNormal_Seleccion.html">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">005_DistribucionNormal_Seleccion.html</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->

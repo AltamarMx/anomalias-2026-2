@@ -2,7 +2,7 @@
   "hash": "43cf601ca50ee603ea08088a1941724a",
   "result": {
     "engine": "jupyter",
-    "markdown": "# Prefacio {.unnumbered}\n\nBienvenidos al material del curso **Anomalías 2026-2**.\n\nEste sitio contiene las notas de clase, notebooks y recursos del curso.\n\n## Cómo usar este material\n\nLos capítulos incluyen explicaciones teóricas y notebooks con código ejecutable en Python.\n\n::: {#e9a271aa .cell execution_count=1}\n\n::: {.cell-output .cell-output-stdout}\n```\nAmbiente configurado correctamente.\n```\n:::\n:::\n\n\n",
+    "markdown": "# Prefacio {.unnumbered}\n\nBienvenidos al material del curso **Anomalías 2026-2**.\n\nEste sitio contiene las notas de clase, notebooks y recursos del curso.\n\n## Cómo usar este material\n\nLos capítulos incluyen explicaciones teóricas y notebooks con código ejecutable en Python.\n\n::: {#2f136ac6 .cell execution_count=1}\n\n::: {.cell-output .cell-output-stdout}\n```\nAmbiente configurado correctamente.\n```\n:::\n:::\n\n\n",
     "supporting": [
       "index_files"
     ],
