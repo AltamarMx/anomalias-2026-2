@@ -19,6 +19,14 @@ book:
         - notebooks/004_Central_limit_teorem.ipynb
         - notebooks/005_DistribucionNormal_Seleccion.ipynb
         - notebooks/006_experimentos_nueve.ipynb
+        - notebooks/007_muestreo_teoria.ipynb
+        - notebooks/008a_muestreo_lab.ipynb
+        - notebooks/008b_muestreo_lab.ipynb
+        - notebooks/009_PruebasHipotesis.ipynb
+        - notebooks/010_teoria_componentes_y_descomposicion.ipynb
+        - notebooks/011_laboratorio_climalab.ipynb
+        - notebooks/012_teoria_autocorrelacion.ipynb
+        - notebooks/013_laboratorio_autocorrelacion.ipynb
 
 format:
   html:

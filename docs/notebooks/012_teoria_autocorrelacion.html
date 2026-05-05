@@ -1,0 +1,1434 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>14&nbsp; Sesión 2 · Teoría – Anomalías 2026-2</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../notebooks/013_laboratorio_autocorrelacion.html" rel="next">
+<link href="../notebooks/011_laboratorio_climalab.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-5ccb035bea26c1e21f80f44cf7c27909.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notebooks/001_birthday_problem.html">Clases</a></li><li class="breadcrumb-item"><a href="../notebooks/012_teoria_autocorrelacion.html"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Sesión 2 · Teoría</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Anomalías 2026-2</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prefacio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../libro/intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introducción</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Clases</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/001_birthday_problem.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">El problema del cumpleaños</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/002_triangulo_pascal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">002_triangulo_pascal.html</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/003_sampling_distribution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">003_sampling_distribution.html</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/004_Central_limit_teorem.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">004_Central_limit_teorem.html</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/005_DistribucionNormal_Seleccion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">005_DistribucionNormal_Seleccion.html</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/006_experimentos_nueve.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">006_experimentos_nueve.html</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/007_muestreo_teoria.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Semana 4A — Muestreo y Estimación (Teoría)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/008a_muestreo_lab.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Semana 4B — Muestreo y Estimación (Laboratorio)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/008b_muestreo_lab.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">1. Cargar y conocer la población</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/009_PruebasHipotesis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title"><code>stats.t.ppf(1 - alpha/2, gl)</code></span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/010_teoria_componentes_y_descomposicion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Sesión 1 · Teoría</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/011_laboratorio_climalab.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Sesión 1 · Laboratorio</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/012_teoria_autocorrelacion.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Sesión 2 · Teoría</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/013_laboratorio_autocorrelacion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Sesión 2 · Laboratorio</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#autocorrelación-acf-y-pacf" id="toc-autocorrelación-acf-y-pacf" class="nav-link active" data-scroll-target="#autocorrelación-acf-y-pacf"><span class="header-section-number">14.1</span> Autocorrelación, ACF y PACF</a>
+  <ul class="collapse">
+  <li><a href="#objetivos-de-aprendizaje" id="toc-objetivos-de-aprendizaje" class="nav-link" data-scroll-target="#objetivos-de-aprendizaje"><span class="header-section-number">14.1.1</span> Objetivos de aprendizaje</a></li>
+  </ul></li>
+  <li><a href="#importante" id="toc-importante" class="nav-link" data-scroll-target="#importante"><span class="header-section-number">14.2</span> Importante</a></li>
+  <li><a href="#por-qué-nos-importan-acf-y-pacf" id="toc-por-qué-nos-importan-acf-y-pacf" class="nav-link" data-scroll-target="#por-qué-nos-importan-acf-y-pacf"><span class="header-section-number">14.3</span> 1. ¿Por qué nos importan ACF y PACF?</a>
+  <ul class="collapse">
+  <li><a href="#porque-la-independencia-ya-no-se-cumple" id="toc-porque-la-independencia-ya-no-se-cumple" class="nav-link" data-scroll-target="#porque-la-independencia-ya-no-se-cumple"><span class="header-section-number">14.3.1</span> 1.1 Porque la independencia ya no se cumple</a></li>
+  <li><a href="#porque-revelan-periodicidades-sin-tener-que-asumirlas" id="toc-porque-revelan-periodicidades-sin-tener-que-asumirlas" class="nav-link" data-scroll-target="#porque-revelan-periodicidades-sin-tener-que-asumirlas"><span class="header-section-number">14.3.2</span> 1.2 Porque revelan periodicidades sin tener que asumirlas</a></li>
+  <li><a href="#porque-son-la-firma-diagnóstica-de-los-modelos-arima" id="toc-porque-son-la-firma-diagnóstica-de-los-modelos-arima" class="nav-link" data-scroll-target="#porque-son-la-firma-diagnóstica-de-los-modelos-arima"><span class="header-section-number">14.3.3</span> 1.3 Porque son la firma diagnóstica de los modelos ARIMA</a></li>
+  <li><a href="#porque-validan-que-un-modelo-ya-capturó-todo" id="toc-porque-validan-que-un-modelo-ya-capturó-todo" class="nav-link" data-scroll-target="#porque-validan-que-un-modelo-ya-capturó-todo"><span class="header-section-number">14.3.4</span> 1.4 Porque validan que un modelo “ya capturó todo”</a></li>
+  <li><a href="#porque-informan-la-estacionariedad" id="toc-porque-informan-la-estacionariedad" class="nav-link" data-scroll-target="#porque-informan-la-estacionariedad"><span class="header-section-number">14.3.5</span> 1.5 Porque informan la estacionariedad</a></li>
+  <li><a href="#porque-guían-la-imputación" id="toc-porque-guían-la-imputación" class="nav-link" data-scroll-target="#porque-guían-la-imputación"><span class="header-section-number">14.3.6</span> 1.6 Porque guían la imputación</a></li>
+  </ul></li>
+  <li><a href="#autocorrelación-definición" id="toc-autocorrelación-definición" class="nav-link" data-scroll-target="#autocorrelación-definición"><span class="header-section-number">14.4</span> 2. Autocorrelación: definición</a>
+  <ul class="collapse">
+  <li><a href="#estimador-muestral" id="toc-estimador-muestral" class="nav-link" data-scroll-target="#estimador-muestral"><span class="header-section-number">14.4.1</span> Estimador muestral</a></li>
+  <li><a href="#bandas-de-confianza" id="toc-bandas-de-confianza" class="nav-link" data-scroll-target="#bandas-de-confianza"><span class="header-section-number">14.4.2</span> Bandas de confianza</a></li>
+  </ul></li>
+  <li><a href="#tres-series-sintéticas-para-entrenar-el-ojo" id="toc-tres-series-sintéticas-para-entrenar-el-ojo" class="nav-link" data-scroll-target="#tres-series-sintéticas-para-entrenar-el-ojo"><span class="header-section-number">14.5</span> 3. Tres series sintéticas para entrenar el ojo</a>
+  <ul class="collapse">
+  <li><a href="#a-simple-vista" id="toc-a-simple-vista" class="nav-link" data-scroll-target="#a-simple-vista"><span class="header-section-number">14.5.1</span> A simple vista</a></li>
+  <li><a href="#cómo-se-leen-las-bandas-sombreadas" id="toc-cómo-se-leen-las-bandas-sombreadas" class="nav-link" data-scroll-target="#cómo-se-leen-las-bandas-sombreadas"><span class="header-section-number">14.5.2</span> Cómo se leen las bandas sombreadas</a></li>
+  <li><a href="#lo-que-enseña-la-firma" id="toc-lo-que-enseña-la-firma" class="nav-link" data-scroll-target="#lo-que-enseña-la-firma"><span class="header-section-number">14.5.3</span> Lo que enseña la firma</a></li>
+  </ul></li>
+  <li><a href="#pacf-por-qué-necesitamos-otra-gráfica" id="toc-pacf-por-qué-necesitamos-otra-gráfica" class="nav-link" data-scroll-target="#pacf-por-qué-necesitamos-otra-gráfica"><span class="header-section-number">14.6</span> 4. PACF: ¿por qué necesitamos <em>otra</em> gráfica?</a></li>
+  <li><a href="#cuando-hay-estacionalidad" id="toc-cuando-hay-estacionalidad" class="nav-link" data-scroll-target="#cuando-hay-estacionalidad"><span class="header-section-number">14.7</span> 5. Cuando hay estacionalidad</a>
+  <ul class="collapse">
+  <li><a href="#lo-que-vemos" id="toc-lo-que-vemos" class="nav-link" data-scroll-target="#lo-que-vemos"><span class="header-section-number">14.7.1</span> Lo que vemos</a></li>
+  </ul></li>
+  <li><a href="#estacionariedad-intuitiva" id="toc-estacionariedad-intuitiva" class="nav-link" data-scroll-target="#estacionariedad-intuitiva"><span class="header-section-number">14.8</span> 6. Estacionariedad (intuitiva)</a>
+  <ul class="collapse">
+  <li><a href="#por-qué-importa" id="toc-por-qué-importa" class="nav-link" data-scroll-target="#por-qué-importa"><span class="header-section-number">14.8.1</span> ¿Por qué importa?</a></li>
+  <li><a href="#cómo-se-detecta-a-ojo-en-la-acf" id="toc-cómo-se-detecta-a-ojo-en-la-acf" class="nav-link" data-scroll-target="#cómo-se-detecta-a-ojo-en-la-acf"><span class="header-section-number">14.8.2</span> ¿Cómo se detecta a ojo en la ACF?</a></li>
+  </ul></li>
+  <li><a href="#gaps-y-control-de-calidad" id="toc-gaps-y-control-de-calidad" class="nav-link" data-scroll-target="#gaps-y-control-de-calidad"><span class="header-section-number">14.9</span> 7. Gaps y control de calidad</a>
+  <ul class="collapse">
+  <li><a href="#gaps-temporales" id="toc-gaps-temporales" class="nav-link" data-scroll-target="#gaps-temporales"><span class="header-section-number">14.9.1</span> 7.1 Gaps temporales</a></li>
+  <li><a href="#por-qué-los-gaps-rompen-la-acf" id="toc-por-qué-los-gaps-rompen-la-acf" class="nav-link" data-scroll-target="#por-qué-los-gaps-rompen-la-acf"><span class="header-section-number">14.9.2</span> 7.2 Por qué los gaps rompen la ACF</a></li>
+  <li><a href="#control-de-calidad-básico" id="toc-control-de-calidad-básico" class="nav-link" data-scroll-target="#control-de-calidad-básico"><span class="header-section-number">14.9.3</span> 7.3 Control de calidad básico</a></li>
+  </ul></li>
+  <li><a href="#manejo-temporal-con-pandas" id="toc-manejo-temporal-con-pandas" class="nav-link" data-scroll-target="#manejo-temporal-con-pandas"><span class="header-section-number">14.10</span> 8. Manejo temporal con pandas</a></li>
+  <li><a href="#síntesis" id="toc-síntesis" class="nav-link" data-scroll-target="#síntesis"><span class="header-section-number">14.11</span> 9. Síntesis</a>
+  <ul class="collapse">
+  <li><a href="#preguntas-para-reflexionar-antes-del-laboratorio" id="toc-preguntas-para-reflexionar-antes-del-laboratorio" class="nav-link" data-scroll-target="#preguntas-para-reflexionar-antes-del-laboratorio"><span class="header-section-number">14.11.1</span> Preguntas para reflexionar antes del laboratorio</a></li>
+  <li><a href="#lectura-recomendada-opcional" id="toc-lectura-recomendada-opcional" class="nav-link" data-scroll-target="#lectura-recomendada-opcional"><span class="header-section-number">14.11.2</span> Lectura recomendada (opcional)</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notebooks/001_birthday_problem.html">Clases</a></li><li class="breadcrumb-item"><a href="../notebooks/012_teoria_autocorrelacion.html"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Sesión 2 · Teoría</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Sesión 2 · Teoría</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="autocorrelación-acf-y-pacf" class="level2" data-number="14.1">
+<h2 data-number="14.1" class="anchored" data-anchor-id="autocorrelación-acf-y-pacf"><span class="header-section-number">14.1</span> Autocorrelación, ACF y PACF</h2>
+<p><strong>Estadística, Detección de Anomalías e Imputación de Series Temporales</strong> Posgrado en Ingeniería · Área Energía · IER-UNAM</p>
+<hr>
+<section id="objetivos-de-aprendizaje" class="level3" data-number="14.1.1">
+<h3 data-number="14.1.1" class="anchored" data-anchor-id="objetivos-de-aprendizaje"><span class="header-section-number">14.1.1</span> Objetivos de aprendizaje</h3>
+<p>Al terminar esta sesión, el estudiante será capaz de:</p>
+<ol type="1">
+<li>Explicar <strong>por qué</strong> la autocorrelación (vía ACF y PACF) es una herramienta diagnóstica central en series temporales.</li>
+<li>Definir formalmente la <strong>autocorrelación</strong> y calcular ACF/PACF muestrales.</li>
+<li>Leer una gráfica de ACF/PACF e identificar firmas de procesos AR, MA y estacionales.</li>
+<li>Reconocer <strong>estacionariedad</strong> intuitivamente y conectarla con la forma de la ACF.</li>
+<li>Detectar <strong>gaps</strong> y aplicar control de calidad básico antes de cualquier análisis.</li>
+</ol>
+</section>
+</section>
+<section id="importante" class="level2" data-number="14.2">
+<h2 data-number="14.2" class="anchored" data-anchor-id="importante"><span class="header-section-number">14.2</span> Importante</h2>
+<p>Las celdas de esta libreta usan <strong>datos sintéticos</strong> generados con NumPy. La intención es ver cada efecto <em>aislado</em>: una serie con autocorrelación pura, una con sólo estacionalidad, una con tendencia. En el laboratorio (013) llevaremos las mismas herramientas a la serie real de ClimaLab.</p>
+<div id="1090efab" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.graphics.tsaplots <span class="im">import</span> plot_acf, plot_pacf</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.tsa.stattools <span class="im">import</span> acf, pacf</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>plt.rcParams[<span class="st">"figure.figsize"</span>] <span class="op">=</span> (<span class="dv">10</span>, <span class="dv">4</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>plt.rcParams[<span class="st">"axes.grid"</span>] <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>plt.rcParams[<span class="st">"grid.alpha"</span>] <span class="op">=</span> <span class="fl">0.3</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="por-qué-nos-importan-acf-y-pacf" class="level2" data-number="14.3">
+<h2 data-number="14.3" class="anchored" data-anchor-id="por-qué-nos-importan-acf-y-pacf"><span class="header-section-number">14.3</span> 1. ¿Por qué nos importan ACF y PACF?</h2>
+<p>Antes de la maquinaria, la pregunta honesta: <strong>¿para qué sirven?</strong> La respuesta corta es que la ACF (función de autocorrelación) y la PACF (autocorrelación parcial) son las <strong>dos gráficas diagnósticas más útiles</strong> que existen para series temporales. Resumen, en una imagen, <em>cómo</em> el pasado influye en el presente.</p>
+<p>Conviene entender esto antes de calcular nada porque condiciona casi todo lo que vendrá en el resto del curso.</p>
+<section id="porque-la-independencia-ya-no-se-cumple" class="level3" data-number="14.3.1">
+<h3 data-number="14.3.1" class="anchored" data-anchor-id="porque-la-independencia-ya-no-se-cumple"><span class="header-section-number">14.3.1</span> 1.1 Porque la independencia ya no se cumple</h3>
+<p>En estadística clásica casi todo asume <strong>observaciones independientes</strong>: los intervalos de confianza, los <span class="math inline">\(p\)</span>-valores de un <span class="math inline">\(t\)</span>-test. Con datos meteorológicos eso es falso de raíz: la temperatura a las 14:01 está casi determinada por la de las 14:00. La ACF nos dice <em>qué tan falsa</em> es la suposición — y por tanto si podemos usar herramientas clásicas o necesitamos versiones que respeten la dependencia temporal.</p>
+<blockquote class="blockquote">
+<p><strong>Consecuencia práctica.</strong> Aplicar un <span class="math inline">\(z\)</span>-score “ingenuo” a una serie con fuerte autocorrelación marcará como anómalo todo un día caluroso, no porque sea raro, sino porque consecutivamente está por encima de la media. La ACF avisa de esto antes de que el resultado nos engañe.</p>
+</blockquote>
+</section>
+<section id="porque-revelan-periodicidades-sin-tener-que-asumirlas" class="level3" data-number="14.3.2">
+<h3 data-number="14.3.2" class="anchored" data-anchor-id="porque-revelan-periodicidades-sin-tener-que-asumirlas"><span class="header-section-number">14.3.2</span> 1.2 Porque revelan periodicidades sin tener que asumirlas</h3>
+<p>Si no sabemos a priori cuál es el período natural de un fenómeno, la ACF lo descubre: aparece un pico en el rezago <span class="math inline">\(k\)</span> correspondiente al período. En meteorología sabemos que hay ciclo diario (1440 min, 24 h) y anual (365 d), pero la ACF nos lo <em>confirma</em> y, además, revela ciclos secundarios que tal vez no esperábamos.</p>
+</section>
+<section id="porque-son-la-firma-diagnóstica-de-los-modelos-arima" class="level3" data-number="14.3.3">
+<h3 data-number="14.3.3" class="anchored" data-anchor-id="porque-son-la-firma-diagnóstica-de-los-modelos-arima"><span class="header-section-number">14.3.3</span> 1.3 Porque son la firma diagnóstica de los modelos ARIMA</h3>
+<p>En el Bloque 5 ajustaremos ARIMA y SARIMA para imputar gaps. La metodología clásica (Box-Jenkins) es:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 62%">
+<col style="width: 37%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Si la ACF/PACF se ve así…</th>
+<th>…el modelo es</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ACF decae exponencial, PACF corta tras rezago <span class="math inline">\(p\)</span></td>
+<td><span class="math inline">\(\mathrm{AR}(p)\)</span></td>
+</tr>
+<tr class="even">
+<td>ACF corta tras rezago <span class="math inline">\(q\)</span>, PACF decae exponencial</td>
+<td><span class="math inline">\(\mathrm{MA}(q)\)</span></td>
+</tr>
+<tr class="odd">
+<td>Ambas decaen</td>
+<td><span class="math inline">\(\mathrm{ARMA}(p,q)\)</span></td>
+</tr>
+<tr class="even">
+<td>Picos en rezagos múltiplos de <span class="math inline">\(s\)</span></td>
+<td>componente estacional con período <span class="math inline">\(s\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Sin saber leer ACF/PACF, elegir órdenes <span class="math inline">\((p,d,q)\)</span> es adivinar.</p>
+</section>
+<section id="porque-validan-que-un-modelo-ya-capturó-todo" class="level3" data-number="14.3.4">
+<h3 data-number="14.3.4" class="anchored" data-anchor-id="porque-validan-que-un-modelo-ya-capturó-todo"><span class="header-section-number">14.3.4</span> 1.4 Porque validan que un modelo “ya capturó todo”</h3>
+<p>Después de ajustar cualquier modelo (regresión, descomposición, ARIMA), examinamos sus <strong>residuales</strong>. Si la ACF de los residuales muestra picos significativos, <strong>el modelo dejó estructura sin capturar</strong> y se puede mejorar. Es el <em>check-up</em> obligatorio.</p>
+</section>
+<section id="porque-informan-la-estacionariedad" class="level3" data-number="14.3.5">
+<h3 data-number="14.3.5" class="anchored" data-anchor-id="porque-informan-la-estacionariedad"><span class="header-section-number">14.3.5</span> 1.5 Porque informan la estacionariedad</h3>
+<p>Una ACF que decae <em>muy lentamente</em> (sigue alta en rezagos grandes) es síntoma de <strong>no estacionariedad</strong> — típicamente una tendencia o una raíz unitaria. Esto motiva diferenciar la serie antes de modelar. Lo veremos en la sesión 6 con las pruebas ADF y KPSS, pero la ACF ya da la pista visual gratis.</p>
+</section>
+<section id="porque-guían-la-imputación" class="level3" data-number="14.3.6">
+<h3 data-number="14.3.6" class="anchored" data-anchor-id="porque-guían-la-imputación"><span class="header-section-number">14.3.6</span> 1.6 Porque guían la imputación</h3>
+<p>Si dos observaciones consecutivas están fuertemente correlacionadas (ACF en lag 1 cercano a 1), un <em>forward fill</em> es una imputación razonable. Si no lo están, no. La ACF nos dice <strong>cuánta información</strong> carga cada vecino temporal sobre el dato faltante, y por tanto qué método de imputación tiene sentido.</p>
+<hr>
+<blockquote class="blockquote">
+<p><strong>Resumen.</strong> ACF/PACF son las gafas que nos ponemos para <strong>ver la estructura temporal</strong> que está oculta en una serie cruda. Sin ellas, modelamos a ciegas. Con ellas, las decisiones de descomposición, detección de anomalías e imputación dejan de ser folklore y se vuelven justificables.</p>
+</blockquote>
+</section>
+</section>
+<section id="autocorrelación-definición" class="level2" data-number="14.4">
+<h2 data-number="14.4" class="anchored" data-anchor-id="autocorrelación-definición"><span class="header-section-number">14.4</span> 2. Autocorrelación: definición</h2>
+<p>Para una serie estacionaria <span class="math inline">\(\{y_t\}\)</span> con media <span class="math inline">\(\mu\)</span> y varianza <span class="math inline">\(\sigma^2\)</span>, la <strong>autocovarianza</strong> en el rezago <span class="math inline">\(k\)</span> es:</p>
+<p><span class="math display">\[\gamma_k = \mathrm{Cov}(y_t, y_{t-k}) = \mathbb{E}\!\left[(y_t - \mu)(y_{t-k} - \mu)\right]\]</span></p>
+<p>Y la <strong>autocorrelación</strong> (ACF) es la versión normalizada:</p>
+<p><span class="math display">\[\rho_k = \frac{\gamma_k}{\gamma_0} = \frac{\mathrm{Cov}(y_t, y_{t-k})}{\mathrm{Var}(y_t)} \in [-1, 1]\]</span></p>
+<p>Lectura intuitiva:</p>
+<ul>
+<li><span class="math inline">\(\rho_k\)</span> cercano a <span class="math inline">\(+1\)</span> → cuando <span class="math inline">\(y_{t-k}\)</span> está por arriba de la media, <span class="math inline">\(y_t\)</span> tiende a estarlo también.</li>
+<li><span class="math inline">\(\rho_k\)</span> cercano a <span class="math inline">\(-1\)</span> → relación inversa (anti-persistencia).</li>
+<li><span class="math inline">\(\rho_k \approx 0\)</span> → el rezago <span class="math inline">\(k\)</span> no aporta información lineal sobre <span class="math inline">\(y_t\)</span>.</li>
+</ul>
+<section id="estimador-muestral" class="level3" data-number="14.4.1">
+<h3 data-number="14.4.1" class="anchored" data-anchor-id="estimador-muestral"><span class="header-section-number">14.4.1</span> Estimador muestral</h3>
+<p>Con <span class="math inline">\(N\)</span> observaciones:</p>
+<p><span class="math display">\[\hat{\rho}_k = \frac{\sum_{t=k+1}^{N} (y_t - \bar{y})(y_{t-k} - \bar{y})}{\sum_{t=1}^{N} (y_t - \bar{y})^2}\]</span></p>
+</section>
+<section id="bandas-de-confianza" class="level3" data-number="14.4.2">
+<h3 data-number="14.4.2" class="anchored" data-anchor-id="bandas-de-confianza"><span class="header-section-number">14.4.2</span> Bandas de confianza</h3>
+<p>Bajo la hipótesis nula de <strong>ruido blanco</strong>, <span class="math inline">\(\hat{\rho}_k\)</span> se distribuye aproximadamente normal con desviación estándar <span class="math inline">\(1/\sqrt{N}\)</span>. Por eso las bandas que <code>statsmodels</code> dibuja a <span class="math inline">\(\pm 1.96/\sqrt{N}\)</span> separan rezagos <em>significativos</em> (fuera de la banda) de los compatibles con ruido blanco (dentro).</p>
+</section>
+</section>
+<section id="tres-series-sintéticas-para-entrenar-el-ojo" class="level2" data-number="14.5">
+<h2 data-number="14.5" class="anchored" data-anchor-id="tres-series-sintéticas-para-entrenar-el-ojo"><span class="header-section-number">14.5</span> 3. Tres series sintéticas para entrenar el ojo</h2>
+<p>Vamos a fabricar tres procesos canónicos y mirar su ACF/PACF. Es la mejor manera de aprender a leerlas: viendo formas conocidas con etiqueta puesta.</p>
+<div id="a59f640a" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">500</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 3.1 Ruido blanco: y_t = ε_t</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>ruido <span class="op">=</span> np.random.normal(<span class="dv">0</span>, <span class="dv">1</span>, N)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 3.2 AR(1): y_t = 0.8 * y_{t-1} + ε_t  (memoria que decae)</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>phi <span class="op">=</span> <span class="fl">0.8</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>ar1 <span class="op">=</span> np.zeros(N)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> t <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, N):</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    ar1[t] <span class="op">=</span> phi <span class="op">*</span> ar1[t <span class="op">-</span> <span class="dv">1</span>] <span class="op">+</span> np.random.normal(<span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 3.3 MA(1): y_t = ε_t + 0.8 * ε_{t-1}  (memoria de un solo paso)</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>theta <span class="op">=</span> <span class="fl">0.8</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>eps <span class="op">=</span> np.random.normal(<span class="dv">0</span>, <span class="dv">1</span>, N <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>ma1 <span class="op">=</span> eps[<span class="dv">1</span>:] <span class="op">+</span> theta <span class="op">*</span> eps[:<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">3</span>, <span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">11</span>, <span class="dv">6</span>), sharex<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].plot(ruido, lw<span class="op">=</span><span class="fl">0.7</span>, color<span class="op">=</span><span class="st">"C7"</span>)<span class="op">;</span> axes[<span class="dv">0</span>].set_title(<span class="st">"Ruido blanco"</span>)</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].plot(ar1,   lw<span class="op">=</span><span class="fl">0.7</span>, color<span class="op">=</span><span class="st">"C0"</span>)<span class="op">;</span> axes[<span class="dv">1</span>].set_title(<span class="st">"AR(1) con $</span><span class="ch">\\</span><span class="st">phi=0.8$"</span>)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">2</span>].plot(ma1,   lw<span class="op">=</span><span class="fl">0.7</span>, color<span class="op">=</span><span class="st">"C3"</span>)<span class="op">;</span> axes[<span class="dv">2</span>].set_title(<span class="st">"MA(1) con $</span><span class="ch">\\</span><span class="st">theta=0.8$"</span>)</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="012_teoria_autocorrelacion_files/figure-html/cell-3-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="a-simple-vista" class="level3" data-number="14.5.1">
+<h3 data-number="14.5.1" class="anchored" data-anchor-id="a-simple-vista"><span class="header-section-number">14.5.1</span> A simple vista</h3>
+<ul>
+<li>El <strong>ruido blanco</strong> salta arriba y abajo sin memoria.</li>
+<li>El <strong>AR(1)</strong> muestra “rachas”: cuando sube, se queda arriba un rato. Eso es persistencia.</li>
+<li>El <strong>MA(1)</strong> se ve casi como ruido, pero con una suavización mínima.</li>
+</ul>
+<p>A simple vista cuesta distinguir AR(1) de MA(1). Aquí entran ACF y PACF.</p>
+<div id="b03db656" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> acf_pacf(series, title, lags<span class="op">=</span><span class="dv">100</span>):</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">11</span>, <span class="fl">3.2</span>))</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    plot_acf(series, lags<span class="op">=</span>lags, ax<span class="op">=</span>axes[<span class="dv">0</span>])<span class="op">;</span>  axes[<span class="dv">0</span>].set_title(<span class="ss">f"ACF — </span><span class="sc">{</span>title<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    plot_pacf(series, lags<span class="op">=</span>lags, ax<span class="op">=</span>axes[<span class="dv">1</span>], method<span class="op">=</span><span class="st">"ywm"</span>)<span class="op">;</span> axes[<span class="dv">1</span>].set_title(<span class="ss">f"PACF — </span><span class="sc">{</span>title<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    plt.tight_layout()<span class="op">;</span> plt.show()</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>acf_pacf(ruido, <span class="st">"ruido blanco"</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>acf_pacf(ar1,   <span class="st">"AR(1), $</span><span class="ch">\\</span><span class="st">phi=0.8$"</span>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>acf_pacf(ma1,   <span class="st">"MA(1), $</span><span class="ch">\\</span><span class="st">theta=0.8$"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="012_teoria_autocorrelacion_files/figure-html/cell-4-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="012_teoria_autocorrelacion_files/figure-html/cell-4-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="012_teoria_autocorrelacion_files/figure-html/cell-4-output-3.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="cómo-se-leen-las-bandas-sombreadas" class="level3" data-number="14.5.2">
+<h3 data-number="14.5.2" class="anchored" data-anchor-id="cómo-se-leen-las-bandas-sombreadas"><span class="header-section-number">14.5.2</span> Cómo se leen las bandas sombreadas</h3>
+<p>Las bandas son <strong>intervalos de confianza al 95 %</strong> bajo <span class="math inline">\(H_0\)</span>: “el coeficiente verdadero <span class="math inline">\(\rho_k\)</span> vale cero”. Su ancho sale del resultado asintótico de Bartlett: bajo ruido blanco,</p>
+<p><span class="math display">\[\hat{\rho}_k \sim \mathcal{N}\!\left(0,\ \tfrac{1}{N}\right) \;\Longrightarrow\; \text{banda} = \pm\,\frac{1.96}{\sqrt{N}}\]</span></p>
+<p>(El <span class="math inline">\(1.96\)</span> es el percentil 97.5 de la normal estándar; cubre el 95 % central.) Con <span class="math inline">\(N=500\)</span> esto da <span class="math inline">\(\pm 0.088\)</span>, que es justo el ancho que se ve en la ACF de ruido blanco y en las PACF de arriba.</p>
+<section id="por-qué-la-banda-de-la-acf-del-ar1-parece-una-trompeta" class="level4" data-number="14.5.2.1">
+<h4 data-number="14.5.2.1" class="anchored" data-anchor-id="por-qué-la-banda-de-la-acf-del-ar1-parece-una-trompeta"><span class="header-section-number">14.5.2.1</span> ¿Por qué la banda de la ACF del AR(1) parece una <em>trompeta</em>?</h4>
+<p>Porque <code>plot_acf</code> usa por defecto la <strong>fórmula de Bartlett completa</strong>, que reconoce que si los rezagos pequeños tienen correlación, los rezagos grandes “heredan” varianza:</p>
+<p><span class="math display">\[\widehat{\mathrm{Var}}(\hat{\rho}_k) \approx \frac{1}{N}\left(1 + 2\sum_{i=1}^{k-1}\hat{\rho}_i^2\right)\]</span></p>
+<p>La banda <strong>arranca delgada en <span class="math inline">\(k=1\)</span> y se ensancha</strong> conforme se acumula correlación previa. <code>plot_pacf</code> no hace esto y deja la banda rectangular.</p>
+</section>
+<section id="qué-significa-que-un-punto-caiga-dentro-de-la-banda" class="level4" data-number="14.5.2.2">
+<h4 data-number="14.5.2.2" class="anchored" data-anchor-id="qué-significa-que-un-punto-caiga-dentro-de-la-banda"><span class="header-section-number">14.5.2.2</span> Qué significa que un punto caiga <em>dentro</em> de la banda</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Posición del punto</th>
+<th>Decisión</th>
+<th>Lectura</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Dentro</strong></td>
+<td>No rechazas <span class="math inline">\(H_0\)</span></td>
+<td>“Compatible con cero. No hay evidencia de correlación en este rezago.”</td>
+</tr>
+<tr class="even">
+<td><strong>Fuera</strong></td>
+<td>Rechazas <span class="math inline">\(H_0\)</span></td>
+<td>“Demasiado lejos de cero para ser azar. Hay correlación significativa.”</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="blockquote">
+<p><strong>“Dentro de la banda” no significa “<span class="math inline">\(\rho_k\)</span> es exactamente cero”.</strong> Significa que con los <span class="math inline">\(N\)</span> datos que tienes no puedes <em>distinguirlo</em> de cero. Con más datos la banda se encogería y un valor pequeño que hoy queda dentro mañana podría salir afuera.</p>
+</blockquote>
+</section>
+<section id="tres-trampas-comunes" class="level4" data-number="14.5.2.3">
+<h4 data-number="14.5.2.3" class="anchored" data-anchor-id="tres-trampas-comunes"><span class="header-section-number">14.5.2.3</span> Tres trampas comunes</h4>
+<ol type="1">
+<li><strong>Falsos positivos esperados.</strong> Con bandas al 95 %, el 5 % de los rezagos saldrá fuera <em>aunque la serie sea ruido blanco puro</em>. Mirando 30 rezagos, 1 o 2 puntos afuera es lo normal.</li>
+<li><strong>Sólo capturan dependencia lineal.</strong> <span class="math inline">\(\hat{\rho}_k = 0\)</span> no descarta relaciones no lineales entre <span class="math inline">\(y_t\)</span> y <span class="math inline">\(y_{t-k}\)</span>.</li>
+<li><strong>Lo que importa es el patrón, no el punto suelto.</strong> Un pico aislado en el lag 17 sin justificación física probablemente sea ruido; un pico en el lag 24 sobre datos horarios es el ciclo diario gritándote.</li>
+</ol>
+</section>
+<section id="lectura-concreta-de-las-gráficas-de-arriba" class="level4" data-number="14.5.2.4">
+<h4 data-number="14.5.2.4" class="anchored" data-anchor-id="lectura-concreta-de-las-gráficas-de-arriba"><span class="header-section-number">14.5.2.4</span> Lectura concreta de las gráficas de arriba</h4>
+<ul>
+<li><strong>ACF y PACF de ruido blanco</strong> — todos los puntos con <span class="math inline">\(k\geq 1\)</span> caen dentro: silencio estadístico, justo lo esperado.</li>
+<li><strong>ACF del AR(1)</strong> — los primeros ~10 lags están claramente fuera → autocorrelación real que decae geométricamente. A partir del lag ~15 los puntos <em>entran</em> a la banda: la correlación verdadera sigue ahí (vale <span class="math inline">\(0.8^{15} \approx 0.035\)</span>), pero ya es tan pequeña como el ruido muestral.</li>
+<li><strong>PACF del AR(1)</strong> — sólo el lag 1 está fuera. Lectura textbook: “después de descontar <span class="math inline">\(y_{t-1}\)</span>, no queda correlación parcial”. Eso es <strong>la firma</strong> de un AR(1).</li>
+</ul>
+</section>
+<section id="cómo-modificarlas-en-statsmodels" class="level4" data-number="14.5.2.5">
+<h4 data-number="14.5.2.5" class="anchored" data-anchor-id="cómo-modificarlas-en-statsmodels"><span class="header-section-number">14.5.2.5</span> Cómo modificarlas en <code>statsmodels</code></h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>plot_acf(serie, lags<span class="op">=</span><span class="dv">30</span>, alpha<span class="op">=</span><span class="fl">0.05</span>)                          <span class="co"># default: banda Bartlett</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>plot_acf(serie, lags<span class="op">=</span><span class="dv">30</span>, alpha<span class="op">=</span><span class="fl">0.05</span>, bartlett_confint<span class="op">=</span><span class="va">False</span>)  <span class="co"># banda fija ±1.96/√N</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>plot_acf(serie, lags<span class="op">=</span><span class="dv">30</span>, alpha<span class="op">=</span><span class="fl">0.01</span>)                          <span class="co"># banda al 99 % (más ancha)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<blockquote class="blockquote">
+<p><strong>Regla del oficio.</strong> Dentro de la banda = silencio estadístico, no hay nada que reportar en ese rezago. Fuera de la banda = señal — pero pregúntate si es un patrón coherente o un pico suelto antes de celebrar.</p>
+</blockquote>
+</section>
+</section>
+<section id="lo-que-enseña-la-firma" class="level3" data-number="14.5.3">
+<h3 data-number="14.5.3" class="anchored" data-anchor-id="lo-que-enseña-la-firma"><span class="header-section-number">14.5.3</span> Lo que enseña la firma</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Proceso</th>
+<th>ACF</th>
+<th>PACF</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Ruido blanco</td>
+<td>Todo dentro de las bandas</td>
+<td>Todo dentro de las bandas</td>
+</tr>
+<tr class="even">
+<td>AR(1)</td>
+<td>Decae <strong>exponencialmente</strong></td>
+<td><strong>Corta</strong> después del rezago 1</td>
+</tr>
+<tr class="odd">
+<td>MA(1)</td>
+<td><strong>Corta</strong> después del rezago 1</td>
+<td>Decae exponencialmente</td>
+</tr>
+</tbody>
+</table>
+<p>Generalización (Box-Jenkins):</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Proceso</th>
+<th>ACF</th>
+<th>PACF</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>AR(<span class="math inline">\(p\)</span>)</td>
+<td>decae</td>
+<td>corta tras rezago <span class="math inline">\(p\)</span></td>
+</tr>
+<tr class="even">
+<td>MA(<span class="math inline">\(q\)</span>)</td>
+<td>corta tras rezago <span class="math inline">\(q\)</span></td>
+<td>decae</td>
+</tr>
+<tr class="odd">
+<td>ARMA(<span class="math inline">\(p,q\)</span>)</td>
+<td>decae</td>
+<td>decae</td>
+</tr>
+</tbody>
+</table>
+<p>Esta tabla es la base para elegir órdenes <span class="math inline">\((p,q)\)</span> en el Bloque 5.</p>
+</section>
+</section>
+<section id="pacf-por-qué-necesitamos-otra-gráfica" class="level2" data-number="14.6">
+<h2 data-number="14.6" class="anchored" data-anchor-id="pacf-por-qué-necesitamos-otra-gráfica"><span class="header-section-number">14.6</span> 4. PACF: ¿por qué necesitamos <em>otra</em> gráfica?</h2>
+<p>La ACF en el rezago <span class="math inline">\(k\)</span> contiene contribuciones de <em>todos</em> los rezagos intermedios. En un AR(1) la correlación entre <span class="math inline">\(y_t\)</span> y <span class="math inline">\(y_{t-2}\)</span> no es cero — pero <strong>toda</strong> esa correlación pasa por <span class="math inline">\(y_{t-1}\)</span>, no es información nueva.</p>
+<p>La <strong>PACF</strong> (autocorrelación parcial) en el rezago <span class="math inline">\(k\)</span> es la correlación entre <span class="math inline">\(y_t\)</span> y <span class="math inline">\(y_{t-k}\)</span> <strong>después de remover</strong> el efecto de <span class="math inline">\(y_{t-1}, \dots, y_{t-k+1}\)</span>:</p>
+<p><span class="math display">\[\phi_{kk} = \mathrm{Corr}(y_t, y_{t-k} \mid y_{t-1}, \dots, y_{t-k+1})\]</span></p>
+<p>Operativamente: para cada <span class="math inline">\(k\)</span>, ajusta una regresión</p>
+<p><span class="math display">\[y_t = \phi_{k1} y_{t-1} + \phi_{k2} y_{t-2} + \dots + \phi_{kk} y_{t-k} + \varepsilon_t\]</span></p>
+<p>y reporta <span class="math inline">\(\phi_{kk}\)</span>, el último coeficiente.</p>
+<blockquote class="blockquote">
+<p><strong>Mnemónico.</strong> ACF mide correlación <em>cruda</em> entre <span class="math inline">\(y_t\)</span> y <span class="math inline">\(y_{t-k}\)</span>; PACF mide correlación <em>neta</em>, descontando los pasos intermedios.</p>
+</blockquote>
+</section>
+<section id="cuando-hay-estacionalidad" class="level2" data-number="14.7">
+<h2 data-number="14.7" class="anchored" data-anchor-id="cuando-hay-estacionalidad"><span class="header-section-number">14.7</span> 5. Cuando hay estacionalidad</h2>
+<p>Las series meteorológicas tienen ciclo diario y anual. ¿Cómo se ve eso en la ACF?</p>
+<div id="b3ba3af0" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Serie sintética con estacionalidad diaria (período 24 si fuera horaria)</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">24</span> <span class="op">*</span> <span class="dv">60</span>   <span class="co"># 60 días de datos horarios</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> np.arange(n)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>season <span class="op">=</span> <span class="dv">5</span> <span class="op">*</span> np.sin(<span class="dv">2</span> <span class="op">*</span> np.pi <span class="op">*</span> t <span class="op">/</span> <span class="dv">24</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>trend  <span class="op">=</span> <span class="fl">0.01</span> <span class="op">*</span> t</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>noise  <span class="op">=</span> np.random.normal(<span class="dv">0</span>, <span class="fl">0.5</span>, n)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>y_seasonal <span class="op">=</span> trend <span class="op">+</span> season <span class="op">+</span> noise</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">11</span>, <span class="dv">3</span>))</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>ax.plot(t[:<span class="dv">24</span><span class="op">*</span><span class="dv">7</span>], y_seasonal[:<span class="dv">24</span><span class="op">*</span><span class="dv">7</span>], lw<span class="op">=</span><span class="fl">0.8</span>, color<span class="op">=</span><span class="st">"C2"</span>)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Serie sintética con tendencia + estacionalidad diaria (1ª semana)"</span>)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Hora"</span>)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span> plt.show()</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>acf_pacf(y_seasonal, <span class="st">"tendencia + estacional diaria"</span>, lags<span class="op">=</span><span class="dv">72</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="012_teoria_autocorrelacion_files/figure-html/cell-5-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="012_teoria_autocorrelacion_files/figure-html/cell-5-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="lo-que-vemos" class="level3" data-number="14.7.1">
+<h3 data-number="14.7.1" class="anchored" data-anchor-id="lo-que-vemos"><span class="header-section-number">14.7.1</span> Lo que vemos</h3>
+<ul>
+<li><strong>Picos periódicos en la ACF cada 24 rezagos.</strong> Esa es la firma del ciclo diario.</li>
+<li><strong>La ACF no decae a cero</strong>, oscila. Eso suele ser síntoma de <strong>no estacionariedad</strong> (la tendencia hace que correlaciones lejanas no se desvanezcan).</li>
+<li>La <strong>PACF</strong> muestra picos en los primeros rezagos y luego se complica.</li>
+</ul>
+<blockquote class="blockquote">
+<p><strong>Regla de bolsillo.</strong> Si tu serie tiene estacionalidad, <strong>la ACF te lo grita</strong>: aparecerán picos en los múltiplos del período. Esa es la base de la “detección de periodicidades” del laboratorio.</p>
+</blockquote>
+</section>
+</section>
+<section id="estacionariedad-intuitiva" class="level2" data-number="14.8">
+<h2 data-number="14.8" class="anchored" data-anchor-id="estacionariedad-intuitiva"><span class="header-section-number">14.8</span> 6. Estacionariedad (intuitiva)</h2>
+<p>Un proceso es <strong>(débilmente) estacionario</strong> si:</p>
+<ol type="1">
+<li>La media <span class="math inline">\(\mathbb{E}[y_t]\)</span> no depende de <span class="math inline">\(t\)</span>.</li>
+<li>La varianza <span class="math inline">\(\mathrm{Var}(y_t)\)</span> no depende de <span class="math inline">\(t\)</span>.</li>
+<li>La autocovarianza <span class="math inline">\(\gamma_k = \mathrm{Cov}(y_t, y_{t-k})\)</span> depende sólo de <span class="math inline">\(k\)</span>, no de <span class="math inline">\(t\)</span>.</li>
+</ol>
+<p>En cristiano: <strong>las propiedades estadísticas no cambian con el tiempo</strong>.</p>
+<section id="por-qué-importa" class="level3" data-number="14.8.1">
+<h3 data-number="14.8.1" class="anchored" data-anchor-id="por-qué-importa"><span class="header-section-number">14.8.1</span> ¿Por qué importa?</h3>
+<p>Casi todos los modelos clásicos (ARIMA, SARIMA, regresión sobre rezagos) <strong>asumen estacionariedad</strong>. Si la serie tiene tendencia o cambia de varianza, el modelo se equivoca.</p>
+</section>
+<section id="cómo-se-detecta-a-ojo-en-la-acf" class="level3" data-number="14.8.2">
+<h3 data-number="14.8.2" class="anchored" data-anchor-id="cómo-se-detecta-a-ojo-en-la-acf"><span class="header-section-number">14.8.2</span> ¿Cómo se detecta a ojo en la ACF?</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 45%">
+<col style="width: 55%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Patrón en la ACF</th>
+<th>Probable diagnóstico</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Decae rápido a cero (en pocos rezagos)</td>
+<td>Estacionaria</td>
+</tr>
+<tr class="even">
+<td>Decae <strong>muy</strong> lentamente, casi lineal</td>
+<td>Tendencia / raíz unitaria → diferenciar</td>
+</tr>
+<tr class="odd">
+<td>Picos periódicos sin decaer</td>
+<td>Estacionalidad → diferenciación estacional</td>
+</tr>
+</tbody>
+</table>
+<p>En la sesión 6 formalizaremos esto con las pruebas <strong>ADF</strong> y <strong>KPSS</strong>. Por ahora basta con la pista visual.</p>
+<div id="501ec72e" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Serie con tendencia (no estacionaria)</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>y_trend <span class="op">=</span> np.cumsum(np.random.normal(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">500</span>))   <span class="co"># paseo aleatorio</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">11</span>, <span class="dv">3</span>))</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].plot(y_trend, lw<span class="op">=</span><span class="fl">0.8</span>, color<span class="op">=</span><span class="st">"C5"</span>)<span class="op">;</span> axes[<span class="dv">0</span>].set_title(<span class="st">"Paseo aleatorio (no estacionario)"</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>plot_acf(y_trend, lags<span class="op">=</span><span class="dv">40</span>, ax<span class="op">=</span>axes[<span class="dv">1</span>])<span class="op">;</span> axes[<span class="dv">1</span>].set_title(<span class="st">"ACF — decae muy lento"</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span> plt.show()</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Después de diferenciar</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>y_diff <span class="op">=</span> np.diff(y_trend)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">11</span>, <span class="dv">3</span>))</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].plot(y_diff, lw<span class="op">=</span><span class="fl">0.8</span>, color<span class="op">=</span><span class="st">"C0"</span>)<span class="op">;</span> axes[<span class="dv">0</span>].set_title(<span class="st">"Serie diferenciada"</span>)</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>plot_acf(y_diff, lags<span class="op">=</span><span class="dv">40</span>, ax<span class="op">=</span>axes[<span class="dv">1</span>])<span class="op">;</span> axes[<span class="dv">1</span>].set_title(<span class="st">"ACF — ahora ruido blanco"</span>)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="012_teoria_autocorrelacion_files/figure-html/cell-6-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="012_teoria_autocorrelacion_files/figure-html/cell-6-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Mensaje.</strong> Diferenciar (<code>y.diff()</code> en pandas) convierte un paseo aleatorio en ruido blanco. Esa es la “<span class="math inline">\(d\)</span>” de ARIMA(<span class="math inline">\(p,d,q\)</span>): cuántas veces hay que diferenciar para alcanzar estacionariedad.</p>
+</section>
+</section>
+<section id="gaps-y-control-de-calidad" class="level2" data-number="14.9">
+<h2 data-number="14.9" class="anchored" data-anchor-id="gaps-y-control-de-calidad"><span class="header-section-number">14.9</span> 7. Gaps y control de calidad</h2>
+<p>Antes de calcular cualquier ACF sobre datos reales hay tres trampas que conviene desactivar.</p>
+<section id="gaps-temporales" class="level3" data-number="14.9.1">
+<h3 data-number="14.9.1" class="anchored" data-anchor-id="gaps-temporales"><span class="header-section-number">14.9.1</span> 7.1 Gaps temporales</h3>
+<p>Un <em>gap</em> es un hueco en el muestreo: faltó un dato, faltaron diez, o faltó una semana. Hay dos formas de “faltar”:</p>
+<ul>
+<li><strong>Faltar como <code>NaN</code></strong> (la fila existe en el índice, el valor es <code>NaN</code>). Detectable con <code>df.isna()</code>.</li>
+<li><strong>Faltar de plano</strong> (la fila no existe; el índice salta del minuto 14:00 al 14:05). <strong>Mucho más insidioso</strong>, porque pandas no avisa.</li>
+</ul>
+<p>Para detectar el segundo tipo, comparamos el índice real con uno completo:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>esperado <span class="op">=</span> pd.date_range(df.index.<span class="bu">min</span>(), df.index.<span class="bu">max</span>(), freq<span class="op">=</span><span class="st">"1min"</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>faltantes <span class="op">=</span> esperado.difference(df.index)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>O calculamos <code>df.index.to_series().diff()</code> y miramos los valores distintos al paso esperado.</p>
+</section>
+<section id="por-qué-los-gaps-rompen-la-acf" class="level3" data-number="14.9.2">
+<h3 data-number="14.9.2" class="anchored" data-anchor-id="por-qué-los-gaps-rompen-la-acf"><span class="header-section-number">14.9.2</span> 7.2 Por qué los gaps rompen la ACF</h3>
+<p>La fórmula muestral de <span class="math inline">\(\hat{\rho}_k\)</span> asume que entre <span class="math inline">\(y_t\)</span> y <span class="math inline">\(y_{t-k}\)</span> realmente hay <span class="math inline">\(k\)</span> pasos de tiempo. Si el índice tiene un hueco, esto deja de ser cierto: el rezago “1” puede ser de 1 minuto en algunos puntos y de 1 hora en otros. <strong>El cálculo se contamina silenciosamente.</strong></p>
+<p><code>statsmodels</code> típicamente requiere que la serie sea continua y <code>acf</code> lanza error con <code>NaN</code>. Hay que <strong>decidir</strong> una política: rellenar los gaps cortos, descartar los tramos largos, o trabajar dentro de bloques continuos.</p>
+</section>
+<section id="control-de-calidad-básico" class="level3" data-number="14.9.3">
+<h3 data-number="14.9.3" class="anchored" data-anchor-id="control-de-calidad-básico"><span class="header-section-number">14.9.3</span> 7.3 Control de calidad básico</h3>
+<p>Antes de cualquier análisis temporal, las cuatro revisiones mínimas:</p>
+<ol type="1">
+<li><strong>Rangos físicos.</strong> ¿La temperatura está entre <span class="math inline">\(-50\)</span> y <span class="math inline">\(60\)</span> °C? ¿La humedad entre 0 y 100 %? ¿La presión cerca de la media local? Cualquier valor fuera es <strong>basura</strong>, no anomalía.</li>
+<li><strong>Saturación de sensor.</strong> Largos tramos con el mismo valor exacto (digamos, 50 minutos seguidos a 25.00 °C clavados) suelen indicar que el sensor se quedó pegado.</li>
+<li><strong>Continuidad del índice.</strong> Que no haya gaps inesperados, ni timestamps duplicados.</li>
+<li><strong>Zona horaria.</strong> ¿UTC, hora local? ¿Aplica horario de verano? Sin esto, el “ciclo diario” puede salir mal centrado.</li>
+</ol>
+<blockquote class="blockquote">
+<p><strong>Regla del oficio.</strong> Antes de ACF/PACF, antes de descomponer, antes de cualquier modelo: <strong>mira la serie</strong>. Una gráfica cruda detecta el 90 % de los problemas que un análisis automático ocultaría.</p>
+</blockquote>
+</section>
+</section>
+<section id="manejo-temporal-con-pandas" class="level2" data-number="14.10">
+<h2 data-number="14.10" class="anchored" data-anchor-id="manejo-temporal-con-pandas"><span class="header-section-number">14.10</span> 8. Manejo temporal con pandas</h2>
+<p>Una rapidísima referencia de las operaciones que usaremos en el laboratorio.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 57%">
+<col style="width: 42%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Operación</th>
+<th>Código</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Asegurar índice datetime</td>
+<td><code>df.index = pd.to_datetime(df.index)</code></td>
+</tr>
+<tr class="even">
+<td>Asignar zona horaria</td>
+<td><code>df.tz_localize("America/Mexico_City")</code></td>
+</tr>
+<tr class="odd">
+<td>Convertir entre zonas</td>
+<td><code>df.tz_convert("UTC")</code></td>
+</tr>
+<tr class="even">
+<td>Rango esperado</td>
+<td><code>pd.date_range(inicio, fin, freq="1min")</code></td>
+</tr>
+<tr class="odd">
+<td>Resamplear a otra escala</td>
+<td><code>df.resample("1h").mean()</code></td>
+</tr>
+<tr class="even">
+<td>Diferencia entre timestamps consecutivos</td>
+<td><code>df.index.to_series().diff()</code></td>
+</tr>
+<tr class="odd">
+<td>Detectar duplicados de tiempo</td>
+<td><code>df.index.duplicated()</code></td>
+</tr>
+</tbody>
+</table>
+<blockquote class="blockquote">
+<p><strong>Una nota sobre zonas horarias.</strong> Si el cálculo del ciclo diario sale “torcido” (máximo a las 9 AM en lugar de 14:00, por ejemplo), casi siempre es porque los datos están en UTC y los estás tratando como locales (o viceversa). Es el bug número 1 en análisis meteorológico.</p>
+</blockquote>
+</section>
+<section id="síntesis" class="level2" data-number="14.11">
+<h2 data-number="14.11" class="anchored" data-anchor-id="síntesis"><span class="header-section-number">14.11</span> 9. Síntesis</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Concepto</th>
+<th>Para qué sirve</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ACF</td>
+<td>Ver la dependencia <em>cruda</em> en cada rezago</td>
+</tr>
+<tr class="even">
+<td>PACF</td>
+<td>Ver la dependencia <em>neta</em>, descontando intermedios</td>
+</tr>
+<tr class="odd">
+<td>Bandas <span class="math inline">\(\pm 1.96/\sqrt{N}\)</span></td>
+<td>Significancia bajo H₀ de ruido blanco</td>
+</tr>
+<tr class="even">
+<td>ACF que decae lento</td>
+<td>Sospechar no estacionariedad</td>
+</tr>
+<tr class="odd">
+<td>Picos cada <span class="math inline">\(s\)</span> rezagos</td>
+<td>Estacionalidad de período <span class="math inline">\(s\)</span></td>
+</tr>
+<tr class="even">
+<td>Diferenciación</td>
+<td>Receta para forzar estacionariedad</td>
+</tr>
+<tr class="odd">
+<td>Gaps</td>
+<td>Detectar antes de modelar; rompen ACF</td>
+</tr>
+</tbody>
+</table>
+<section id="preguntas-para-reflexionar-antes-del-laboratorio" class="level3" data-number="14.11.1">
+<h3 data-number="14.11.1" class="anchored" data-anchor-id="preguntas-para-reflexionar-antes-del-laboratorio"><span class="header-section-number">14.11.1</span> Preguntas para reflexionar antes del laboratorio</h3>
+<ol type="1">
+<li>Si tomamos la temperatura horaria de Temixco, ¿en qué rezago esperarías el primer pico estacional de la ACF?</li>
+<li>¿Por qué la PACF de un proceso AR(1) tiene <strong>un solo</strong> pico significativo y no dos?</li>
+<li>Si la ACF de los residuales de tu modelo STL muestra picos cada 24 rezagos a resolución horaria, ¿qué te está diciendo eso del modelo?</li>
+<li>Una estación reporta <code>tdb = -999</code> en algunos minutos. ¿Es un dato faltante, un outlier o un gap? ¿Cómo lo manejarías?</li>
+</ol>
+</section>
+<section id="lectura-recomendada-opcional" class="level3" data-number="14.11.2">
+<h3 data-number="14.11.2" class="anchored" data-anchor-id="lectura-recomendada-opcional"><span class="header-section-number">14.11.2</span> Lectura recomendada (opcional)</h3>
+<ul>
+<li>Hyndman &amp; Athanasopoulos, <em>Forecasting: Principles and Practice</em> (3a ed.), capítulo 2.8 (Autocorrelación) y 9.1–9.5 (ARIMA). https://otexts.com/fpp3/</li>
+<li>Box, G. E. P., Jenkins, G. M., Reinsel, G. C., &amp; Ljung, G. M. (2015). <em>Time Series Analysis: Forecasting and Control</em> (5a ed.), capítulos 2–3.</li>
+</ul>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../notebooks/011_laboratorio_climalab.html" class="pagination-link" aria-label="Sesión 1 · Laboratorio">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Sesión 1 · Laboratorio</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../notebooks/013_laboratorio_autocorrelacion.html" class="pagination-link" aria-label="Sesión 2 · Laboratorio">
+        <span class="nav-page-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Sesión 2 · Laboratorio</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

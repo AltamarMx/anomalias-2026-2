@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>12&nbsp; Sesión 1 · Teoría – Anomalías 2026-2</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../notebooks/011_laboratorio_climalab.html" rel="next">
+<link href="../notebooks/009_PruebasHipotesis.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-5ccb035bea26c1e21f80f44cf7c27909.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notebooks/001_birthday_problem.html">Clases</a></li><li class="breadcrumb-item"><a href="../notebooks/010_teoria_componentes_y_descomposicion.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Sesión 1 · Teoría</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Anomalías 2026-2</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prefacio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../libro/intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introducción</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Clases</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/001_birthday_problem.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">El problema del cumpleaños</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/002_triangulo_pascal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">002_triangulo_pascal.html</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/003_sampling_distribution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">003_sampling_distribution.html</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/004_Central_limit_teorem.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">004_Central_limit_teorem.html</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/005_DistribucionNormal_Seleccion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">005_DistribucionNormal_Seleccion.html</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/006_experimentos_nueve.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">006_experimentos_nueve.html</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/007_muestreo_teoria.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Semana 4A — Muestreo y Estimación (Teoría)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/008a_muestreo_lab.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Semana 4B — Muestreo y Estimación (Laboratorio)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/008b_muestreo_lab.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">1. Cargar y conocer la población</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/009_PruebasHipotesis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title"><code>stats.t.ppf(1 - alpha/2, gl)</code></span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/010_teoria_componentes_y_descomposicion.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Sesión 1 · Teoría</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/011_laboratorio_climalab.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Sesión 1 · Laboratorio</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/012_teoria_autocorrelacion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Sesión 2 · Teoría</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/013_laboratorio_autocorrelacion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Sesión 2 · Laboratorio</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#componentes-y-descomposición-de-series-temporales" id="toc-componentes-y-descomposición-de-series-temporales" class="nav-link active" data-scroll-target="#componentes-y-descomposición-de-series-temporales"><span class="header-section-number">12.1</span> Componentes y descomposición de series temporales</a>
+  <ul class="collapse">
+  <li><a href="#objetivos-de-aprendizaje" id="toc-objetivos-de-aprendizaje" class="nav-link" data-scroll-target="#objetivos-de-aprendizaje"><span class="header-section-number">12.1.1</span> Objetivos de aprendizaje</a></li>
+  </ul></li>
+  <li><a href="#importante" id="toc-importante" class="nav-link" data-scroll-target="#importante"><span class="header-section-number">12.2</span> Importante</a></li>
+  <li><a href="#qué-es-una-serie-temporal" id="toc-qué-es-una-serie-temporal" class="nav-link" data-scroll-target="#qué-es-una-serie-temporal"><span class="header-section-number">12.3</span> 1. ¿Qué es una serie temporal?</a>
+  <ul class="collapse">
+  <li><a href="#frecuencia-de-muestreo" id="toc-frecuencia-de-muestreo" class="nav-link" data-scroll-target="#frecuencia-de-muestreo"><span class="header-section-number">12.3.1</span> Frecuencia de muestreo</a></li>
+  </ul></li>
+  <li><a href="#los-cuatro-componentes-de-una-serie-temporal" id="toc-los-cuatro-componentes-de-una-serie-temporal" class="nav-link" data-scroll-target="#los-cuatro-componentes-de-una-serie-temporal"><span class="header-section-number">12.4</span> 2. Los cuatro componentes de una serie temporal</a>
+  <ul class="collapse">
+  <li><a href="#tendencia-t_t" id="toc-tendencia-t_t" class="nav-link" data-scroll-target="#tendencia-t_t"><span class="header-section-number">12.4.1</span> 2.1 Tendencia <span class="math inline">\(T_t\)</span></a></li>
+  <li><a href="#estacionalidad-s_t" id="toc-estacionalidad-s_t" class="nav-link" data-scroll-target="#estacionalidad-s_t"><span class="header-section-number">12.4.2</span> 2.2 Estacionalidad <span class="math inline">\(S_t\)</span></a></li>
+  <li><a href="#ciclo-c_t" id="toc-ciclo-c_t" class="nav-link" data-scroll-target="#ciclo-c_t"><span class="header-section-number">12.4.3</span> 2.3 Ciclo <span class="math inline">\(C_t\)</span></a></li>
+  <li><a href="#ruido-residual-r_t" id="toc-ruido-residual-r_t" class="nav-link" data-scroll-target="#ruido-residual-r_t"><span class="header-section-number">12.4.4</span> 2.4 Ruido / residual <span class="math inline">\(R_t\)</span></a></li>
+  <li><a href="#suma-de-los-componentes" id="toc-suma-de-los-componentes" class="nav-link" data-scroll-target="#suma-de-los-componentes"><span class="header-section-number">12.4.5</span> 2.5 Suma de los componentes</a></li>
+  </ul></li>
+  <li><a href="#aditivo-vs.-multiplicativo" id="toc-aditivo-vs.-multiplicativo" class="nav-link" data-scroll-target="#aditivo-vs.-multiplicativo"><span class="header-section-number">12.5</span> 3. Aditivo vs.&nbsp;multiplicativo</a>
+  <ul class="collapse">
+  <li><a href="#cómo-decidir" id="toc-cómo-decidir" class="nav-link" data-scroll-target="#cómo-decidir"><span class="header-section-number">12.5.1</span> Cómo decidir</a></li>
+  <li><a href="#heurística-de-bolsillo" id="toc-heurística-de-bolsillo" class="nav-link" data-scroll-target="#heurística-de-bolsillo"><span class="header-section-number">12.5.2</span> Heurística de bolsillo</a></li>
+  </ul></li>
+  <li><a href="#descomposición-clásica" id="toc-descomposición-clásica" class="nav-link" data-scroll-target="#descomposición-clásica"><span class="header-section-number">12.6</span> 4. Descomposición clásica</a>
+  <ul class="collapse">
+  <li><a href="#algoritmo-modelo-aditivo-período-m" id="toc-algoritmo-modelo-aditivo-período-m" class="nav-link" data-scroll-target="#algoritmo-modelo-aditivo-período-m"><span class="header-section-number">12.6.1</span> Algoritmo (modelo aditivo, período <span class="math inline">\(m\)</span>)</a></li>
+  <li><a href="#limitaciones-del-método-clásico" id="toc-limitaciones-del-método-clásico" class="nav-link" data-scroll-target="#limitaciones-del-método-clásico"><span class="header-section-number">12.6.2</span> Limitaciones del método clásico</a></li>
+  </ul></li>
+  <li><a href="#stl-seasonal-trend-decomposition-using-loess" id="toc-stl-seasonal-trend-decomposition-using-loess" class="nav-link" data-scroll-target="#stl-seasonal-trend-decomposition-using-loess"><span class="header-section-number">12.7</span> 5. STL: Seasonal-Trend decomposition using LOESS</a>
+  <ul class="collapse">
+  <li><a href="#idea-central" id="toc-idea-central" class="nav-link" data-scroll-target="#idea-central"><span class="header-section-number">12.7.1</span> Idea central</a></li>
+  <li><a href="#parámetros-principales" id="toc-parámetros-principales" class="nav-link" data-scroll-target="#parámetros-principales"><span class="header-section-number">12.7.2</span> Parámetros principales</a></li>
+  <li><a href="#comparación-rápida" id="toc-comparación-rápida" class="nav-link" data-scroll-target="#comparación-rápida"><span class="header-section-number">12.7.3</span> Comparación rápida</a></li>
+  <li><a href="#preguntas-para-reflexionar-antes-del-laboratorio" id="toc-preguntas-para-reflexionar-antes-del-laboratorio" class="nav-link" data-scroll-target="#preguntas-para-reflexionar-antes-del-laboratorio"><span class="header-section-number">12.7.4</span> Preguntas para reflexionar antes del laboratorio</a></li>
+  <li><a href="#lectura-recomendada-opcional" id="toc-lectura-recomendada-opcional" class="nav-link" data-scroll-target="#lectura-recomendada-opcional"><span class="header-section-number">12.7.5</span> Lectura recomendada (opcional)</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notebooks/001_birthday_problem.html">Clases</a></li><li class="breadcrumb-item"><a href="../notebooks/010_teoria_componentes_y_descomposicion.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Sesión 1 · Teoría</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Sesión 1 · Teoría</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="componentes-y-descomposición-de-series-temporales" class="level2" data-number="12.1">
+<h2 data-number="12.1" class="anchored" data-anchor-id="componentes-y-descomposición-de-series-temporales"><span class="header-section-number">12.1</span> Componentes y descomposición de series temporales</h2>
+<p><strong>Estadística, Detección de Anomalías e Imputación de Series Temporales</strong> Posgrado en Ingeniería · Área Energía · IER-UNAM</p>
+<hr>
+<section id="objetivos-de-aprendizaje" class="level3" data-number="12.1.1">
+<h3 data-number="12.1.1" class="anchored" data-anchor-id="objetivos-de-aprendizaje"><span class="header-section-number">12.1.1</span> Objetivos de aprendizaje</h3>
+<p>Al terminar esta sesión, el estudiante será capaz de:</p>
+<ol type="1">
+<li>Definir formalmente una serie temporal y enunciar sus componentes.</li>
+<li>Distinguir entre <strong>tendencia</strong>, <strong>estacionalidad</strong>, <strong>ciclo</strong> y <strong>ruido</strong>.</li>
+<li>Decidir cuándo conviene un modelo <strong>aditivo</strong> y cuándo uno <strong>multiplicativo</strong>.</li>
+<li>Explicar la diferencia conceptual entre la descomposición clásica y <strong>STL</strong>.</li>
+</ol>
+</section>
+</section>
+<section id="importante" class="level2" data-number="12.2">
+<h2 data-number="12.2" class="anchored" data-anchor-id="importante"><span class="header-section-number">12.2</span> Importante</h2>
+<p>Las celdas de código de esta libreta usan <strong>datos sintéticos</strong> generados con NumPy. La intención es ver cada componente <em>aislado</em>, sin la suciedad de un sensor real. Después trabajaremos con datos meteorológicos reales de ESOLMET del IER.</p>
+<div id="ff5192b4" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>plt.rcParams[<span class="st">"figure.figsize"</span>] <span class="op">=</span> (<span class="dv">10</span>, <span class="dv">4</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>plt.rcParams[<span class="st">"axes.grid"</span>] <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>plt.rcParams[<span class="st">"grid.alpha"</span>] <span class="op">=</span> <span class="fl">0.3</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="qué-es-una-serie-temporal" class="level2" data-number="12.3">
+<h2 data-number="12.3" class="anchored" data-anchor-id="qué-es-una-serie-temporal"><span class="header-section-number">12.3</span> 1. ¿Qué es una serie temporal?</h2>
+<p>Una <strong>serie temporal</strong> es una secuencia de observaciones <span class="math inline">\(\{y_t\}\)</span> indexada por una variable temporal <span class="math inline">\(t\)</span>, donde el orden importa.</p>
+<p><span class="math display">\[
+y_t,\quad t = 1, 2, \ldots, N
+\]</span></p>
+<p>Ejemplos en ingeniería energética:</p>
+<ul>
+<li>Temperatura ambiente cada minuto en una estación meteorológica.</li>
+<li>Demanda eléctrica horaria de un edificio.</li>
+<li>Producción diaria de un sistema fotovoltaico.</li>
+<li>Promedio mensual de irradiancia global.</li>
+</ul>
+<p><strong>Lo que distingue a una serie temporal de un dataset cualquiera</strong> es que las observaciones consecutivas no son independientes: lo que ocurre en <span class="math inline">\(t\)</span> contiene información sobre lo que ocurrirá en <span class="math inline">\(t+1\)</span>. Esa <strong>dependencia temporal</strong> es la materia prima de toda esta materia.</p>
+<section id="frecuencia-de-muestreo" class="level3" data-number="12.3.1">
+<h3 data-number="12.3.1" class="anchored" data-anchor-id="frecuencia-de-muestreo"><span class="header-section-number">12.3.1</span> Frecuencia de muestreo</h3>
+<p>La <strong>frecuencia</strong> <span class="math inline">\(\Delta t\)</span> entre observaciones determina qué fenómenos podemos observar:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Frecuencia</th>
+<th><span class="math inline">\(\Delta t\)</span></th>
+<th>Fenómenos observables</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Sub-segundo</td>
+<td>&lt; 1 s</td>
+<td>Transitorios eléctricos, ráfagas turbulentas</td>
+</tr>
+<tr class="even">
+<td>Minuto</td>
+<td>1 min</td>
+<td>Variabilidad de nubes, ciclo diario detallado</td>
+</tr>
+<tr class="odd">
+<td>Hora</td>
+<td>1 h</td>
+<td>Ciclo diario, perfiles de carga</td>
+</tr>
+<tr class="even">
+<td>Día</td>
+<td>1 d</td>
+<td>Tendencia estacional anual, ENSO</td>
+</tr>
+<tr class="odd">
+<td>Mes / Año</td>
+<td>1 mes / 1 año</td>
+<td>Cambio climático, ciclos solares</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Principio clave (Nyquist).</strong> Para resolver un fenómeno con período <span class="math inline">\(T\)</span> se necesita <span class="math inline">\(\Delta t &lt; T/2\)</span>.</p>
+</section>
+</section>
+<section id="los-cuatro-componentes-de-una-serie-temporal" class="level2" data-number="12.4">
+<h2 data-number="12.4" class="anchored" data-anchor-id="los-cuatro-componentes-de-una-serie-temporal"><span class="header-section-number">12.4</span> 2. Los cuatro componentes de una serie temporal</h2>
+<p>Cualquier serie temporal puede pensarse como la superposición de cuatro elementos:</p>
+<p><span class="math display">\[
+y_t = \underbrace{T_t}_{\text{tendencia}} + \underbrace{S_t}_{\text{estacionalidad}} + \underbrace{C_t}_{\text{ciclo}} + \underbrace{R_t}_{\text{ruido}}
+\]</span></p>
+<p>(esto es la forma <strong>aditiva</strong>; veremos la multiplicativa en la sección 3).</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="010_teoria_componentes_y_descomposicion_files/figure-html/03c510cb-1-e5373131-4caa-44db-ae51-b90f8daf12b0.png" class="img-fluid figure-img"></p>
+<figcaption>image.png</figcaption>
+</figure>
+</div>
+<section id="tendencia-t_t" class="level3" data-number="12.4.1">
+<h3 data-number="12.4.1" class="anchored" data-anchor-id="tendencia-t_t"><span class="header-section-number">12.4.1</span> 2.1 Tendencia <span class="math inline">\(T_t\)</span></h3>
+<p>Cambio sistemático de largo plazo, <strong>no periódico</strong>. Puede ser monótona (creciente, decreciente) o suavemente curvada.</p>
+<p><em>Ejemplo:</em> aumento de la temperatura media anual debido al cambio climático.</p>
+<div id="d6f719f2" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Tendencia sintética ---</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">365</span> <span class="op">*</span> <span class="dv">3</span>  <span class="co"># 3 años en días</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> np.arange(n)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>trend <span class="op">=</span> <span class="dv">20</span> <span class="op">+</span> <span class="fl">0.003</span> <span class="op">*</span> t  <span class="co"># +0.003 °C/día ≈ +1 °C/año</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>ax.plot(t, trend, color<span class="op">=</span><span class="st">"C3"</span>, lw<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Día"</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Temperatura (°C)"</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Componente de tendencia $T_t$"</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="010_teoria_componentes_y_descomposicion_files/figure-html/cell-3-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="estacionalidad-s_t" class="level3" data-number="12.4.2">
+<h3 data-number="12.4.2" class="anchored" data-anchor-id="estacionalidad-s_t"><span class="header-section-number">12.4.2</span> 2.2 Estacionalidad <span class="math inline">\(S_t\)</span></h3>
+<p>Patrón <strong>periódico de período fijo y conocido</strong> vinculado al calendario o a un proceso natural recurrente.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Tipo</th>
+<th>Período</th>
+<th>Causa física</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Diaria</td>
+<td>24 h</td>
+<td>Rotación de la Tierra (sol)</td>
+</tr>
+<tr class="even">
+<td>Anual</td>
+<td>365 d</td>
+<td>Traslación de la Tierra (estaciones)</td>
+</tr>
+<tr class="odd">
+<td>Semanal</td>
+<td>7 d</td>
+<td>Patrón humano (laboral / fin de semana)</td>
+</tr>
+</tbody>
+</table>
+<p>La clave: el período es <strong>constante y predecible</strong>.</p>
+<div id="db84523c" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Estacionalidad anual sintética ---</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>seasonal <span class="op">=</span> <span class="dv">8</span> <span class="op">*</span> np.sin(<span class="dv">2</span> <span class="op">*</span> np.pi <span class="op">*</span> t <span class="op">/</span> <span class="dv">365</span> <span class="op">-</span> np.pi <span class="op">/</span> <span class="dv">1</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>ax.plot(t, seasonal, color<span class="op">=</span><span class="st">"C0"</span>, lw<span class="op">=</span><span class="fl">1.5</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Día"</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Anomalía estacional (°C)"</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Componente estacional $S_t$ (período = 365 días)"</span>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="010_teoria_componentes_y_descomposicion_files/figure-html/cell-4-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="ciclo-c_t" class="level3" data-number="12.4.3">
+<h3 data-number="12.4.3" class="anchored" data-anchor-id="ciclo-c_t"><span class="header-section-number">12.4.3</span> 2.3 Ciclo <span class="math inline">\(C_t\)</span></h3>
+<p>Patrón recurrente pero de <strong>período variable o no fijo</strong>. La distinción clave con la estacionalidad es que el ciclo <em>no</em> está anclado al calendario.</p>
+<p><em>Ejemplos:</em> - ENSO (El Niño / La Niña): período de 2–7 años. - Ciclo solar: ~11 años, pero variable.</p>
+<p>En la práctica de un curso introductorio, el ciclo suele dejarse fundido con la tendencia (ambos son “lo de baja frecuencia”). En esta materia trabajaremos sobre todo con tendencia + estacionalidad + ruido.</p>
+</section>
+<section id="ruido-residual-r_t" class="level3" data-number="12.4.4">
+<h3 data-number="12.4.4" class="anchored" data-anchor-id="ruido-residual-r_t"><span class="header-section-number">12.4.4</span> 2.4 Ruido / residual <span class="math inline">\(R_t\)</span></h3>
+<p>Lo que queda después de quitar los componentes deterministas. Idealmente:</p>
+<ul>
+<li>Media cero.</li>
+<li>Varianza constante</li>
+<li>Sin autocorrelación (será un <em>ruido blanco</em>).</li>
+</ul>
+<p>En la realidad casi nunca lo es del todo, y eso es justo lo que aprovecharemos para <strong>detectar anomalías</strong> (Bloque 4).</p>
+<div id="e3919cec" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Ruido sintético ---</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>noise <span class="op">=</span> np.random.normal(<span class="dv">0</span>, <span class="fl">1.5</span>, n)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>ax.plot(t, noise, color<span class="op">=</span><span class="st">"C7"</span>, lw<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Día"</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Residual (°C)"</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Componente de ruido $R_t$"</span>)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="010_teoria_componentes_y_descomposicion_files/figure-html/cell-5-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="7d3cdc25-404d-4150-b93e-6a6bfbdbd5d4" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>noise.mean()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>np.float64(0.0494341958983249)</code></pre>
+</div>
+</div>
+</section>
+<section id="suma-de-los-componentes" class="level3" data-number="12.4.5">
+<h3 data-number="12.4.5" class="anchored" data-anchor-id="suma-de-los-componentes"><span class="header-section-number">12.4.5</span> 2.5 Suma de los componentes</h3>
+<p>Lo que el sensor mide es la suma:</p>
+<p><span class="math display">\[
+y_t = T_t + S_t + R_t
+\]</span></p>
+<div id="aeb8d429" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> trend <span class="op">+</span> seasonal <span class="op">+</span> noise</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">4</span>, <span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">9</span>), sharex<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].plot(t, y, color<span class="op">=</span><span class="st">"black"</span>, lw<span class="op">=</span><span class="fl">0.6</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_ylabel(<span class="st">"$y_t$ observada"</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_title(<span class="st">"Serie observada y sus componentes (simulados)"</span>)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].plot(t, trend, color<span class="op">=</span><span class="st">"C3"</span>, lw<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_ylabel(<span class="st">"$T_t$"</span>)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].plot(t, seasonal, color<span class="op">=</span><span class="st">"C0"</span>, lw<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">2</span>].set_ylabel(<span class="st">"$S_t$"</span>)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].plot(t, noise, color<span class="op">=</span><span class="st">"C7"</span>, lw<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">3</span>].set_ylabel(<span class="st">"$R_t$"</span>)</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">3</span>].set_xlabel(<span class="st">"Día"</span>)</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="010_teoria_componentes_y_descomposicion_files/figure-html/cell-7-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Observa:</strong> mirando solo la primera gráfica (la serie completa), los componentes están entremezclados. El objetivo de la <strong>descomposición</strong> es ir en sentido inverso: partir de <span class="math inline">\(y_t\)</span> y recuperar <span class="math inline">\(T_t\)</span>, <span class="math inline">\(S_t\)</span>, <span class="math inline">\(R_t\)</span>.</p>
+</section>
+</section>
+<section id="aditivo-vs.-multiplicativo" class="level2" data-number="12.5">
+<h2 data-number="12.5" class="anchored" data-anchor-id="aditivo-vs.-multiplicativo"><span class="header-section-number">12.5</span> 3. Aditivo vs.&nbsp;multiplicativo</h2>
+<p>Hay dos modelos canónicos:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 28%">
+<col style="width: 35%">
+<col style="width: 35%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Modelo</th>
+<th>Ecuación</th>
+<th>¿Cuándo?</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Aditivo</strong></td>
+<td><span class="math inline">\(y_t = T_t + S_t + R_t\)</span></td>
+<td>La amplitud estacional es <strong>constante</strong> en el tiempo</td>
+</tr>
+<tr class="even">
+<td><strong>Multiplicativo</strong></td>
+<td><span class="math inline">\(y_t = T_t \cdot S_t \cdot R_t\)</span></td>
+<td>La amplitud estacional <strong>escala con el nivel</strong> de la serie</td>
+</tr>
+</tbody>
+</table>
+<section id="cómo-decidir" class="level3" data-number="12.5.1">
+<h3 data-number="12.5.1" class="anchored" data-anchor-id="cómo-decidir"><span class="header-section-number">12.5.1</span> Cómo decidir</h3>
+<p>La regla empírica más útil: <strong>mira la amplitud del ciclo estacional a lo largo del tiempo</strong>.</p>
+<ul>
+<li>Si las oscilaciones se ven igual de grandes cuando <span class="math inline">\(T_t\)</span> es pequeña que cuando es grande → <strong>aditivo</strong>.</li>
+<li>Si las oscilaciones crecen cuando <span class="math inline">\(T_t\)</span> crece (efecto “abanico”) → <strong>multiplicativo</strong>.</li>
+</ul>
+<p>Una transformación logarítmica convierte un modelo multiplicativo en uno aditivo:</p>
+<p><span class="math display">\[
+\log y_t = \log T_t + \log S_t + \log R_t
+\]</span></p>
+<p>Por eso, en la práctica, casi todas las herramientas (incluida STL) trabajan en modo aditivo y, si el caso lo amerita, primero aplicamos <span class="math inline">\(\log\)</span>.</p>
+<div id="621c7a2d" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Comparación visual aditivo vs multiplicativo ---</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>trend2 <span class="op">=</span> <span class="dv">10</span> <span class="op">+</span> <span class="fl">0.02</span> <span class="op">*</span> t</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>season_pattern <span class="op">=</span> np.sin(<span class="dv">2</span> <span class="op">*</span> np.pi <span class="op">*</span> t <span class="op">/</span> <span class="dv">365</span> <span class="op">-</span> np.pi <span class="op">/</span> <span class="dv">2</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>noise2 <span class="op">=</span> np.random.normal(<span class="dv">0</span>, <span class="fl">0.5</span>, n)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>y_add <span class="op">=</span> trend2 <span class="op">+</span> <span class="dv">4</span> <span class="op">*</span> season_pattern <span class="op">+</span> noise2          <span class="co"># amplitud constante = 4</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>y_mul <span class="op">=</span> trend2 <span class="op">*</span> (<span class="dv">1</span> <span class="op">+</span> <span class="fl">0.4</span> <span class="op">*</span> season_pattern) <span class="op">*</span> (<span class="dv">1</span> <span class="op">+</span> <span class="fl">0.05</span> <span class="op">*</span> noise2)  <span class="co"># amplitud ~ 40 % del nivel</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>), sharex<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].plot(t, y_add, color<span class="op">=</span><span class="st">"C2"</span>, lw<span class="op">=</span><span class="fl">0.8</span>)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].plot(t, trend2, color<span class="op">=</span><span class="st">"C3"</span>, lw<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="st">"Tendencia"</span>)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_ylabel(<span class="st">"Aditivo"</span>)</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_title(<span class="st">"Aditivo: amplitud estacional CONSTANTE"</span>)</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].legend()</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].plot(t, y_mul, color<span class="op">=</span><span class="st">"C4"</span>, lw<span class="op">=</span><span class="fl">0.8</span>)</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].plot(t, trend2, color<span class="op">=</span><span class="st">"C3"</span>, lw<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="st">"Tendencia"</span>)</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_ylabel(<span class="st">"Multiplicativo"</span>)</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xlabel(<span class="st">"Día"</span>)</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_title(<span class="st">"Multiplicativo: amplitud CRECE con el nivel"</span>)</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].legend()</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="010_teoria_componentes_y_descomposicion_files/figure-html/cell-8-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="heurística-de-bolsillo" class="level3" data-number="12.5.2">
+<h3 data-number="12.5.2" class="anchored" data-anchor-id="heurística-de-bolsillo"><span class="header-section-number">12.5.2</span> Heurística de bolsillo</h3>
+<blockquote class="blockquote">
+<p>Si al graficar la serie ves un <strong>abanico</strong> que se abre, prueba multiplicativo (o <span class="math inline">\(\log\)</span>). Si ves una banda de ancho constante, usa aditivo.</p>
+</blockquote>
+<p>En meteorología, <strong>temperatura</strong> es típicamente aditiva; <strong>radiación solar (GHI)</strong> o <strong>demanda eléctrica de aire acondicionado</strong> suelen ser multiplicativas o requerir transformación.</p>
+</section>
+</section>
+<section id="descomposición-clásica" class="level2" data-number="12.6">
+<h2 data-number="12.6" class="anchored" data-anchor-id="descomposición-clásica"><span class="header-section-number">12.6</span> 4. Descomposición clásica</h2>
+<p>El primer algoritmo histórico (años 1920s–1950s) es muy simple y vale la pena entenderlo porque sigue siendo el <em>default</em> mental.</p>
+<p><strong>Idea:</strong> estimar la tendencia con una <strong>media móvil</strong>, restarla, y promediar lo que queda <em>en cada posición del ciclo</em> para obtener la estacionalidad.</p>
+<section id="algoritmo-modelo-aditivo-período-m" class="level3" data-number="12.6.1">
+<h3 data-number="12.6.1" class="anchored" data-anchor-id="algoritmo-modelo-aditivo-período-m"><span class="header-section-number">12.6.1</span> Algoritmo (modelo aditivo, período <span class="math inline">\(m\)</span>)</h3>
+<ol type="1">
+<li>Estimar tendencia: <span class="math inline">\(\hat{T}_t = \mathrm{MA}_m(y_t)\)</span> — media móvil de longitud <span class="math inline">\(m\)</span> centrada.</li>
+<li>Quitar tendencia: <span class="math inline">\(d_t = y_t - \hat{T}_t\)</span>.</li>
+<li>Estimar estacionalidad: <span class="math inline">\(\hat{S}_t\)</span> = promedio de <span class="math inline">\(d_t\)</span> en cada posición del período (ej. promedio de todos los “1 de enero”, “2 de enero”, etc.).</li>
+<li>Residual: <span class="math inline">\(\hat{R}_t = y_t - \hat{T}_t - \hat{S}_t\)</span>.</li>
+</ol>
+<p>En <code>statsmodels</code>, esto es <code>seasonal_decompose</code>.</p>
+<div id="efa510f1" class="cell" data-execution_count="16">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.tsa.seasonal <span class="im">import</span> seasonal_decompose</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>idx <span class="op">=</span> pd.date_range(<span class="st">"2022-01-01"</span>, periods<span class="op">=</span>n, freq<span class="op">=</span><span class="st">"D"</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>serie <span class="op">=</span> pd.Series(y, index<span class="op">=</span>idx, name<span class="op">=</span><span class="st">"temp"</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>resultado <span class="op">=</span> seasonal_decompose(serie, model<span class="op">=</span><span class="st">"additive"</span>, period<span class="op">=</span><span class="dv">365</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> resultado.plot()</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>fig.set_size_inches(<span class="dv">10</span>, <span class="dv">8</span>)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="010_teoria_componentes_y_descomposicion_files/figure-html/cell-9-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="30f26875-410d-40ea-860f-2c203848b6a1" class="cell" data-execution_count="19">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>resultado.trend</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="19">
+<pre><code>2022-01-01   NaN
+2022-01-02   NaN
+2022-01-03   NaN
+2022-01-04   NaN
+2022-01-05   NaN
+              ..
+2024-12-26   NaN
+2024-12-27   NaN
+2024-12-28   NaN
+2024-12-29   NaN
+2024-12-30   NaN
+Freq: D, Name: trend, Length: 1095, dtype: float64</code></pre>
+</div>
+</div>
+</section>
+<section id="limitaciones-del-método-clásico" class="level3" data-number="12.6.2">
+<h3 data-number="12.6.2" class="anchored" data-anchor-id="limitaciones-del-método-clásico"><span class="header-section-number">12.6.2</span> Limitaciones del método clásico</h3>
+<ol type="1">
+<li><strong>Pierde datos en los extremos.</strong> La media móvil centrada no se puede calcular en los primeros y últimos <span class="math inline">\(m/2\)</span> puntos, así que esos quedan como NaN.</li>
+<li><strong>Estacionalidad rígida.</strong> Asume que el patrón estacional es <em>idéntico</em> año tras año. En la realidad climática, los inviernos no son todos iguales.</li>
+<li><strong>Sensible a outliers.</strong> Una sola observación anómala contamina la media móvil y, peor, contamina la estacionalidad estimada.</li>
+<li><strong>Un solo período.</strong> Si la serie tiene estacionalidad diaria <em>y</em> anual a la vez, no las separa bien.</li>
+</ol>
+<p>Estas limitaciones motivan <strong>STL</strong>.</p>
+</section>
+</section>
+<section id="stl-seasonal-trend-decomposition-using-loess" class="level2" data-number="12.7">
+<h2 data-number="12.7" class="anchored" data-anchor-id="stl-seasonal-trend-decomposition-using-loess"><span class="header-section-number">12.7</span> 5. STL: Seasonal-Trend decomposition using LOESS</h2>
+<p><strong>STL</strong> (Cleveland et al., 1990) es la herramienta de descomposición que usaremos como referencia en el resto de la materia.</p>
+<section id="idea-central" class="level3" data-number="12.7.1">
+<h3 data-number="12.7.1" class="anchored" data-anchor-id="idea-central"><span class="header-section-number">12.7.1</span> Idea central</h3>
+<p>Reemplazar la media móvil por una <strong>regresión local ponderada</strong> (LOESS) que se ajusta en cada punto a sus vecinos. Esto da:</p>
+<ul>
+<li><strong>Estacionalidad que puede evolucionar</strong> suavemente en el tiempo (no es la misma cada año).</li>
+<li><strong>Una opción robusta</strong> que pondera menos los outliers (clave para el Bloque 4 de detección de anomalías).</li>
+<li><strong>Sin pérdida de datos</strong> en los extremos.</li>
+</ul>
+</section>
+<section id="parámetros-principales" class="level3" data-number="12.7.2">
+<h3 data-number="12.7.2" class="anchored" data-anchor-id="parámetros-principales"><span class="header-section-number">12.7.2</span> Parámetros principales</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 45%">
+<col style="width: 54%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Parámetro</th>
+<th>Significado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>period</code></td>
+<td>Longitud del ciclo estacional en pasos de muestreo (24 si datos horarios con ciclo diario; 365 si datos diarios con ciclo anual)</td>
+</tr>
+<tr class="even">
+<td><code>seasonal</code></td>
+<td>Suavidad de la componente estacional. Impar, ≥ 7</td>
+</tr>
+<tr class="odd">
+<td><code>trend</code></td>
+<td>Suavidad de la tendencia. Impar</td>
+</tr>
+<tr class="even">
+<td><code>robust</code></td>
+<td>Si <code>True</code>, pondera a la baja los outliers</td>
+</tr>
+</tbody>
+</table>
+<div id="87e343db-200c-4f14-a593-55c265202689" class="cell" data-execution_count="21">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>serie</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="21">
+<pre><code>2022-01-01    20.745071
+2022-01-02    19.657897
+2022-01-03    20.702160
+2022-01-04    21.880587
+2022-01-05    19.110351
+                ...    
+2024-12-26    23.850317
+2024-12-27    23.767586
+2024-12-28    24.780402
+2024-12-29    23.632292
+2024-12-30    24.518667
+Freq: D, Name: temp, Length: 1095, dtype: float64</code></pre>
+</div>
+</div>
+<div id="73847a03" class="cell" data-execution_count="20">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.tsa.seasonal <span class="im">import</span> STL</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>stl <span class="op">=</span> STL(serie, period<span class="op">=</span><span class="dv">365</span>, robust<span class="op">=</span><span class="va">True</span>).fit()</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> stl.plot()</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>fig.set_size_inches(<span class="dv">10</span>, <span class="dv">8</span>)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="010_teoria_componentes_y_descomposicion_files/figure-html/cell-12-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="2e2b2494-cdbf-408a-ab2a-4a00c0660224" class="cell" data-execution_count="41">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">12</span>,<span class="dv">3</span>))</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>ax.plot(</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    stl.seasonal </span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> stl.trend </span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> stl.resid</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    , label <span class="op">=</span> <span class="st">"STL"</span>)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>ax.plot(serie,label <span class="op">=</span> <span class="st">"original"</span>)</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>ax.legend()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="010_teoria_componentes_y_descomposicion_files/figure-html/cell-13-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="comparación-rápida" class="level3" data-number="12.7.3">
+<h3 data-number="12.7.3" class="anchored" data-anchor-id="comparación-rápida"><span class="header-section-number">12.7.3</span> Comparación rápida</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Aspecto</th>
+<th>Clásica</th>
+<th>STL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Pérdida en bordes</td>
+<td>Sí</td>
+<td>No</td>
+</tr>
+<tr class="even">
+<td>Estacionalidad evolutiva</td>
+<td>No</td>
+<td>Sí</td>
+</tr>
+<tr class="odd">
+<td>Robustez a outliers</td>
+<td>Mala</td>
+<td>Buena (modo <code>robust</code>)</td>
+</tr>
+<tr class="even">
+<td>Múltiples períodos</td>
+<td>No</td>
+<td>No (existe MSTL)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Para esta materia, STL será la herramienta por defecto.</strong></p>
+</section>
+<section id="preguntas-para-reflexionar-antes-del-laboratorio" class="level3" data-number="12.7.4">
+<h3 data-number="12.7.4" class="anchored" data-anchor-id="preguntas-para-reflexionar-antes-del-laboratorio"><span class="header-section-number">12.7.4</span> Preguntas para reflexionar antes del laboratorio</h3>
+<ol type="1">
+<li>Si tuvieras temperatura cada minuto durante un año, ¿qué período usarías en STL si quisieras ver el ciclo diario? ¿Y si quisieras ver el ciclo anual?</li>
+<li>La radiación global horizontal (GHI) vale exactamente 0 W/m² toda la noche. ¿Esto hace que su descomposición sea más complicada o más simple? ¿Por qué?</li>
+<li>Una estación meteorológica registra una falla de 3 horas en una tarde. ¿Cómo afectará esto a la descomposición clásica? ¿Y a STL en modo <code>robust</code>?</li>
+</ol>
+</section>
+<section id="lectura-recomendada-opcional" class="level3" data-number="12.7.5">
+<h3 data-number="12.7.5" class="anchored" data-anchor-id="lectura-recomendada-opcional"><span class="header-section-number">12.7.5</span> Lectura recomendada (opcional)</h3>
+<ul>
+<li>Cleveland, R. B., Cleveland, W. S., McRae, J. E., &amp; Terpenning, I. (1990). <em>STL: A seasonal-trend decomposition procedure based on Loess</em>. Journal of Official Statistics, 6(1), 3–73.</li>
+<li>Hyndman, R. J., &amp; Athanasopoulos, G. <em>Forecasting: Principles and Practice</em> (3a ed.), capítulo 3. https://otexts.com/fpp3/</li>
+</ul>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../notebooks/009_PruebasHipotesis.html" class="pagination-link" aria-label="`stats.t.ppf(1 - alpha/2, gl)`">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title"><code>stats.t.ppf(1 - alpha/2, gl)</code></span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../notebooks/011_laboratorio_climalab.html" class="pagination-link" aria-label="Sesión 1 · Laboratorio">
+        <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Sesión 1 · Laboratorio</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

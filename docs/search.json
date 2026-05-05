@@ -158,5 +158,687 @@
       "Clases",
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>006_experimentos_nueve.html</span>"
     ]
+  },
+  {
+    "objectID": "notebooks/007_muestreo_teoria.html",
+    "href": "notebooks/007_muestreo_teoria.html",
+    "title": "8  Semana 4A — Muestreo y Estimación (Teoría)",
+    "section": "",
+    "text": "8.1 1. Población vs muestra\nObjetivo: Construir la intuición sobre por qué la media muestral es un buen estimador y bajo qué condiciones, usando simulaciones interactivas con datos sintéticos.\nTemas: 1. Población vs muestra 2. Estadísticos muestrales 3. Ley de Grandes Números (LGN) 4. Teorema del Límite Central (TLC)\nUsaremos una población conocida \\(\\mathcal{N}(\\mu=25,\\;\\sigma=5)\\) para poder comparar los estimados muestrales con los parámetros reales.",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Semana 4A — Muestreo y Estimación (Teoría)</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/007_muestreo_teoria.html#población-vs-muestra",
+    "href": "notebooks/007_muestreo_teoria.html#población-vs-muestra",
+    "title": "8  Semana 4A — Muestreo y Estimación (Teoría)",
+    "section": "",
+    "text": "Población: El conjunto completo de valores que nos interesan. En la práctica casi nunca la observamos entera.\nMuestra: Un subconjunto de la población que sí observamos. A partir de ella estimamos propiedades de la población.\n\n\n\n8.1.1 Parámetros de la simulación\n\nn_muestras_slider = widgets.IntSlider(min=5, max=50, step=5, value=20, description=\"Número de muestras\")\nn_obs_slider = widgets.IntSlider(min=5, max=200, step=5, value=10, description=\"Tamaño de cada muestra (n)\",\n)\n\ndef _update(n_muestras_slider, n_obs_slider):\n    _mu, _sigma = 25.0, 5.0\n    _n = n_obs_slider\n    _k = n_muestras_slider\n\n    _medias = []\n    for _ in range(_k):\n        _muestra = rng.normal(_mu, _sigma, _n)\n        _medias.append(_muestra.mean())\n    _medias = np.array(_medias)\n\n    fig1, (ax1a, ax1b) = plt.subplots(1, 2, figsize=(12, 4))\n\n    # Panel izquierdo: histograma de la población\n    _x_pop = np.linspace(5, 45, 300)\n    _pdf_pop = (\n        1\n        / (_sigma * np.sqrt(2 * np.pi))\n        * np.exp(-0.5 * ((_x_pop - _mu) / _sigma) ** 2)\n    )\n    ax1a.plot(_x_pop, _pdf_pop, \"k-\", lw=2, label=\"Población $N(25, 5^2)$\")\n    ax1a.axvline(_mu, color=\"crimson\", ls=\"--\", label=f\"μ = {_mu}\")\n    ax1a.set_xlabel(\"Valor\")\n    ax1a.set_ylabel(\"Densidad\")\n    ax1a.set_title(\"Distribución de la Población\")\n    ax1a.legend()\n\n    # Panel derecho: medias muestrales\n    ax1b.scatter(range(_k), _medias, c=\"steelblue\", edgecolors=\"white\", zorder=3)\n    ax1b.axhline(_mu, color=\"crimson\", ls=\"--\", label=f\"μ = {_mu}\")\n    ax1b.set_xlabel(\"# de muestra\")\n    ax1b.set_ylabel(\"Media muestral $\\\\bar{x}$\")\n    ax1b.set_title(f\"{_k} medias muestrales  (n = {_n})\")\n    ax1b.legend()\n\n    plt.tight_layout()\n    plt.show()\n\nout = widgets.interactive_output(_update, {'n_muestras_slider': n_muestras_slider, 'n_obs_slider': n_obs_slider})\ndisplay(widgets.VBox([n_muestras_slider, n_obs_slider, out]))\n\n\nObserva: Cada muestra da una media distinta, pero todas oscilan alrededor del verdadero \\(\\mu = 25\\). Al aumentar \\(n\\) (tamaño de muestra) la dispersión de las medias disminuye.",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Semana 4A — Muestreo y Estimación (Teoría)</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/007_muestreo_teoria.html#estadísticos-muestrales",
+    "href": "notebooks/007_muestreo_teoria.html#estadísticos-muestrales",
+    "title": "8  Semana 4A — Muestreo y Estimación (Teoría)",
+    "section": "8.2 2. Estadísticos muestrales",
+    "text": "8.2 2. Estadísticos muestrales\n\n\n\n\n\n\n\n\nParámetro poblacional\nEstadístico muestral\nFórmula\n\n\n\n\nMedia \\(\\mu\\)\nMedia muestral \\(\\bar{x}\\)\n\\(\\frac{1}{n}\\sum x_i\\)\n\n\nVarianza \\(\\sigma^2\\)\nVarianza muestral \\(s^2\\)\n\\(\\frac{1}{n-1}\\sum (x_i - \\bar{x})^2\\)\n\n\n\nLa media muestral \\(\\bar{x}\\) es un estimador insesgado de \\(\\mu\\): en promedio, \\(E[\\bar{x}] = \\mu\\).\nSu dispersión depende de \\(n\\): \\[\\text{Var}(\\bar{x}) = \\frac{\\sigma^2}{n}\n\\quad\\Rightarrow\\quad\n\\text{DE}(\\bar{x}) = \\frac{\\sigma}{\\sqrt{n}}\\]\nA mayor \\(n\\), \\(\\bar{x}\\) está más cerca de \\(\\mu\\) — esto es la esencia de la Ley de Grandes Números.\n\n8.2.1 Efecto del tamaño de muestra en la dispersión de \\(\\bar{x}\\)\n\nn_estadisticos_slider = widgets.IntSlider(min=5, max=500, step=5, value=30, description=\"Tamaño de muestra (n)\",\n)\n\ndef _update(n_estadisticos_slider):\n    _mu, _sigma = 25.0, 5.0\n    _n = n_estadisticos_slider\n    _num_replicas = 2000\n    _medias = np.array(\n        [rng.normal(_mu, _sigma, _n).mean() for _ in range(_num_replicas)]\n    )\n\n    _de_teorica = _sigma / np.sqrt(_n)\n    _de_empirica = _medias.std()\n\n    fig2, ax2 = plt.subplots(figsize=(8, 4))\n    ax2.hist(_medias, bins=40, density=True, color=\"steelblue\", alpha=0.7,\n             edgecolor=\"white\", label=\"Histograma de $\\\\bar{x}$\")\n\n    _x = np.linspace(_medias.min(), _medias.max(), 200)\n    _pdf = (\n        1\n        / (_de_teorica * np.sqrt(2 * np.pi))\n        * np.exp(-0.5 * ((_x - _mu) / _de_teorica) ** 2)\n    )\n    ax2.plot(_x, _pdf, \"crimson\", lw=2,\n             label=f\"$N(\\\\mu,\\\\;\\\\sigma^2/n)$ — DE teórica = {_de_teorica:.3f}\")\n    ax2.axvline(_mu, color=\"black\", ls=\"--\", alpha=0.5)\n    ax2.set_xlabel(\"$\\\\bar{x}$\")\n    ax2.set_ylabel(\"Densidad\")\n    ax2.set_title(\n        f\"Distribución de medias muestrales  (n = {_n},  \"\n        f\"DE empírica = {_de_empirica:.3f})\"\n    )\n    ax2.legend()\n    plt.tight_layout()\n    plt.show()\n\nout = widgets.interactive_output(_update, {'n_estadisticos_slider': n_estadisticos_slider})\ndisplay(widgets.VBox([n_estadisticos_slider, out]))",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Semana 4A — Muestreo y Estimación (Teoría)</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/007_muestreo_teoria.html#ley-de-grandes-números-lgn",
+    "href": "notebooks/007_muestreo_teoria.html#ley-de-grandes-números-lgn",
+    "title": "8  Semana 4A — Muestreo y Estimación (Teoría)",
+    "section": "8.3 3. Ley de Grandes Números (LGN)",
+    "text": "8.3 3. Ley de Grandes Números (LGN)\n\nConforme el tamaño de la muestra \\(n \\to \\infty\\), la media muestral \\(\\bar{x}_n\\) converge al valor esperado \\(\\mu\\), sin importar la forma de la distribución original.\n\n\\[\\bar{x}_n = \\frac{1}{n}\\sum_{i=1}^{n} x_i \\xrightarrow{n\\to\\infty} \\mu\\]\nVamos a verificarlo con tres distribuciones muy distintas: - Normal \\(N(25, 5^2)\\) — simétrica, bien comportada. - Exponencial \\(\\text{Exp}(\\lambda=0.2)\\) — asimétrica con cola derecha. Esperanza \\(= 1/\\lambda = 5\\). - Bernoulli \\(p = 0.3\\) — discreta, solo 0 y 1. Esperanza \\(= p = 0.3\\).\n\n_max_n = 50_000\n_normal = rng.normal(25, 5, _max_n)\n_exponencial = rng.exponential(5, _max_n)\n_bernoulli = rng.binomial(1, 0.3, _max_n)\n\n_ns = np.arange(1, _max_n + 1)\n\nfig3, axes3 = plt.subplots(1, 3, figsize=(14, 4))\n\n_configs = [\n    (_normal, 25.0, \"Normal(25, 25)\", \"steelblue\"),\n    (_exponencial, 5.0, \"Exp(λ=0.2)\", \"darkorange\"),\n    (_bernoulli, 0.3, \"Bernoulli(0.3)\", \"seagreen\"),\n]\n\nfor ax, (datos, mu_real, nombre, color) in zip(axes3, _configs):\n    _media_acum = np.cumsum(datos) / _ns\n    ax.plot(_ns, _media_acum, color=color, lw=0.5)\n    ax.axhline(mu_real, color=\"crimson\", ls=\"--\", lw=1.5,\n                label=f\"μ = {mu_real}\")\n    ax.set_xscale(\"log\")\n    ax.set_xlabel(\"n (escala log)\")\n    ax.set_ylabel(\"Media acumulada\")\n    ax.set_title(nombre)\n    ax.legend()\n\nplt.suptitle(\"Ley de Grandes Números — Convergencia de la media muestral\",\n             fontsize=13, y=1.02)\nplt.tight_layout()\nplt.show()\n\n\nConclusión: Independientemente de la distribución (normal, asimétrica, discreta), la media acumulada converge al verdadero \\(\\mu\\). Con pocas observaciones la estimación puede estar lejos; con miles, se estabiliza.",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Semana 4A — Muestreo y Estimación (Teoría)</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/007_muestreo_teoria.html#teorema-del-límite-central-tlc",
+    "href": "notebooks/007_muestreo_teoria.html#teorema-del-límite-central-tlc",
+    "title": "8  Semana 4A — Muestreo y Estimación (Teoría)",
+    "section": "8.4 4. Teorema del Límite Central (TLC)",
+    "text": "8.4 4. Teorema del Límite Central (TLC)\n\nSi tomamos muestras de tamaño \\(n\\) de cualquier distribución con media \\(\\mu\\) y varianza \\(\\sigma^2\\) finitas, la distribución de la media muestral \\(\\bar{x}\\) se aproxima a una normal conforme \\(n\\) crece:\n\\[\\bar{x} \\;\\dot\\sim\\; N\\!\\left(\\mu,\\;\\frac{\\sigma^2}{n}\\right)\\]\n\nEsto es extraordinario: no importa la forma de la distribución original. Lo verificaremos con la distribución exponencial (fuertemente asimétrica) y la uniforme (sin colas).\n\n8.4.1 Elige la distribución para explorar el TLC\n\ndist_dropdown = widgets.Dropdown(options=[\"Exponencial\", \"Uniforme\"], value=\"Exponencial\", description=\"Distribución original\")\n\ndef _update(dist_dropdown):\n    _dist = dist_dropdown\n    if _dist == \"Exponencial\":\n        _lam = 0.5\n        _mu_orig = 1 / _lam\n        _sigma_orig = 1 / _lam\n        _gen = lambda size: rng.exponential(1 / _lam, size)\n        _dist_name = f\"Exponencial(λ={_lam})\"\n    else:\n        _a, _b = 0.0, 10.0\n        _mu_orig = (_a + _b) / 2\n        _sigma_orig = (_b - _a) / np.sqrt(12)\n        _gen = lambda size: rng.uniform(_a, _b, size)\n        _dist_name = f\"Uniforme({_a:.0f}, {_b:.0f})\"\n\n    _tamaños = [2, 5, 30, 100]\n    _num_replicas = 3000\n\n    fig4, axes4 = plt.subplots(2, 2, figsize=(11, 8))\n\n    for ax, n_val in zip(axes4.flat, _tamaños):\n        _medias = np.array(\n            [_gen(n_val).mean() for _ in range(_num_replicas)]\n        )\n        ax.hist(_medias, bins=50, density=True, color=\"steelblue\",\n                alpha=0.7, edgecolor=\"white\")\n\n        # Curva normal teórica\n        _de = _sigma_orig / np.sqrt(n_val)\n        _x = np.linspace(_medias.min(), _medias.max(), 200)\n        _pdf = (\n            1\n            / (_de * np.sqrt(2 * np.pi))\n            * np.exp(-0.5 * ((_x - _mu_orig) / _de) ** 2)\n        )\n        ax.plot(_x, _pdf, \"crimson\", lw=2, label=\"Normal teórica\")\n        ax.set_title(f\"n = {n_val}\")\n        ax.set_xlabel(\"$\\\\bar{x}$\")\n        ax.set_ylabel(\"Densidad\")\n        ax.legend(fontsize=8)\n\n    plt.suptitle(\n        f\"TLC — Distribución original: {_dist_name}  \"\n        f\"(μ = {_mu_orig:.2f},  σ = {_sigma_orig:.2f})\",\n        fontsize=13,\n    )\n    plt.tight_layout()\n    plt.show()\n\nout = widgets.interactive_output(_update, {'dist_dropdown': dist_dropdown})\ndisplay(widgets.VBox([dist_dropdown, out]))\n\n\nObserva: - Con \\(n = 2\\), la distribución de \\(\\bar{x}\\) todavía refleja la asimetría o forma de la distribución original. - Con \\(n = 30\\), ya es prácticamente normal. - Con \\(n = 100\\), el ajuste es casi perfecto.\nEsto justifica el uso de la distribución normal para construir intervalos de confianza y pruebas de hipótesis (semanas 5 y 6), incluso cuando los datos originales no son normales.",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Semana 4A — Muestreo y Estimación (Teoría)</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/007_muestreo_teoria.html#resumen",
+    "href": "notebooks/007_muestreo_teoria.html#resumen",
+    "title": "8  Semana 4A — Muestreo y Estimación (Teoría)",
+    "section": "8.5 Resumen",
+    "text": "8.5 Resumen\n\n\n\n\n\n\n\nConcepto\nEnunciado clave\n\n\n\n\nPoblación vs muestra\nEstimamos parámetros (\\(\\mu\\), \\(\\sigma^2\\)) con estadísticos muestrales (\\(\\bar{x}\\), \\(s^2\\))\n\n\nLGN\n\\(\\bar{x}_n \\to \\mu\\) cuando \\(n \\to \\infty\\) — más datos = mejor estimación\n\n\nTLC\n\\(\\bar{x} \\;\\dot\\sim\\; N(\\mu, \\sigma^2/n)\\) para \\(n\\) grande — la distribución de la media siempre tiende a normal\n\n\n\nPróxima sesión (4B): Verificar la LGN y el TLC con datos reales de la estación meteorológica ClimaLab.",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Semana 4A — Muestreo y Estimación (Teoría)</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/008a_muestreo_lab.html",
+    "href": "notebooks/008a_muestreo_lab.html",
+    "title": "9  Semana 4B — Muestreo y Estimación (Laboratorio)",
+    "section": "",
+    "text": "9.1 1. Cargar y conocer la población\nObjetivo: Verificar la Ley de Grandes Números y el Teorema del Límite Central usando datos reales de la estación meteorológica ClimaLab.\nLa gran ventaja de tener el dataset completo (~1.08 M registros a 1 minuto) es que podemos tratarlo como la población y conocer \\(\\mu\\) y \\(\\sigma\\) exactos, algo que en la práctica casi nunca es posible.\ndf = pd.read_parquet(\"../data/ClimaLab_2023-05-31_2025-06-20.parquet\")\ndisplay(Markdown(f\"\"\"\n**Registros:** {len(df):,} &emsp;\n**Período:** {df.index.min()} → {df.index.max()} &emsp;\n**Variables:** {', '.join(f'`{c}`' for c in df.columns)}\n\"\"\"))\n\nRegistros: 1,076,768   Período: 2023-05-31 18:59:00 → 2025-06-20 00:00:00   Variables: dhi, dni, ghi, p_atm, rain_acc, rh, solar_altitude, tdb, uv, wd, ws\ntdb = df[\"tdb\"].dropna().values\nmu_tdb = tdb.mean()\nsigma_tdb = tdb.std()\n\nws = df[\"ws\"].dropna().values\nmu_ws = ws.mean()\nsigma_ws = ws.std()\n\nrain = df[\"rain_acc\"].dropna().values\nmu_rain = rain.mean()\nsigma_rain = rain.std()\n\npoblacion_stats = {\n    \"tdb\": {\"datos\": tdb, \"mu\": mu_tdb, \"sigma\": sigma_tdb, \"n\": len(tdb)},\n    \"ws\": {\"datos\": ws, \"mu\": mu_ws, \"sigma\": sigma_ws, \"n\": len(ws)},\n    \"rain_acc\": {\"datos\": rain, \"mu\": mu_rain, \"sigma\": sigma_rain, \"n\": len(rain)},\n}\n_rows = \"\"\nfor var, s in poblacion_stats.items():\n    _rows += (\n        f\"| `{var}` | {s['n']:,} | {s['mu']:.4f} | {s['sigma']:.4f} |\\n\"\n    )\ndisplay(Markdown(f\"\"\"\n### Parámetros poblacionales\n\n| Variable | N | μ | σ |\n|:---|---:|---:|---:|\n{_rows}\n\nEstos valores son nuestro **ground truth**: al tomar muestras,\nlos estadísticos muestrales deben converger hacia ellos.\n\"\"\"))\n\n9.1.1 Parámetros poblacionales\n\n\n\nVariable\nN\nμ\nσ\n\n\n\n\ntdb\n1,076,768\n24.4479\n4.9352\n\n\nws\n1,076,768\n1.6523\n1.1078\n\n\nrain_acc\n1,076,768\n0.0352\n0.9237\n\n\n\nEstos valores son nuestro ground truth: al tomar muestras, los estadísticos muestrales deben converger hacia ellos.\nfig1, axes1 = plt.subplots(1, 3, figsize=(14, 4))\n\n_configs = [\n    (tdb, mu_tdb, \"tdb (°C)\", \"steelblue\"),\n    (ws, mu_ws, \"ws (m/s)\", \"darkorange\"),\n    (rain[rain &gt; 0], mu_rain, \"rain_acc &gt; 0 (mm)\", \"seagreen\"),\n]\n\nfor ax, (datos, mu, nombre, color) in zip(axes1, _configs):\n    ax.hist(datos, bins=80, density=True, color=color,\n            alpha=0.7, edgecolor=\"white\")\n    ax.axvline(mu, color=\"crimson\", ls=\"--\", lw=1.5,\n               label=f\"μ = {mu:.2f}\")\n    ax.set_xlabel(nombre)\n    ax.set_ylabel(\"Densidad\")\n    ax.set_title(nombre)\n    ax.legend(fontsize=9)\n\nplt.suptitle(\"Distribuciones poblacionales — ClimaLab\", fontsize=13, y=1.02)\nplt.tight_layout()\nplt.show()",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Semana 4B — Muestreo y Estimación (Laboratorio)</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/008a_muestreo_lab.html#cargar-y-conocer-la-población",
+    "href": "notebooks/008a_muestreo_lab.html#cargar-y-conocer-la-población",
+    "title": "9  Semana 4B — Muestreo y Estimación (Laboratorio)",
+    "section": "",
+    "text": "Nota: tdb tiene una distribución bimodal (mezcla verano/invierno), ws es asimétrica con cola derecha, y rain_acc es extremadamente asimétrica (la mayoría de los registros son 0). Tres distribuciones muy distintas — ideal para probar la LGN y el TLC.",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Semana 4B — Muestreo y Estimación (Laboratorio)</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/008a_muestreo_lab.html#ley-de-grandes-números-con-datos-reales",
+    "href": "notebooks/008a_muestreo_lab.html#ley-de-grandes-números-con-datos-reales",
+    "title": "9  Semana 4B — Muestreo y Estimación (Laboratorio)",
+    "section": "9.2 2. Ley de Grandes Números con datos reales",
+    "text": "9.2 2. Ley de Grandes Números con datos reales\nTomamos observaciones consecutivas de cada variable y graficamos la media acumulada. Conforme \\(n\\) crece, debe converger a \\(\\mu\\).\n\n_max_n = min(100_000, len(tdb))\n\nfig2, axes2 = plt.subplots(1, 3, figsize=(14, 4))\n_ns = np.arange(1, _max_n + 1)\n\n_configs_lgn = [\n    (tdb, mu_tdb, \"tdb (°C)\", \"steelblue\"),\n    (ws, mu_ws, \"ws (m/s)\", \"darkorange\"),\n    (rain, mu_rain, \"rain_acc (mm)\", \"seagreen\"),\n]\n\nfor ax, (datos, mu, nombre, color) in zip(axes2, _configs_lgn):\n    # Permutar para romper la correlación temporal\n    _shuffled = rng.permutation(datos)[:_max_n]\n    _media_acum = np.cumsum(_shuffled) / _ns\n    ax.plot(_ns, _media_acum, color=color, lw=0.5)\n    ax.axhline(mu, color=\"crimson\", ls=\"--\", lw=1.5,\n                label=f\"μ = {mu:.4f}\")\n    ax.set_xscale(\"log\")\n    ax.set_xlabel(\"n (escala log)\")\n    ax.set_ylabel(\"Media acumulada\")\n    ax.set_title(nombre)\n    ax.legend(fontsize=9)\n\nplt.suptitle(\n    \"LGN — Convergencia de la media muestral (datos reales, permutados)\",\n    fontsize=13, y=1.02,\n)\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\n\n\n\nObservaciones: - Las tres variables convergen a \\(\\mu\\), a pesar de tener distribuciones completamente distintas. - rain_acc converge más lento porque su varianza relativa es enorme (casi todos los valores son 0, con picos ocasionales). - Permutamos los datos antes de acumular para simular un muestreo aleatorio (los datos originales tienen autocorrelación temporal).",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Semana 4B — Muestreo y Estimación (Laboratorio)</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/008a_muestreo_lab.html#teorema-del-límite-central-con-datos-reales",
+    "href": "notebooks/008a_muestreo_lab.html#teorema-del-límite-central-con-datos-reales",
+    "title": "9  Semana 4B — Muestreo y Estimación (Laboratorio)",
+    "section": "9.3 3. Teorema del Límite Central con datos reales",
+    "text": "9.3 3. Teorema del Límite Central con datos reales\nPara cada tamaño de muestra \\(n\\), extraemos 1,000 muestras aleatorias, calculamos la media de cada una, y graficamos la distribución resultante.\nSegún el TLC, esta distribución debe aproximarse a \\(N(\\mu,\\;\\sigma^2/n)\\), sin importar la forma de la distribución original.\n\n9.3.1 Elige la variable para explorar el TLC\n\nvar_dropdown = widgets.Dropdown(options=[\"tdb\", \"ws\", \"rain_acc\"], value=\"tdb\", description=\"Variable\")\n\ndef _update(var_dropdown):\n    _var = var_dropdown\n    _info = poblacion_stats[_var]\n    _datos = _info[\"datos\"]\n    _mu = _info[\"mu\"]\n    _sigma = _info[\"sigma\"]\n\n    _tamaños = [5, 30, 100, 500]\n    _num_replicas = 1000\n\n    fig3, axes3 = plt.subplots(2, 2, figsize=(11, 8))\n\n    for ax, n_val in zip(axes3.flat, _tamaños):\n        _medias = np.array(\n            [rng.choice(_datos, size=n_val, replace=False).mean()\n             for _ in range(_num_replicas)]\n        )\n\n        ax.hist(_medias, bins=40, density=True, color=\"steelblue\",\n                alpha=0.7, edgecolor=\"white\", label=\"Empírica\")\n\n        # Curva normal teórica\n        _de = _sigma / np.sqrt(n_val)\n        _x = np.linspace(_medias.min(), _medias.max(), 200)\n        _pdf = (\n            1\n            / (_de * np.sqrt(2 * np.pi))\n            * np.exp(-0.5 * ((_x - _mu) / _de) ** 2)\n        )\n        ax.plot(_x, _pdf, \"crimson\", lw=2, label=\"$N(\\\\mu, \\\\sigma^2/n)$\")\n        ax.set_title(f\"n = {n_val}\")\n        ax.set_xlabel(\"$\\\\bar{x}$\")\n        ax.set_ylabel(\"Densidad\")\n        ax.legend(fontsize=8)\n\n    plt.suptitle(\n        f\"TLC — Variable: {_var}  (μ = {_mu:.3f},  σ = {_sigma:.3f})\",\n        fontsize=13,\n    )\n    plt.tight_layout()\n    plt.show()\n\nout = widgets.interactive_output(_update, {'var_dropdown': var_dropdown})\ndisplay(widgets.VBox([var_dropdown, out]))\n\n\n\n\n\nPrueba con las tres variables. Observa que: - tdb (bimodal) se normaliza rápido porque cada “modo” ya es simétrico. Con \\(n = 30\\) el ajuste es excelente. - ws (asimétrica) necesita un poco más de \\(n\\) para que las colas se simetrizen. - rain_acc (cero-inflada) es el caso más extremo: con \\(n = 5\\) la distribución de medias sigue siendo asimétrica; con \\(n = 500\\) finalmente se ajusta a la normal.",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Semana 4B — Muestreo y Estimación (Laboratorio)</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/008a_muestreo_lab.html#verificación-numérica",
+    "href": "notebooks/008a_muestreo_lab.html#verificación-numérica",
+    "title": "9  Semana 4B — Muestreo y Estimación (Laboratorio)",
+    "section": "9.4 4. Verificación numérica",
+    "text": "9.4 4. Verificación numérica\nComparamos los valores teóricos (\\(\\mu\\) y \\(\\sigma/\\sqrt{n}\\)) con los valores empíricos obtenidos de las 1,000 muestras.\n\n_tamaños = [5, 30, 100, 500]\n_num_replicas = 1000\n_rows = \"\"\n\nfor var_name, info in poblacion_stats.items():\n    datos = info[\"datos\"]\n    mu = info[\"mu\"]\n    sigma = info[\"sigma\"]\n\n    for n_val in _tamaños:\n        medias = np.array(\n            [rng.choice(datos, size=n_val, replace=False).mean()\n             for _ in range(_num_replicas)]\n        )\n        de_teorica = sigma / np.sqrt(n_val)\n        de_empirica = medias.std()\n        media_emp = medias.mean()\n\n        _rows += (\n            f\"| `{var_name}` | {n_val} | {mu:.4f} | {media_emp:.4f} \"\n            f\"| {de_teorica:.4f} | {de_empirica:.4f} |\\n\"\n        )\ndisplay(Markdown(f\"\"\"\n| Variable | n | μ (población) | $\\\\bar{{x}}$ medio (empírico) | DE teórica ($\\\\sigma/\\\\sqrt{{n}}$) | DE empírica |\n|:---|---:|---:|---:|---:|---:|\n{_rows}\n\n&gt; Los valores empíricos coinciden con los teóricos, confirmando\n&gt; que el TLC funciona incluso para distribuciones muy alejadas\n&gt; de la normal.\n\"\"\"))",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Semana 4B — Muestreo y Estimación (Laboratorio)</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/008a_muestreo_lab.html#nota-sobre-la-autocorrelación-temporal",
+    "href": "notebooks/008a_muestreo_lab.html#nota-sobre-la-autocorrelación-temporal",
+    "title": "9  Semana 4B — Muestreo y Estimación (Laboratorio)",
+    "section": "9.5 5. Nota sobre la autocorrelación temporal",
+    "text": "9.5 5. Nota sobre la autocorrelación temporal\nEn los ejercicios anteriores permutamos los datos para simular muestreo aleatorio. Pero los datos meteorológicos no son independientes: la temperatura de un minuto está correlacionada con la del minuto anterior.\n¿Qué pasa si tomamos medias de bloques consecutivos en vez de muestras aleatorias?\n\n_n = 30\n_num_replicas = 1000\n\n# Muestreo aleatorio (i.i.d.)\n_medias_iid = np.array(\n    [rng.choice(tdb, size=_n, replace=False).mean()\n     for _ in range(_num_replicas)]\n)\n\n# Bloques consecutivos\n_max_start = len(tdb) - _n\n_starts = rng.integers(0, _max_start, _num_replicas)\n_medias_bloque = np.array(\n    [tdb[s : s + _n].mean() for s in _starts]\n)\n\n_de_teorica = sigma_tdb / np.sqrt(_n)\n\nfig5, (ax5a, ax5b) = plt.subplots(1, 2, figsize=(12, 4), sharey=True)\n\nax5a.hist(_medias_iid, bins=40, density=True, color=\"steelblue\",\n          alpha=0.7, edgecolor=\"white\")\nax5a.set_title(f\"Muestreo aleatorio  (DE = {_medias_iid.std():.3f})\")\nax5a.set_xlabel(\"$\\\\bar{x}$\")\nax5a.set_ylabel(\"Densidad\")\n\nax5b.hist(_medias_bloque, bins=40, density=True, color=\"darkorange\",\n          alpha=0.7, edgecolor=\"white\")\nax5b.set_title(f\"Bloques consecutivos  (DE = {_medias_bloque.std():.3f})\")\nax5b.set_xlabel(\"$\\\\bar{x}$\")\n\n# Normal teórica (solo aplica al i.i.d.)\n_x = np.linspace(\n    min(_medias_iid.min(), _medias_bloque.min()),\n    max(_medias_iid.max(), _medias_bloque.max()),\n    200,\n)\n_pdf = (\n    1\n    / (_de_teorica * np.sqrt(2 * np.pi))\n    * np.exp(-0.5 * ((_x - mu_tdb) / _de_teorica) ** 2)\n)\nax5a.plot(_x, _pdf, \"crimson\", lw=2, label=f\"$N(\\\\mu, \\\\sigma^2/n)$\")\nax5b.plot(_x, _pdf, \"crimson\", lw=2, ls=\"--\", alpha=0.5,\n          label=\"Normal teórica (i.i.d.)\")\n\nax5a.legend(fontsize=9)\nax5b.legend(fontsize=9)\n\nplt.suptitle(\n    f\"Efecto de la autocorrelación en la distribución de $\\\\bar{{x}}$  \"\n    f\"(n = {_n}, tdb)\",\n    fontsize=13, y=1.02,\n)\nplt.tight_layout()\nplt.show()\n\n\nConclusión importante: - Con muestreo aleatorio, la dispersión de \\(\\bar{x}\\) coincide con \\(\\sigma/\\sqrt{n}\\) — el TLC funciona. - Con bloques consecutivos de 30 minutos, la dispersión es mucho mayor que \\(\\sigma/\\sqrt{n}\\), porque las observaciones dentro de cada bloque son muy parecidas entre sí (autocorrelación). 30 minutos consecutivos no equivalen a 30 observaciones independientes.\nEste es un adelanto de por qué necesitaremos herramientas de series temporales (bloque 3) para analizar correctamente datos con dependencia temporal.",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Semana 4B — Muestreo y Estimación (Laboratorio)</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/008a_muestreo_lab.html#resumen-de-la-sesión",
+    "href": "notebooks/008a_muestreo_lab.html#resumen-de-la-sesión",
+    "title": "9  Semana 4B — Muestreo y Estimación (Laboratorio)",
+    "section": "9.6 Resumen de la sesión",
+    "text": "9.6 Resumen de la sesión\n\n\n\n\n\n\n\nVerificación\nResultado con ClimaLab\n\n\n\n\nLGN\nLas tres variables (tdb, ws, rain_acc) convergen a \\(\\mu\\) — rain_acc más lento por su alta varianza relativa\n\n\nTLC\nLa distribución de \\(\\bar{x}\\) se ajusta a \\(N(\\mu, \\sigma^2/n)\\) incluso para rain_acc (cero-inflada), siempre que \\(n\\) sea suficientemente grande\n\n\nAutocorrelación\nBloques consecutivos violan la independencia → la dispersión real de \\(\\bar{x}\\) es mayor que la teórica. El TLC requiere muestras independientes\n\n\n\nPróxima semana (5): Usar estos resultados para construir intervalos de confianza y medir la incertidumbre de nuestras estimaciones.",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Semana 4B — Muestreo y Estimación (Laboratorio)</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/008b_muestreo_lab.html",
+    "href": "notebooks/008b_muestreo_lab.html",
+    "title": "10  1. Cargar y conocer la población",
+    "section": "",
+    "text": "import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\nfrom scipy import stats\n\nplt.rcParams.update(\n    {\n        \"figure.facecolor\": \"white\",\n        \"axes.facecolor\": \"white\",\n        \"axes.grid\": True,\n        \"grid.alpha\": 0.3,\n        \"axes.spines.top\": False,\n        \"axes.spines.right\": False,\n    }\n)\nrng = np.random.default_rng(42)\nimport ipywidgets as widgets\nfrom ipywidgets import interact, interactive_output\nfrom IPython.display import display, Markdown\n\n\n\ndf = pd.read_parquet(\"../data/ClimaLab_2023-05-31_2025-06-20.parquet\")\n\n\n11 Teorema de limite central\nObjetivos:\n\nTomar tdb del conjunto de datos y definir K subconjuntos de tamaño n, definidos en el inicio de la celda y calcular la media. Si K &gt; 1, graficar juntos el promedio con un bin también definido por el usuario, para poder ver como se va cumpliendo el teorema de limite central.\nUna vez definido un tamaño de muestra, y considerando que se conoce el promedio de tdb, calcular la desviación estándard y promedio del subconjunto y compararlo con sigma = sigma_hat * sqr( (1- 1/N)/(1-(1/n))), donde N es el tamaño del conjunto tdb\n\n\n# --- Objetivo 1: Teorema de Límite Central ---\ntdb = df[\"tdb\"].dropna().values\nN = len(tdb)\n\nn = 1       # tamaño de cada subconjunto\nK = 1        # número de repeticiones\nbins = 30     # bins del histograma\n\nmedias = np.array([rng.choice(tdb, size=n, replace=False).mean() for _ in range(K)])\n\nfig, axes = plt.subplots(2, 1, figsize=(8, 8))\n\naxes[0].hist(tdb, bins=bins, density=False, alpha=0.6, label=\"Población\")\naxes[0].axvline(tdb.mean(), color=\"red\", ls=\"--\", label=f\"μ = {tdb.mean():.2f}\")\naxes[0].set(xlabel=\"tdb [°C]\", ylabel=\"Conteo\", title=\"Distribución de la población\")\naxes[0].legend()\n\naxes[1].hist(medias, bins=bins, density=False, alpha=0.6, color=\"orange\", label=f\"K={K} medias (n={n})\")\naxes[1].axvline(tdb.mean(), color=\"red\", ls=\"--\", label=f\"μ = {tdb.mean():.2f}\")\naxes[1].axvline(medias.mean(), color=\"black\", ls=\":\", label=f\"x̄ medias = {medias.mean():.2f}\")\naxes[1].set(xlabel=\"Media de tdb [°C]\", ylabel=\"Conteo\", title=\"Distribución de medias muestrales (TLC)\")\naxes[1].legend()\n# axes[1].set_xlim(min(tdb),max(tdb))\n\nplt.tight_layout()\nplt.show()\n\nprint(f\"Población:  μ = {tdb.mean():.4f},  σ = {tdb.std():.4f},  N = {N}\")\nprint(f\"Medias:     x̄ = {medias.mean():.4f},  s = {medias.std():.4f},  K = {K}\")\n\n\n\n\n\n\n\n\nPoblación:  μ = 24.4479,  σ = 4.9352,  N = 1076768\nMedias:     x̄ = 23.9600,  s = 0.0000,  K = 1\n\n\n\n\nn = 1000       # tamaño de cada subconjunto\n\n\n\n# --- Objetivo 2: Comparación σ teórica vs σ observada ---\nmuestra = rng.choice(tdb, size=n, replace=False)\n\nmedia_muestra = muestra.mean()\nsigma_muestra = muestra.std()\n\n# sigma corregida por población finita\nsigma_teorica = sigma_muestra * np.sqrt((1 - 1/N) / (1 - 1/n))\n\nprint(f\"Tamaño de muestra:    n = {n}\")\nprint(f\"Tamaño de población:  N = {N}\")\nprint()\nprint(f\"Media población (μ):          {tdb.mean():.4f} °C\")\nprint(f\"Media muestra (x̄):            {media_muestra:.4f} °C\")\n# print(f\"Diferencia |μ - x̄|:           {abs(tdb.mean() - media_muestra):.4f} °C\")\nprint()\nprint(f\"σ̂ muestra ():                 {sigma_muestra:.4f} °C\")\nprint(f\"σ población real:             {tdb.std():.4f} °C\")\nprint(f\"σ corregida (teórica):        {sigma_teorica:.4f} °C\")\nprint(f\"Diferencia |σ_real - σ_teór|: {abs(tdb.std() - sigma_teorica):.4f} °C\")\n\nTamaño de muestra:    n = 1000\nTamaño de población:  N = 1076768\n\nMedia población (μ):          24.4479 °C\nMedia muestra (x̄):            24.3031 °C\n\nσ̂ muestra ():                 4.9748 °C\nσ población real:             4.9352 °C\nσ corregida (teórica):        4.9773 °C\nDiferencia |σ_real - σ_teór|: 0.0422 °C\n\n\n\nvalores_n = np.arange(2, 40000, 10)\nmedias_n = np.zeros(len(valores_n))\nsigmas_corregidas = np.zeros(len(valores_n))\n\nfor i, n in enumerate(valores_n):\n  muestra = rng.choice(tdb, size=n, replace=False)\n  medias_n[i] = muestra.mean()\n  sigma_hat = muestra.std(ddof=1)\n  sigmas_corregidas[i] = sigma_hat * np.sqrt((1 - 1/N) / (1 - 1/n))\n\nfig, axes = plt.subplots(2, 1, figsize=(8, 6))\n\naxes[0].plot(valores_n, medias_n, alpha=0.7)\naxes[0].axhline(tdb.mean(), color=\"red\", ls=\"--\", label=f\"μ = {tdb.mean():.2f}\")\naxes[0].set(xlabel=\"n\", ylabel=\"Media [°C]\", title=\"Convergencia de x̄ → μ\")\naxes[0].set_xscale(\"log\")\naxes[0].legend()\n\naxes[1].plot(valores_n, sigmas_corregidas, alpha=0.7)\naxes[1].axhline(tdb.std(), color=\"red\", ls=\"--\", label=f\"σ = {tdb.std():.2f}\")\naxes[1].set(xlabel=\"n\", ylabel=\"σ corregida [°C]\", title=\"Convergencia de σ corregida → σ real\")\naxes[1].set_xscale(\"log\")\naxes[1].legend()\n\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\n\n\n\n\nerror_media = np.abs(medias_n - tdb.mean())\nerror_sigma = np.abs(sigmas_corregidas - tdb.std())\n\nfig, axes = plt.subplots(2, 1, figsize=(8, 6))\n\naxes[0].plot(valores_n, error_media, alpha=0.7)\naxes[0].set(xlabel=\"n\", ylabel=\"|x̄ - μ| [°C]\", title=\"Error en la media\")\naxes[0].set_xscale(\"log\")\n\naxes[1].plot(valores_n, error_sigma, alpha=0.7)\naxes[1].set(xlabel=\"n\", ylabel=\"|σ_corr - σ| [°C]\", title=\"Error en σ corregida\")\naxes[1].set_xscale(\"log\")\n\nplt.tight_layout()\nplt.show()",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>1. Cargar y conocer la población</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/009_PruebasHipotesis.html",
+    "href": "notebooks/009_PruebasHipotesis.html",
+    "title": "11  ax.plot(noche.tdb)",
+    "section": "",
+    "text": "11.0.0.1 stats.t.ppf(1 - alpha/2, gl)\n\\[\n  t = \\frac{\\bar{x} - \\mu_0}{s / \\sqrt{n}}\n  \\]\ndonde: - \\(\\bar{x}\\) = media de muestra_noche - \\(\\mu_0\\) = mu_dia (el valor con el que comparas) - \\(s\\) = desviación estándar de la muestra - \\(n\\) = tamaño de muestra\nIntuitivamente: “¿cuántos errores estándar separan mi media muestral del promedio del día?”\n¿Qué significa que sea negativo?\nEl signo sólo indica dirección:\n¿Y el p-valor?\nDevuelve el valor crítico \\(t_{\\text{crit}}\\) de la distribución t: el umbral que separa la región de no rechazo de las colas de rechazo en una prueba de dos colas.\n\\[\ngl = n - 1, \\qquad P(T \\leq t_{\\text{crit}}) = 1 - \\tfrac{\\alpha}{2}\n\\]\nDeja \\(\\alpha/2\\) de probabilidad en cada cola.\nEstadístico observado:\n\\[\nt = \\frac{\\bar{x} - \\mu_0}{s / \\sqrt{n}}\n\\]\nDecisión: se rechaza \\(H_0\\) si \\(|t| &gt; t_{\\text{crit}}\\).\n\\(t_{\\text{crit}}\\) está en unidades de error estándar (\\(s/\\sqrt{n}\\)).\nn = 2\ndef evalua(n):\n    muestra_noche = noche['tdb'].sample(n)\n    mu_dia = dia['tdb'].mean()\n    \n    # H0: la media de la muestra de noche es igual al promedio del día\n    t_stat, p_valor = stats.ttest_1samp(muestra_noche, popmean=mu_dia)\n    \n    alpha = 0.05\n    print(f'promedio día: {mu_dia:.3f}')\n    print(f'media muestra noche (n={n}): {muestra_noche.mean():.3f}')\n    print(f't = {t_stat:.3f},  p = {p_valor:.4f}')\n    print('Rechazamos H0 (son distintas)' if p_valor &lt; alpha else 'No rechazamos H0 (estadísticamente iguales)')\n    \n    \n    gl = n - 1\n    t_critico = stats.t.ppf(1 - alpha/2, gl)\n    \n    \n    lim = max(4, abs(t_stat), t_critico) * 1.1\n    x = np.linspace(-lim, lim, 600)\n    y = stats.t.pdf(x, gl)\n    \n    \n    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 4))\n    \n    ax1.hist(muestra_noche, bins=15, edgecolor='k', alpha=0.7, label=f'muestra noche (n={n})')\n    ax1.axvline(mu_dia, color='red', ls='--', lw=2, label=f'μ día = {mu_dia:.2f}')\n    ax1.axvline(muestra_noche.mean(), color='green', ls='--', lw=2,\n              label=f'media muestra = {muestra_noche.mean():.2f}')\n    ax1.set_xlabel('tdb'); ax1.set_ylabel('frecuencia')\n    ax1.set_title('Muestra de noche vs. promedio del día')\n    ax1.legend()\n    \n    ax2.plot(x, y, 'b-', lw=2, label=f't(gl={gl})')\n    ax2.fill_between(x, y, where=(x &lt;= -t_critico), color='red', alpha=0.3, label='región de rechazo')\n    ax2.fill_between(x, y, where=(x &gt;=  t_critico), color='red', alpha=0.3)\n    ax2.axvline(t_stat, color='green', lw=2, label=f't obs = {t_stat:.2f}')\n    ax2.axvline( t_critico, color='k', ls=':', lw=1)\n    ax2.axvline(-t_critico, color='k', ls=':', lw=1, label=f'±t crit = ±{t_critico:.2f}')\n    ax2.set_xlabel('t'); ax2.set_ylabel('densidad')\n    ax2.set_title(f'Distribución t bajo H0  (p = {p_valor:.4f})')\n    ax2.legend()\n    \n    plt.tight_layout(); plt.show()\nevalua(n=20)\n\npromedio día: 26.919\nmedia muestra noche (n=20): 22.203\nt = -3.814,  p = 0.0012\nRechazamos H0 (son distintas)",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>`stats.t.ppf(1 - alpha/2, gl)`</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/009_PruebasHipotesis.html#puedo-comparar-un-conjunto-de-datos-de-la-noche-con-la-noche",
+    "href": "notebooks/009_PruebasHipotesis.html#puedo-comparar-un-conjunto-de-datos-de-la-noche-con-la-noche",
+    "title": "11  ax.plot(noche.tdb)",
+    "section": "11.1 Puedo comparar un conjunto de datos de la noche, con la noche ?",
+    "text": "11.1 Puedo comparar un conjunto de datos de la noche, con la noche ?\n\nn = 5\ndef evalua_noche(n):\n    muestra_noche = noche['tdb'].sample(n)\n    # H0: la media de la muestra es igual a la media poblacional de noche\n    mu_noche = noche['tdb'].mean()\n    t_stat, p_valor = stats.ttest_1samp(muestra_noche, popmean=mu_noche)\n    \n    alpha = 0.05\n    print(f'media poblacional noche: {mu_noche:.3f}')\n    print(f'media muestra (n={n}): {muestra_noche.mean():.3f}')\n    print(f't = {t_stat:.3f},  p = {p_valor:.4f}')\n    print('Rechazamos H0 (son distintas)' if p_valor &lt; alpha else 'No rechazamos H0 (estadísticamente iguales)')\n    \n    gl = n - 1  # grados de libertad\n    t_critico = stats.t.ppf(1 - alpha/2, gl)\n    \n    # eje x para la distribución t bajo H0\n    x = np.linspace(-4, 4, 400)\n    y = stats.t.pdf(x, gl)\n    \n    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 4))\n    \n    # --- 1) histograma de la muestra vs. media poblacional ---\n    ax1.hist(muestra_noche, bins=15, edgecolor='k', alpha=0.7, label=f'muestra (n={n})')\n    ax1.axvline(mu_noche, color='red', ls='--', lw=2, label=f'μ noche = {mu_noche:.2f}')\n    ax1.axvline(muestra_noche.mean(), color='green', ls='--', lw=2,\n              label=f'media muestra = {muestra_noche.mean():.2f}')\n    ax1.set_xlabel('tdb'); ax1.set_ylabel('frecuencia')\n    ax1.set_title('Muestra vs. media poblacional')\n    ax1.legend()\n    \n    # --- 2) distribución t bajo H0 con regiones de rechazo ---\n    ax2.plot(x, y, 'b-', lw=2, label=f't(gl={gl})')\n    ax2.fill_between(x, y, where=(x &lt;= -t_critico), color='red', alpha=0.3, label='región de rechazo')\n    ax2.fill_between(x, y, where=(x &gt;=  t_critico), color='red', alpha=0.3)\n    ax2.axvline(t_stat, color='green', lw=2, label=f't obs = {t_stat:.2f}')\n    ax2.axvline( t_critico, color='k', ls=':', lw=1)\n    ax2.axvline(-t_critico, color='k', ls=':', lw=1, label=f'±t crit = ±{t_critico:.2f}')\n    ax2.set_xlabel('t'); ax2.set_ylabel('densidad')\n    ax2.set_title(f'Distribución t bajo H0  (p = {p_valor:.4f})')\n    ax2.legend()\n    \n    plt.tight_layout(); plt.show()\n\n\nevalua_noche(n=500)\n\nmedia poblacional noche: 21.922\nmedia muestra (n=500): 21.684\nt = -1.407,  p = 0.1600\nNo rechazamos H0 (estadísticamente iguales)",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>`stats.t.ppf(1 - alpha/2, gl)`</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/009_PruebasHipotesis.html#qué-ejercicios-se-les-ocurre",
+    "href": "notebooks/009_PruebasHipotesis.html#qué-ejercicios-se-les-ocurre",
+    "title": "11  ax.plot(noche.tdb)",
+    "section": "11.2 Qué ejercicios se les ocurre ?",
+    "text": "11.2 Qué ejercicios se les ocurre ?",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>`stats.t.ppf(1 - alpha/2, gl)`</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/010_teoria_componentes_y_descomposicion.html",
+    "href": "notebooks/010_teoria_componentes_y_descomposicion.html",
+    "title": "12  Sesión 1 · Teoría",
+    "section": "",
+    "text": "12.1 Componentes y descomposición de series temporales\nEstadística, Detección de Anomalías e Imputación de Series Temporales Posgrado en Ingeniería · Área Energía · IER-UNAM",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Sesión 1 · Teoría</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/010_teoria_componentes_y_descomposicion.html#componentes-y-descomposición-de-series-temporales",
+    "href": "notebooks/010_teoria_componentes_y_descomposicion.html#componentes-y-descomposición-de-series-temporales",
+    "title": "12  Sesión 1 · Teoría",
+    "section": "",
+    "text": "12.1.1 Objetivos de aprendizaje\nAl terminar esta sesión, el estudiante será capaz de:\n\nDefinir formalmente una serie temporal y enunciar sus componentes.\nDistinguir entre tendencia, estacionalidad, ciclo y ruido.\nDecidir cuándo conviene un modelo aditivo y cuándo uno multiplicativo.\nExplicar la diferencia conceptual entre la descomposición clásica y STL.",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Sesión 1 · Teoría</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/010_teoria_componentes_y_descomposicion.html#importante",
+    "href": "notebooks/010_teoria_componentes_y_descomposicion.html#importante",
+    "title": "12  Sesión 1 · Teoría",
+    "section": "12.2 Importante",
+    "text": "12.2 Importante\nLas celdas de código de esta libreta usan datos sintéticos generados con NumPy. La intención es ver cada componente aislado, sin la suciedad de un sensor real. Después trabajaremos con datos meteorológicos reales de ESOLMET del IER.\n\nimport numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\n\nplt.rcParams[\"figure.figsize\"] = (10, 4)\nplt.rcParams[\"axes.grid\"] = True\nplt.rcParams[\"grid.alpha\"] = 0.3\nnp.random.seed(42)",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Sesión 1 · Teoría</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/010_teoria_componentes_y_descomposicion.html#qué-es-una-serie-temporal",
+    "href": "notebooks/010_teoria_componentes_y_descomposicion.html#qué-es-una-serie-temporal",
+    "title": "12  Sesión 1 · Teoría",
+    "section": "12.3 1. ¿Qué es una serie temporal?",
+    "text": "12.3 1. ¿Qué es una serie temporal?\nUna serie temporal es una secuencia de observaciones \\(\\{y_t\\}\\) indexada por una variable temporal \\(t\\), donde el orden importa.\n\\[\ny_t,\\quad t = 1, 2, \\ldots, N\n\\]\nEjemplos en ingeniería energética:\n\nTemperatura ambiente cada minuto en una estación meteorológica.\nDemanda eléctrica horaria de un edificio.\nProducción diaria de un sistema fotovoltaico.\nPromedio mensual de irradiancia global.\n\nLo que distingue a una serie temporal de un dataset cualquiera es que las observaciones consecutivas no son independientes: lo que ocurre en \\(t\\) contiene información sobre lo que ocurrirá en \\(t+1\\). Esa dependencia temporal es la materia prima de toda esta materia.\n\n12.3.1 Frecuencia de muestreo\nLa frecuencia \\(\\Delta t\\) entre observaciones determina qué fenómenos podemos observar:\n\n\n\nFrecuencia\n\\(\\Delta t\\)\nFenómenos observables\n\n\n\n\nSub-segundo\n&lt; 1 s\nTransitorios eléctricos, ráfagas turbulentas\n\n\nMinuto\n1 min\nVariabilidad de nubes, ciclo diario detallado\n\n\nHora\n1 h\nCiclo diario, perfiles de carga\n\n\nDía\n1 d\nTendencia estacional anual, ENSO\n\n\nMes / Año\n1 mes / 1 año\nCambio climático, ciclos solares\n\n\n\nPrincipio clave (Nyquist). Para resolver un fenómeno con período \\(T\\) se necesita \\(\\Delta t &lt; T/2\\).",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Sesión 1 · Teoría</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/010_teoria_componentes_y_descomposicion.html#los-cuatro-componentes-de-una-serie-temporal",
+    "href": "notebooks/010_teoria_componentes_y_descomposicion.html#los-cuatro-componentes-de-una-serie-temporal",
+    "title": "12  Sesión 1 · Teoría",
+    "section": "12.4 2. Los cuatro componentes de una serie temporal",
+    "text": "12.4 2. Los cuatro componentes de una serie temporal\nCualquier serie temporal puede pensarse como la superposición de cuatro elementos:\n\\[\ny_t = \\underbrace{T_t}_{\\text{tendencia}} + \\underbrace{S_t}_{\\text{estacionalidad}} + \\underbrace{C_t}_{\\text{ciclo}} + \\underbrace{R_t}_{\\text{ruido}}\n\\]\n(esto es la forma aditiva; veremos la multiplicativa en la sección 3).\n\n\n\nimage.png\n\n\n\n12.4.1 2.1 Tendencia \\(T_t\\)\nCambio sistemático de largo plazo, no periódico. Puede ser monótona (creciente, decreciente) o suavemente curvada.\nEjemplo: aumento de la temperatura media anual debido al cambio climático.\n\n# --- Tendencia sintética ---\nn = 365 * 3  # 3 años en días\nt = np.arange(n)\ntrend = 20 + 0.003 * t  # +0.003 °C/día ≈ +1 °C/año\n\nfig, ax = plt.subplots()\nax.plot(t, trend, color=\"C3\", lw=2)\nax.set_xlabel(\"Día\")\nax.set_ylabel(\"Temperatura (°C)\")\nax.set_title(\"Componente de tendencia $T_t$\")\nplt.show()\n\n\n\n\n\n\n\n\n\n\n12.4.2 2.2 Estacionalidad \\(S_t\\)\nPatrón periódico de período fijo y conocido vinculado al calendario o a un proceso natural recurrente.\n\n\n\nTipo\nPeríodo\nCausa física\n\n\n\n\nDiaria\n24 h\nRotación de la Tierra (sol)\n\n\nAnual\n365 d\nTraslación de la Tierra (estaciones)\n\n\nSemanal\n7 d\nPatrón humano (laboral / fin de semana)\n\n\n\nLa clave: el período es constante y predecible.\n\n# --- Estacionalidad anual sintética ---\nseasonal = 8 * np.sin(2 * np.pi * t / 365 - np.pi / 1)\n\nfig, ax = plt.subplots()\nax.plot(t, seasonal, color=\"C0\", lw=1.5)\nax.set_xlabel(\"Día\")\nax.set_ylabel(\"Anomalía estacional (°C)\")\nax.set_title(\"Componente estacional $S_t$ (período = 365 días)\")\nplt.show()\n\n\n\n\n\n\n\n\n\n\n12.4.3 2.3 Ciclo \\(C_t\\)\nPatrón recurrente pero de período variable o no fijo. La distinción clave con la estacionalidad es que el ciclo no está anclado al calendario.\nEjemplos: - ENSO (El Niño / La Niña): período de 2–7 años. - Ciclo solar: ~11 años, pero variable.\nEn la práctica de un curso introductorio, el ciclo suele dejarse fundido con la tendencia (ambos son “lo de baja frecuencia”). En esta materia trabajaremos sobre todo con tendencia + estacionalidad + ruido.\n\n\n12.4.4 2.4 Ruido / residual \\(R_t\\)\nLo que queda después de quitar los componentes deterministas. Idealmente:\n\nMedia cero.\nVarianza constante\nSin autocorrelación (será un ruido blanco).\n\nEn la realidad casi nunca lo es del todo, y eso es justo lo que aprovecharemos para detectar anomalías (Bloque 4).\n\n# --- Ruido sintético ---\nnoise = np.random.normal(0, 1.5, n)\n\nfig, ax = plt.subplots()\nax.plot(t, noise, color=\"C7\", lw=0.7)\nax.set_xlabel(\"Día\")\nax.set_ylabel(\"Residual (°C)\")\nax.set_title(\"Componente de ruido $R_t$\")\nplt.show()\n\n\n\n\n\n\n\n\n\nnoise.mean()\n\nnp.float64(0.0494341958983249)\n\n\n\n\n12.4.5 2.5 Suma de los componentes\nLo que el sensor mide es la suma:\n\\[\ny_t = T_t + S_t + R_t\n\\]\n\ny = trend + seasonal + noise\n\nfig, axes = plt.subplots(4, 1, figsize=(10, 9), sharex=True)\n\naxes[0].plot(t, y, color=\"black\", lw=0.6)\naxes[0].set_ylabel(\"$y_t$ observada\")\naxes[0].set_title(\"Serie observada y sus componentes (simulados)\")\n\naxes[0].plot(t, trend, color=\"C3\", lw=2)\naxes[1].set_ylabel(\"$T_t$\")\n\naxes[0].plot(t, seasonal, color=\"C0\", lw=1)\naxes[2].set_ylabel(\"$S_t$\")\n\naxes[0].plot(t, noise, color=\"C7\", lw=0.5)\naxes[3].set_ylabel(\"$R_t$\")\naxes[3].set_xlabel(\"Día\")\n\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\n\n\nObserva: mirando solo la primera gráfica (la serie completa), los componentes están entremezclados. El objetivo de la descomposición es ir en sentido inverso: partir de \\(y_t\\) y recuperar \\(T_t\\), \\(S_t\\), \\(R_t\\).",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Sesión 1 · Teoría</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/010_teoria_componentes_y_descomposicion.html#aditivo-vs.-multiplicativo",
+    "href": "notebooks/010_teoria_componentes_y_descomposicion.html#aditivo-vs.-multiplicativo",
+    "title": "12  Sesión 1 · Teoría",
+    "section": "12.5 3. Aditivo vs. multiplicativo",
+    "text": "12.5 3. Aditivo vs. multiplicativo\nHay dos modelos canónicos:\n\n\n\n\n\n\n\n\nModelo\nEcuación\n¿Cuándo?\n\n\n\n\nAditivo\n\\(y_t = T_t + S_t + R_t\\)\nLa amplitud estacional es constante en el tiempo\n\n\nMultiplicativo\n\\(y_t = T_t \\cdot S_t \\cdot R_t\\)\nLa amplitud estacional escala con el nivel de la serie\n\n\n\n\n12.5.1 Cómo decidir\nLa regla empírica más útil: mira la amplitud del ciclo estacional a lo largo del tiempo.\n\nSi las oscilaciones se ven igual de grandes cuando \\(T_t\\) es pequeña que cuando es grande → aditivo.\nSi las oscilaciones crecen cuando \\(T_t\\) crece (efecto “abanico”) → multiplicativo.\n\nUna transformación logarítmica convierte un modelo multiplicativo en uno aditivo:\n\\[\n\\log y_t = \\log T_t + \\log S_t + \\log R_t\n\\]\nPor eso, en la práctica, casi todas las herramientas (incluida STL) trabajan en modo aditivo y, si el caso lo amerita, primero aplicamos \\(\\log\\).\n\n# --- Comparación visual aditivo vs multiplicativo ---\ntrend2 = 10 + 0.02 * t\nseason_pattern = np.sin(2 * np.pi * t / 365 - np.pi / 2)\nnoise2 = np.random.normal(0, 0.5, n)\n\ny_add = trend2 + 4 * season_pattern + noise2          # amplitud constante = 4\ny_mul = trend2 * (1 + 0.4 * season_pattern) * (1 + 0.05 * noise2)  # amplitud ~ 40 % del nivel\n\nfig, axes = plt.subplots(2, 1, figsize=(10, 6), sharex=True)\n\naxes[0].plot(t, y_add, color=\"C2\", lw=0.8)\naxes[0].plot(t, trend2, color=\"C3\", lw=2, label=\"Tendencia\")\naxes[0].set_ylabel(\"Aditivo\")\naxes[0].set_title(\"Aditivo: amplitud estacional CONSTANTE\")\naxes[0].legend()\n\naxes[1].plot(t, y_mul, color=\"C4\", lw=0.8)\naxes[1].plot(t, trend2, color=\"C3\", lw=2, label=\"Tendencia\")\naxes[1].set_ylabel(\"Multiplicativo\")\naxes[1].set_xlabel(\"Día\")\naxes[1].set_title(\"Multiplicativo: amplitud CRECE con el nivel\")\naxes[1].legend()\n\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\n\n\n\n\n12.5.2 Heurística de bolsillo\n\nSi al graficar la serie ves un abanico que se abre, prueba multiplicativo (o \\(\\log\\)). Si ves una banda de ancho constante, usa aditivo.\n\nEn meteorología, temperatura es típicamente aditiva; radiación solar (GHI) o demanda eléctrica de aire acondicionado suelen ser multiplicativas o requerir transformación.",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Sesión 1 · Teoría</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/010_teoria_componentes_y_descomposicion.html#descomposición-clásica",
+    "href": "notebooks/010_teoria_componentes_y_descomposicion.html#descomposición-clásica",
+    "title": "12  Sesión 1 · Teoría",
+    "section": "12.6 4. Descomposición clásica",
+    "text": "12.6 4. Descomposición clásica\nEl primer algoritmo histórico (años 1920s–1950s) es muy simple y vale la pena entenderlo porque sigue siendo el default mental.\nIdea: estimar la tendencia con una media móvil, restarla, y promediar lo que queda en cada posición del ciclo para obtener la estacionalidad.\n\n12.6.1 Algoritmo (modelo aditivo, período \\(m\\))\n\nEstimar tendencia: \\(\\hat{T}_t = \\mathrm{MA}_m(y_t)\\) — media móvil de longitud \\(m\\) centrada.\nQuitar tendencia: \\(d_t = y_t - \\hat{T}_t\\).\nEstimar estacionalidad: \\(\\hat{S}_t\\) = promedio de \\(d_t\\) en cada posición del período (ej. promedio de todos los “1 de enero”, “2 de enero”, etc.).\nResidual: \\(\\hat{R}_t = y_t - \\hat{T}_t - \\hat{S}_t\\).\n\nEn statsmodels, esto es seasonal_decompose.\n\nfrom statsmodels.tsa.seasonal import seasonal_decompose\n\nidx = pd.date_range(\"2022-01-01\", periods=n, freq=\"D\")\nserie = pd.Series(y, index=idx, name=\"temp\")\n\nresultado = seasonal_decompose(serie, model=\"additive\", period=365)\n\nfig = resultado.plot()\nfig.set_size_inches(10, 8)\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\n\n\n\nresultado.trend\n\n2022-01-01   NaN\n2022-01-02   NaN\n2022-01-03   NaN\n2022-01-04   NaN\n2022-01-05   NaN\n              ..\n2024-12-26   NaN\n2024-12-27   NaN\n2024-12-28   NaN\n2024-12-29   NaN\n2024-12-30   NaN\nFreq: D, Name: trend, Length: 1095, dtype: float64\n\n\n\n\n12.6.2 Limitaciones del método clásico\n\nPierde datos en los extremos. La media móvil centrada no se puede calcular en los primeros y últimos \\(m/2\\) puntos, así que esos quedan como NaN.\nEstacionalidad rígida. Asume que el patrón estacional es idéntico año tras año. En la realidad climática, los inviernos no son todos iguales.\nSensible a outliers. Una sola observación anómala contamina la media móvil y, peor, contamina la estacionalidad estimada.\nUn solo período. Si la serie tiene estacionalidad diaria y anual a la vez, no las separa bien.\n\nEstas limitaciones motivan STL.",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Sesión 1 · Teoría</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/010_teoria_componentes_y_descomposicion.html#stl-seasonal-trend-decomposition-using-loess",
+    "href": "notebooks/010_teoria_componentes_y_descomposicion.html#stl-seasonal-trend-decomposition-using-loess",
+    "title": "12  Sesión 1 · Teoría",
+    "section": "12.7 5. STL: Seasonal-Trend decomposition using LOESS",
+    "text": "12.7 5. STL: Seasonal-Trend decomposition using LOESS\nSTL (Cleveland et al., 1990) es la herramienta de descomposición que usaremos como referencia en el resto de la materia.\n\n12.7.1 Idea central\nReemplazar la media móvil por una regresión local ponderada (LOESS) que se ajusta en cada punto a sus vecinos. Esto da:\n\nEstacionalidad que puede evolucionar suavemente en el tiempo (no es la misma cada año).\nUna opción robusta que pondera menos los outliers (clave para el Bloque 4 de detección de anomalías).\nSin pérdida de datos en los extremos.\n\n\n\n12.7.2 Parámetros principales\n\n\n\n\n\n\n\nParámetro\nSignificado\n\n\n\n\nperiod\nLongitud del ciclo estacional en pasos de muestreo (24 si datos horarios con ciclo diario; 365 si datos diarios con ciclo anual)\n\n\nseasonal\nSuavidad de la componente estacional. Impar, ≥ 7\n\n\ntrend\nSuavidad de la tendencia. Impar\n\n\nrobust\nSi True, pondera a la baja los outliers\n\n\n\n\nserie\n\n2022-01-01    20.745071\n2022-01-02    19.657897\n2022-01-03    20.702160\n2022-01-04    21.880587\n2022-01-05    19.110351\n                ...    \n2024-12-26    23.850317\n2024-12-27    23.767586\n2024-12-28    24.780402\n2024-12-29    23.632292\n2024-12-30    24.518667\nFreq: D, Name: temp, Length: 1095, dtype: float64\n\n\n\nfrom statsmodels.tsa.seasonal import STL\n\nstl = STL(serie, period=365, robust=True).fit()\n\nfig = stl.plot()\nfig.set_size_inches(10, 8)\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\n\n\n\nfig, ax = plt.subplots(figsize=(12,3))\n\nax.plot(\n    stl.seasonal \n    + stl.trend \n    + stl.resid\n    , label = \"STL\")\nax.plot(serie,label = \"original\")\n\nax.legend()\n\n\n\n\n\n\n\n\n\n\n12.7.3 Comparación rápida\n\n\n\nAspecto\nClásica\nSTL\n\n\n\n\nPérdida en bordes\nSí\nNo\n\n\nEstacionalidad evolutiva\nNo\nSí\n\n\nRobustez a outliers\nMala\nBuena (modo robust)\n\n\nMúltiples períodos\nNo\nNo (existe MSTL)\n\n\n\nPara esta materia, STL será la herramienta por defecto.\n\n\n12.7.4 Preguntas para reflexionar antes del laboratorio\n\nSi tuvieras temperatura cada minuto durante un año, ¿qué período usarías en STL si quisieras ver el ciclo diario? ¿Y si quisieras ver el ciclo anual?\nLa radiación global horizontal (GHI) vale exactamente 0 W/m² toda la noche. ¿Esto hace que su descomposición sea más complicada o más simple? ¿Por qué?\nUna estación meteorológica registra una falla de 3 horas en una tarde. ¿Cómo afectará esto a la descomposición clásica? ¿Y a STL en modo robust?\n\n\n\n12.7.5 Lectura recomendada (opcional)\n\nCleveland, R. B., Cleveland, W. S., McRae, J. E., & Terpenning, I. (1990). STL: A seasonal-trend decomposition procedure based on Loess. Journal of Official Statistics, 6(1), 3–73.\nHyndman, R. J., & Athanasopoulos, G. Forecasting: Principles and Practice (3a ed.), capítulo 3. https://otexts.com/fpp3/",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Sesión 1 · Teoría</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/011_laboratorio_climalab.html",
+    "href": "notebooks/011_laboratorio_climalab.html",
+    "title": "13  Sesión 1 · Laboratorio",
+    "section": "",
+    "text": "13.1 Descomposición de series meteorológicas reales\nEstadística, Detección de Anomalías e Imputación de Series Temporales Posgrado en Ingeniería · Área Energía · IER-UNAM",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Sesión 1 · Laboratorio</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/011_laboratorio_climalab.html#descomposición-de-series-meteorológicas-reales",
+    "href": "notebooks/011_laboratorio_climalab.html#descomposición-de-series-meteorológicas-reales",
+    "title": "13  Sesión 1 · Laboratorio",
+    "section": "",
+    "text": "13.1.1 Datos\nTrabajaremos con un snapshot de la base de datos del ClimaLab del IER, registrada en Temixco, Morelos:\n\nPeríodo: 31 mayo 2023 – 20 junio 2025 (~2 años)\nResolución temporal: 1 minuto\nVolumen: ~1.07 millones de observaciones\nVariables (11):\n\n\n\n\nSigla\nVariable\nUnidad\n\n\n\n\ntdb\nTemperatura de bulbo seco\n°C\n\n\nrh\nHumedad relativa\n%\n\n\np_atm\nPresión atmosférica\nhPa\n\n\nghi\nIrradiancia global horizontal\nW/m²\n\n\ndni\nIrradiancia directa normal\nW/m²\n\n\ndhi\nIrradiancia difusa horizontal\nW/m²\n\n\nuv\nÍndice UV\n—\n\n\nsolar_altitude\nAltura solar\n°\n\n\nws\nVelocidad del viento\nm/s\n\n\nwd\nDirección del viento\n°\n\n\nrain_acc\nLluvia acumulada\nmm\n\n\n\n\n\n13.1.2 Objetivos del laboratorio\n\nCargar y explorar una serie meteorológica multivariada de tamaño realista.\nResamplear en distintas escalas temporales y entender qué se gana/pierde.\nIdentificar visualmente los componentes de tendencia y estacionalidad.\nAplicar seasonal_decompose y STL a series reales.\nDecidir entre aditivo y multiplicativo con base en evidencia.\n\n\nimport numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\nimport matplotlib.dates as mdates\nfrom statsmodels.tsa.seasonal import seasonal_decompose, STL\n\nplt.rcParams[\"figure.figsize\"] = (11, 4)\nplt.rcParams[\"axes.grid\"] = True\nplt.rcParams[\"grid.alpha\"] = 0.3",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Sesión 1 · Laboratorio</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/011_laboratorio_climalab.html#carga-e-inspección-inicial",
+    "href": "notebooks/011_laboratorio_climalab.html#carga-e-inspección-inicial",
+    "title": "13  Sesión 1 · Laboratorio",
+    "section": "13.2 1. Carga e inspección inicial",
+    "text": "13.2 1. Carga e inspección inicial\nEl formato Parquet es columnar y comprimido: ocupa una fracción de lo que ocuparía un CSV equivalente y se lee mucho más rápido. Para series temporales grandes es la opción por defecto.\n\nf = \"../data/ClimaLab_2023-05-31_2025-06-20.parquet\"\n\ndf = pd.read_parquet(f)\ndf.head()\n\n\n\n\n\n\n\nvariable\ndhi\ndni\nghi\np_atm\nrain_acc\nrh\nsolar_altitude\ntdb\nuv\nwd\nws\n\n\ndate\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n2023-05-31 18:59:00\n7.391\n21.710\n9.66\n641.4001\n0.0\n60.18\n1.867189\n27.78\n0.0\n336.6\n0.0\n\n\n2023-05-31 19:00:00\n7.020\n0.000\n9.26\n641.4001\n0.0\n60.46\n1.663787\n27.73\n0.0\n344.7\n0.0\n\n\n2023-05-31 19:01:00\n6.603\n2.945\n8.83\n641.3997\n0.0\n60.42\n1.461872\n27.71\n0.0\n319.1\n0.0\n\n\n2023-05-31 19:02:00\n6.262\n3.643\n8.46\n641.4001\n0.0\n60.81\n1.261586\n27.69\n0.0\n322.8\n0.0\n\n\n2023-05-31 19:03:00\n5.952\n7.574\n8.02\n641.3999\n0.0\n60.45\n1.063073\n27.65\n0.0\n346.9\n0.0\n\n\n\n\n\n\n\n\nprint(f\"Forma del DataFrame: {df.shape[0]:,} filas × {df.shape[1]} columnas\")\nprint(f\"Período: {df.index.min()} a {df.index.max()}\")\nprint(f\"Duración: {df.index.max() - df.index.min()}\")\nprint(f\"Tipo de índice: {type(df.index).__name__}\")\nprint(f\"Zona horaria: {df.index.tz}\")  # None → tiempo local \"naive\"\n\nForma del DataFrame: 1,076,768 filas × 11 columnas\nPeríodo: 2023-05-31 18:59:00 a 2025-06-20 00:00:00\nDuración: 750 days 05:01:00\nTipo de índice: DatetimeIndex\nZona horaria: None\n\n\n\n13.2.1 1.1 Discusión rápida sobre zonas horarias\nEl índice viene sin zona horaria (tz=None). En meteorología hay dos convenciones legítimas:\n\nHora local (lo más cómodo para interpretar el ciclo diario, pero salta con el horario de verano si aplica).\nUTC (sin saltos, recomendado para almacenar y compartir datos).\n\nAntes de resamplear o decomponer, siempre confirma con quien generó los datos. En ClimaLab los timestamps están en hora local de Morelos (UTC−6, sin DST). Lo dejamos naive por simplicidad.\n\n\n13.2.2 1.2 ¿Qué hay y qué falta?\n\n# Conteo de NaN por columna\nfaltantes = df.isna().sum()\nporcentajes = (faltantes / len(df) * 100).round(1)\npd.DataFrame({\"NaN\": faltantes, \"%\": porcentajes})\n\n\n\n\n\n\n\n\nNaN\n%\n\n\nvariable\n\n\n\n\n\n\ndhi\n533536\n49.5\n\n\ndni\n534987\n49.7\n\n\nghi\n533579\n49.6\n\n\np_atm\n0\n0.0\n\n\nrain_acc\n0\n0.0\n\n\nrh\n0\n0.0\n\n\nsolar_altitude\n0\n0.0\n\n\ntdb\n0\n0.0\n\n\nuv\n0\n0.0\n\n\nwd\n0\n0.0\n\n\nws\n0\n0.0\n\n\n\n\n\n\n\nObservación importante. Los canales de radiación (dhi, dni, ghi) tienen ~50 % de valores NaN. ¿Por qué?\nPorque los piranómetros típicamente reportan NaN (o son filtrados aguas arriba) cuando la altura solar es negativa, es decir, de noche. No es un gap de instrumento, es estructural. Esto es un dato faltante de tipo MAR (depende de otra variable observable: solar_altitude). Volveremos a esta distinción en el Bloque 5.\nPara esta sesión nos enfocaremos primero en tdb (temperatura), que está completa.\n\ndf.describe().T.round(2)\n\n\n\n\n\n\n\n\ncount\nmean\nstd\nmin\n25%\n50%\n75%\nmax\n\n\nvariable\n\n\n\n\n\n\n\n\n\n\n\n\ndhi\n543232.0\n190.75\n206.73\n0.00\n72.21\n126.90\n224.30\n1360.00\n\n\ndni\n541781.0\n462.64\n331.38\n0.00\n75.29\n545.30\n758.40\n1361.00\n\n\nghi\n543189.0\n509.65\n336.64\n0.00\n192.20\n513.20\n809.00\n1360.00\n\n\np_atm\n1076768.0\n875.89\n90.17\n443.27\n861.50\n865.23\n876.43\n1593.04\n\n\nrain_acc\n1076768.0\n0.04\n0.92\n0.00\n0.00\n0.00\n0.00\n43.40\n\n\nrh\n1076768.0\n57.10\n24.15\n-8.19\n36.85\n55.69\n75.51\n138.50\n\n\nsolar_altitude\n1076768.0\n0.52\n45.10\n-89.94\n-38.85\n0.79\n39.76\n89.93\n\n\ntdb\n1076768.0\n24.45\n4.94\n10.98\n20.51\n24.16\n27.90\n39.93\n\n\nuv\n1076768.0\n0.04\n0.06\n-0.35\n0.00\n0.00\n0.06\n0.31\n\n\nwd\n1076768.0\n209.89\n113.32\n0.00\n128.50\n211.80\n327.00\n351.90\n\n\nws\n1076768.0\n1.65\n1.11\n0.00\n0.92\n1.62\n2.28\n18.28\n\n\n\n\n\n\n\n\n\n13.2.3 Pregunta de pizarrón\nMira los valores max de p_atm (1593 hPa) y rh (138.5 %). Físicamente, ¿son posibles?\n\nRespuesta corta. No. La presión atmosférica máxima registrada en la Tierra anda en ~1085 hPa, y la humedad relativa por definición no puede pasar de 100 % (con saturación). Estos son outliers que delatan un problema de calibración.",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Sesión 1 · Laboratorio</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/011_laboratorio_climalab.html#la-serie-a-tres-escalas",
+    "href": "notebooks/011_laboratorio_climalab.html#la-serie-a-tres-escalas",
+    "title": "13  Sesión 1 · Laboratorio",
+    "section": "13.3 2. La serie a tres escalas",
+    "text": "13.3 2. La serie a tres escalas\nCon 1.07 M de puntos, graficar todo a resolución de 1 minuto es inútil: el pixelado mata la señal. La estrategia correcta es mirar la serie a múltiples escalas.\n\nfig, ax = plt.subplots(figsize=(11, 3.5))\nax.plot(df.index, df[\"tdb\"], lw=0.2, color=\"C3\")\nax.set_title(\"Temperatura cruda (1 minuto, 2 años) — ¿qué ves aquí?\")\nax.set_ylabel(\"tdb (°C)\")\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\n\n\n\n# Resampling a tres escalas\nhorario = df.resample(\"1h\").mean(numeric_only=True)\ndiario  = df.resample(\"1D\").mean(numeric_only=True)\n\nprint(f\"Original (1 min): {len(df):,} filas\")\nprint(f\"Horario  (1 h)  : {len(horario):,} filas\")\nprint(f\"Diario   (1 d)  : {len(diario):,} filas\")\n\nOriginal (1 min): 1,076,768 filas\nHorario  (1 h)  : 18,007 filas\nDiario   (1 d)  : 752 filas\n\n\n\nfig, axes = plt.subplots(3, 1, figsize=(11, 8), sharex=False)\n\n# Una semana en 1 minuto: muestra el ciclo diario y la variabilidad turbulenta\nsemana = df.loc[\"2024-03-04\":\"2024-03-10\", \"tdb\"]\naxes[0].plot(semana.index, semana.values, lw=0.5, color=\"C3\")\naxes[0].set_title(\"Una semana a 1 min · ciclo diario + ruido \")\naxes[0].set_ylabel(\"°C\")\n\n# Un mes a resolución horaria: muestra ciclo diario suavizado\nmes = horario.loc[\"2024-03-04\":\"2024-03-10\", \"tdb\"]\naxes[1].plot(mes.index, mes.values, lw=1, color=\"C0\")\naxes[1].set_title(\"Una semana a 1 h · ciclo diario claro, ruido suavizado\")\naxes[1].set_ylabel(\"°C\")\n\n# Dos años a resolución diaria: muestra ciclo anual\naxes[2].plot(diario.index, diario[\"tdb\"], lw=1, color=\"C2\")\naxes[2].set_title(\"Dos años a 1 día · aparece el ciclo anual\")\naxes[2].set_ylabel(\"°C\")\n\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\n\n\n\n13.3.1 Lo que enseña esta figura\n\n\n\n\n\n\n\n\nEscala\n¿Qué se vuelve visible?\n¿Qué se pierde?\n\n\n\n\n1 min (semana)\nCiclo diario + ráfagas, microclima\nEl contexto anual\n\n\n1 h (mes)\nCiclo diario regular\nVariabilidad sub-horaria\n\n\n1 d (2 años)\nCiclo anual\nTodo lo intra-diario\n\n\n\nNo existe “la” escala correcta. Existe la escala correcta para la pregunta que estás haciendo. Si te interesa la operación de un sistema de aire acondicionado, resoluciones horarias. Si te interesa la planeación energética anual, resoluciones diarias. Si te interesa la respuesta a una nube pasajera, datos minutales.",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Sesión 1 · Laboratorio</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/011_laboratorio_climalab.html#identificación-visual-de-componentes",
+    "href": "notebooks/011_laboratorio_climalab.html#identificación-visual-de-componentes",
+    "title": "13  Sesión 1 · Laboratorio",
+    "section": "13.4 3. Identificación visual de componentes",
+    "text": "13.4 3. Identificación visual de componentes\nAntes de meternos a la descomposición algorítmica, vale la pena entrenar el ojo. Tomemos la serie diaria de temperatura.\n\ntdb_diario = diario[\"tdb\"].dropna()\n\nfig, ax = plt.subplots(figsize=(11, 4))\nax.plot(tdb_diario.index, tdb_diario.values, lw=1, color=\"C2\")\nax.set_title(\"Temperatura media diaria · ClimaLab Temixco · 2023-2025\")\nax.set_ylabel(\"tdb (°C)\")\nax.xaxis.set_major_locator(mdates.MonthLocator(interval=3))\nax.xaxis.set_major_formatter(mdates.DateFormatter(\"%b %Y\"))\nplt.xticks(rotation=45)\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\n\n\n\n13.4.1 Ejercicio guiado (5 min, en parejas)\n\nTendencia: ¿hay una pendiente clara de fondo en estos 2 años?\nEstacionalidad anual: ¿en qué meses están los máximos? ¿Y los mínimos? ¿Coincide con su intuición de Morelos?\nVariabilidad de alta frecuencia: ¿cuán “ruidosa” es la serie día a día?\nEventos atípicos: ¿hay días que se salen claramente del patrón? ¿Cuándo?\n\n\nPara Temixco, esperamos máximos en abril–mayo (antes de la temporada de lluvias) y mínimos en diciembre–enero. La amplitud anual típica es de ~7-10 °C en la temperatura media diaria.",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Sesión 1 · Laboratorio</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/011_laboratorio_climalab.html#descomposición-clásica-con-seasonal_decompose",
+    "href": "notebooks/011_laboratorio_climalab.html#descomposición-clásica-con-seasonal_decompose",
+    "title": "13  Sesión 1 · Laboratorio",
+    "section": "13.5 4. Descomposición clásica con seasonal_decompose",
+    "text": "13.5 4. Descomposición clásica con seasonal_decompose\nApliquemos la herramienta básica: descomposición aditiva con período anual sobre la serie diaria.\n\nresultado_clasica = seasonal_decompose(\n    tdb_diario,\n    model=\"additive\",\n    period=365,\n)\n\nfig = resultado_clasica.plot()\nfig.set_size_inches(11, 8)\nplt.suptitle(\"Descomposición clásica aditiva · tdb diario · período = 365 d\",\n             y=1.01, fontsize=12)\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\n\n\n\n13.5.1 Lo que vemos\n\nTrend. Una curva suave que captura el cambio de baja frecuencia. Nota que faltan datos en los extremos (medio año al inicio y al final). Esa es una limitación de la media móvil centrada.\nSeasonal. El mismo patrón se repite idéntico año tras año. Esto es porque seasonal_decompose promedia todos los “1 de enero”, todos los “2 de enero”, etc.\nResid. Lo que queda. Aquí es donde viven las anomalías y será materia del Bloque 4.\n\n\n# Verifiquemos cuántos NaN introdujo en los bordes\nprint(\"NaN en trend (clásica):\", resultado_clasica.trend.isna().sum())\nprint(\"Total de puntos       :\", len(tdb_diario))",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Sesión 1 · Laboratorio</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/011_laboratorio_climalab.html#descomposición-con-stl",
+    "href": "notebooks/011_laboratorio_climalab.html#descomposición-con-stl",
+    "title": "13  Sesión 1 · Laboratorio",
+    "section": "13.6 5. Descomposición con STL",
+    "text": "13.6 5. Descomposición con STL\nAhora con STL en modo robusto.\n\nstl_anual = STL(tdb_diario, period=365, robust=True).fit()\n\nfig = stl_anual.plot()\nfig.set_size_inches(11, 8)\nplt.suptitle(\"STL robusto · tdb diario · período = 365 d\", y=1.01, fontsize=12)\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\n\n\n\n13.6.1 Diferencias respecto a la clásica\n\nSin huecos en los bordes. STL extrapola con LOESS en los extremos.\nEstacionalidad evolutiva. Si comparas el patrón estacional del primer año con el del segundo, son ligeramente distintos. Eso es realista: 2024 no fue idéntico a 2023.\nResiduales más limpios porque la robustez aplastó los outliers.\n\n\n# Comparemos las componentes de tendencia\nfig, ax = plt.subplots(figsize=(11, 4))\nax.plot(tdb_diario.index, tdb_diario.values, lw=0.5, color=\"lightgray\", label=\"Serie original\")\nax.plot(resultado_clasica.trend.index, resultado_clasica.trend.values,\n        lw=2, color=\"C0\", label=\"Tendencia clásica\")\nax.plot(stl_anual.trend.index, stl_anual.trend.values,\n        lw=2, color=\"C3\", label=\"Tendencia STL\")\nax.legend()\nax.set_title(\"Comparación de tendencias: clásica vs STL\")\nax.set_ylabel(\"tdb (°C)\")\nplt.tight_layout()\nplt.show()",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Sesión 1 · Laboratorio</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/011_laboratorio_climalab.html#ciclo-diario-vs-ciclo-anual-cuestión-de-escala",
+    "href": "notebooks/011_laboratorio_climalab.html#ciclo-diario-vs-ciclo-anual-cuestión-de-escala",
+    "title": "13  Sesión 1 · Laboratorio",
+    "section": "13.7 6. Ciclo diario vs ciclo anual: cuestión de escala",
+    "text": "13.7 6. Ciclo diario vs ciclo anual: cuestión de escala\nLa temperatura tiene dos ciclos: el diario (24 h) y el anual (365 d). Para verlos por separado conviene trabajar en escalas distintas.\n\nhorario\n\n\n\n\n\n\n\nvariable\ndhi\ndni\nghi\np_atm\nrain_acc\nrh\nsolar_altitude\ntdb\nuv\nwd\nws\n\n\ndate\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n2023-05-31 18:00:00\n7.391\n21.710000\n9.660000\n641.400100\n0.000000\n60.180000\n1.867189\n27.780000\n0.000000\n336.600000\n0.000000\n\n\n2023-05-31 19:00:00\n6.073\n5.691222\n8.083444\n641.400063\n0.000000\n60.930000\n-4.891853\n27.291500\n0.000000\n321.168333\n0.000000\n\n\n2023-05-31 20:00:00\nNaN\nNaN\nNaN\n641.400020\n0.000000\n61.193729\n-17.502141\n26.672034\n0.000000\n255.032068\n0.000000\n\n\n2023-05-31 21:00:00\nNaN\nNaN\nNaN\n641.399875\n0.000000\n64.637966\n-28.965914\n25.673729\n0.000000\n306.613153\n0.000000\n\n\n2023-05-31 22:00:00\nNaN\nNaN\nNaN\nNaN\nNaN\nNaN\nNaN\nNaN\nNaN\nNaN\nNaN\n\n\n...\n...\n...\n...\n...\n...\n...\n...\n...\n...\n...\n...\n\n\n2025-06-19 20:00:00\nNaN\nNaN\nNaN\n863.602195\n0.015000\n100.000000\n-15.978739\n18.899000\n0.000067\n278.707183\n1.199983\n\n\n2025-06-19 21:00:00\nNaN\nNaN\nNaN\n864.438203\n0.006667\n100.000000\n-27.386284\n19.044333\n0.000150\n275.521133\n1.343117\n\n\n2025-06-19 22:00:00\nNaN\nNaN\nNaN\n864.795360\n0.003333\n100.000000\n-37.184314\n19.069167\n0.000183\n135.902567\n1.297650\n\n\n2025-06-19 23:00:00\nNaN\nNaN\nNaN\n864.906217\n0.003333\n100.000000\n-44.319530\n18.899000\n0.000150\n175.369867\n0.134633\n\n\n2025-06-20 00:00:00\nNaN\nNaN\nNaN\n864.912300\n0.000000\n100.000000\n-46.684936\n18.870000\n0.000000\n92.800000\n0.000000\n\n\n\n\n18007 rows × 11 columns\n\n\n\n\n# Tomemos un mes a resolución horaria y descompongamos con período = 24\ntdb_horario_mes = horario[\"tdb\"].loc[\"2024-03\":\"2024-04\"]\n    \nstl_diario = STL(tdb_horario_mes, period=24, robust=True).fit()\n\nfig = stl_diario.plot()\nfig.set_size_inches(11, 8)\nplt.suptitle(\"STL sobre 2 meses horarios · período = 24 h\",\n             y=1.01, fontsize=12)\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\n\n\nMensaje clave. El parámetro period no es una propiedad de los datos, es una elección consciente del analista sobre qué ciclo quieres extraer. Si tienes datos horarios y le pones period=24, sacas el ciclo diario. Si tienes datos diarios y le pones period=365, sacas el ciclo anual.\nPara tener ambos ciclos a la vez existe MSTL (Multiple STL), que veremos brevemente al final del Bloque 3.",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Sesión 1 · Laboratorio</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/011_laboratorio_climalab.html#aditivo-o-multiplicativo-caso-radiación",
+    "href": "notebooks/011_laboratorio_climalab.html#aditivo-o-multiplicativo-caso-radiación",
+    "title": "13  Sesión 1 · Laboratorio",
+    "section": "13.8 7. ¿Aditivo o multiplicativo? Caso radiación",
+    "text": "13.8 7. ¿Aditivo o multiplicativo? Caso radiación\nVeamos ahora una variable donde la elección importa: la irradiancia global horizontal (ghi) a escala diaria.\n\n# Promedio diario de ghi (W/m²): sólo durante el día son no-nulos\nghi_diario = diario[\"ghi\"].dropna()\n\nfig, ax = plt.subplots(figsize=(11, 3.5))\nax.plot(ghi_diario.index, ghi_diario.values, lw=1, color=\"C1\")\nax.set_title(\"GHI promedio diario · ClimaLab Temixco\")\nax.set_ylabel(\"GHI (W/m²)\")\nplt.tight_layout()\nplt.show()\n\nPregunta. ¿Ves un abanico? ¿La amplitud estacional crece con el nivel?\nPara esta variable la amplitud es relativamente estable porque el GHI promedio diario está acotado por la geometría solar (que es muy regular). Aún así, vamos a comparar las dos descomposiciones.\n\nghi_diario.clip()\n\n\n# Aditivo\nadd = STL(ghi_diario, period=365, robust=True).fit()\n\n# Multiplicativo: trabajamos en log y luego destransformamos.\n# Como GHI puede tener valores muy pequeños, sumamos un piso para evitar log(0).\nlog_ghi = np.log(ghi_diario.clip(lower=1))   # evita log(0) y log(&lt;0)\nmul = STL(log_ghi, period=365, robust=True).fit()\n\nfig, axes = plt.subplots(2, 1, figsize=(11, 6), sharex=True)\n\naxes[0].plot(add.trend.index, add.trend.values, color=\"C0\", lw=2)\naxes[0].set_title(\"Tendencia GHI · descomposición aditiva (W/m²)\")\naxes[0].set_ylabel(\"W/m²\")\n\naxes[1].plot(mul.trend.index, np.exp(mul.trend.values), color=\"C3\", lw=2)\naxes[1].set_title(\"Tendencia GHI · descomposición multiplicativa (log → exp)\")\naxes[1].set_ylabel(\"W/m²\")\n\nplt.tight_layout()\nplt.show()\n\nDiscusión. En este caso particular las dos tendencias son muy parecidas porque la serie diaria de GHI no tiene crecimiento sistemático (la geometría solar es estable). Una variable donde la diferencia sí importa es, por ejemplo, demanda eléctrica que crece año a año mientras mantiene su ciclo estacional: ahí el modelo multiplicativo gana.",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Sesión 1 · Laboratorio</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/011_laboratorio_climalab.html#ejercicio-guiado-15-min",
+    "href": "notebooks/011_laboratorio_climalab.html#ejercicio-guiado-15-min",
+    "title": "13  Sesión 1 · Laboratorio",
+    "section": "13.9 8. Ejercicio guiado (15 min)",
+    "text": "13.9 8. Ejercicio guiado (15 min)\nRepite el flujo completo para la humedad relativa (rh):\n\nResampling diario.\nVisualización de los 2 años.\nIdentificación visual de tendencia y estacionalidad.\nDescomposición STL con período = 365.\nDiscute con tu equipo: ¿cuándo en el año hay máximos de humedad? ¿Coincide con la temporada de lluvias en Morelos?\n\n# tu código aquí\nrh_diario = diario[\"rh\"].dropna()\n# ...\n\n# Plantilla — completar\nrh_diario = diario[\"rh\"].dropna()\n\n# 1) Visualiza la serie cruda diaria\n# fig, ax = plt.subplots(figsize=(11, 3.5))\n# ax.plot(...)\n# ...\n\n# 2) Aplica STL\n# stl_rh = STL(...).fit()\n# fig = stl_rh.plot()\n# ...",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Sesión 1 · Laboratorio</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/011_laboratorio_climalab.html#reto-para-casa",
+    "href": "notebooks/011_laboratorio_climalab.html#reto-para-casa",
+    "title": "13  Sesión 1 · Laboratorio",
+    "section": "13.10 9. Reto para casa",
+    "text": "13.10 9. Reto para casa\nCon la serie completa (no resampleada) de temperatura, contesta:\n\n¿Cuál es la magnitud del ciclo diario (amplitud pico-a-pico) promedio?\n¿Cuál es la magnitud del ciclo anual (amplitud pico-a-pico)?\n¿Cuál es mayor?\n\n\nPista: para (1), aplica STL horaria con period=24 sobre un mes representativo y mide la amplitud del componente estacional. Para (2), usa STL diaria con period=365 y mide la amplitud sobre un año.\n\nEntrega un notebook breve con tus gráficas y una conclusión de 3 renglones.",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Sesión 1 · Laboratorio</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/011_laboratorio_climalab.html#síntesis-de-la-sesión",
+    "href": "notebooks/011_laboratorio_climalab.html#síntesis-de-la-sesión",
+    "title": "13  Sesión 1 · Laboratorio",
+    "section": "13.11 10. Síntesis de la sesión",
+    "text": "13.11 10. Síntesis de la sesión\n\n\n\n\n\n\n\nConcepto\nHerramienta\n\n\n\n\nCargar serie temporal grande\npd.read_parquet\n\n\nCambiar de escala\ndf.resample(\"1h\").mean()\n\n\nDescomponer (rígido, fácil)\nstatsmodels.tsa.seasonal.seasonal_decompose\n\n\nDescomponer (flexible, robusto)\nstatsmodels.tsa.seasonal.STL\n\n\nDecidir aditivo vs multiplicativo\ninspección visual + amplitud constante vs proporcional",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Sesión 1 · Laboratorio</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/012_teoria_autocorrelacion.html",
+    "href": "notebooks/012_teoria_autocorrelacion.html",
+    "title": "14  Sesión 2 · Teoría",
+    "section": "",
+    "text": "14.1 Autocorrelación, ACF y PACF\nEstadística, Detección de Anomalías e Imputación de Series Temporales Posgrado en Ingeniería · Área Energía · IER-UNAM",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Sesión 2 · Teoría</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/012_teoria_autocorrelacion.html#autocorrelación-acf-y-pacf",
+    "href": "notebooks/012_teoria_autocorrelacion.html#autocorrelación-acf-y-pacf",
+    "title": "14  Sesión 2 · Teoría",
+    "section": "",
+    "text": "14.1.1 Objetivos de aprendizaje\nAl terminar esta sesión, el estudiante será capaz de:\n\nExplicar por qué la autocorrelación (vía ACF y PACF) es una herramienta diagnóstica central en series temporales.\nDefinir formalmente la autocorrelación y calcular ACF/PACF muestrales.\nLeer una gráfica de ACF/PACF e identificar firmas de procesos AR, MA y estacionales.\nReconocer estacionariedad intuitivamente y conectarla con la forma de la ACF.\nDetectar gaps y aplicar control de calidad básico antes de cualquier análisis.",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Sesión 2 · Teoría</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/012_teoria_autocorrelacion.html#importante",
+    "href": "notebooks/012_teoria_autocorrelacion.html#importante",
+    "title": "14  Sesión 2 · Teoría",
+    "section": "14.2 Importante",
+    "text": "14.2 Importante\nLas celdas de esta libreta usan datos sintéticos generados con NumPy. La intención es ver cada efecto aislado: una serie con autocorrelación pura, una con sólo estacionalidad, una con tendencia. En el laboratorio (013) llevaremos las mismas herramientas a la serie real de ClimaLab.\n\nimport numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\nfrom statsmodels.graphics.tsaplots import plot_acf, plot_pacf\nfrom statsmodels.tsa.stattools import acf, pacf\n\nplt.rcParams[\"figure.figsize\"] = (10, 4)\nplt.rcParams[\"axes.grid\"] = True\nplt.rcParams[\"grid.alpha\"] = 0.3\nnp.random.seed(42)",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Sesión 2 · Teoría</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/012_teoria_autocorrelacion.html#por-qué-nos-importan-acf-y-pacf",
+    "href": "notebooks/012_teoria_autocorrelacion.html#por-qué-nos-importan-acf-y-pacf",
+    "title": "14  Sesión 2 · Teoría",
+    "section": "14.3 1. ¿Por qué nos importan ACF y PACF?",
+    "text": "14.3 1. ¿Por qué nos importan ACF y PACF?\nAntes de la maquinaria, la pregunta honesta: ¿para qué sirven? La respuesta corta es que la ACF (función de autocorrelación) y la PACF (autocorrelación parcial) son las dos gráficas diagnósticas más útiles que existen para series temporales. Resumen, en una imagen, cómo el pasado influye en el presente.\nConviene entender esto antes de calcular nada porque condiciona casi todo lo que vendrá en el resto del curso.\n\n14.3.1 1.1 Porque la independencia ya no se cumple\nEn estadística clásica casi todo asume observaciones independientes: los intervalos de confianza, los \\(p\\)-valores de un \\(t\\)-test. Con datos meteorológicos eso es falso de raíz: la temperatura a las 14:01 está casi determinada por la de las 14:00. La ACF nos dice qué tan falsa es la suposición — y por tanto si podemos usar herramientas clásicas o necesitamos versiones que respeten la dependencia temporal.\n\nConsecuencia práctica. Aplicar un \\(z\\)-score “ingenuo” a una serie con fuerte autocorrelación marcará como anómalo todo un día caluroso, no porque sea raro, sino porque consecutivamente está por encima de la media. La ACF avisa de esto antes de que el resultado nos engañe.\n\n\n\n14.3.2 1.2 Porque revelan periodicidades sin tener que asumirlas\nSi no sabemos a priori cuál es el período natural de un fenómeno, la ACF lo descubre: aparece un pico en el rezago \\(k\\) correspondiente al período. En meteorología sabemos que hay ciclo diario (1440 min, 24 h) y anual (365 d), pero la ACF nos lo confirma y, además, revela ciclos secundarios que tal vez no esperábamos.\n\n\n14.3.3 1.3 Porque son la firma diagnóstica de los modelos ARIMA\nEn el Bloque 5 ajustaremos ARIMA y SARIMA para imputar gaps. La metodología clásica (Box-Jenkins) es:\n\n\n\n\n\n\n\nSi la ACF/PACF se ve así…\n…el modelo es\n\n\n\n\nACF decae exponencial, PACF corta tras rezago \\(p\\)\n\\(\\mathrm{AR}(p)\\)\n\n\nACF corta tras rezago \\(q\\), PACF decae exponencial\n\\(\\mathrm{MA}(q)\\)\n\n\nAmbas decaen\n\\(\\mathrm{ARMA}(p,q)\\)\n\n\nPicos en rezagos múltiplos de \\(s\\)\ncomponente estacional con período \\(s\\)\n\n\n\nSin saber leer ACF/PACF, elegir órdenes \\((p,d,q)\\) es adivinar.\n\n\n14.3.4 1.4 Porque validan que un modelo “ya capturó todo”\nDespués de ajustar cualquier modelo (regresión, descomposición, ARIMA), examinamos sus residuales. Si la ACF de los residuales muestra picos significativos, el modelo dejó estructura sin capturar y se puede mejorar. Es el check-up obligatorio.\n\n\n14.3.5 1.5 Porque informan la estacionariedad\nUna ACF que decae muy lentamente (sigue alta en rezagos grandes) es síntoma de no estacionariedad — típicamente una tendencia o una raíz unitaria. Esto motiva diferenciar la serie antes de modelar. Lo veremos en la sesión 6 con las pruebas ADF y KPSS, pero la ACF ya da la pista visual gratis.\n\n\n14.3.6 1.6 Porque guían la imputación\nSi dos observaciones consecutivas están fuertemente correlacionadas (ACF en lag 1 cercano a 1), un forward fill es una imputación razonable. Si no lo están, no. La ACF nos dice cuánta información carga cada vecino temporal sobre el dato faltante, y por tanto qué método de imputación tiene sentido.\n\n\nResumen. ACF/PACF son las gafas que nos ponemos para ver la estructura temporal que está oculta en una serie cruda. Sin ellas, modelamos a ciegas. Con ellas, las decisiones de descomposición, detección de anomalías e imputación dejan de ser folklore y se vuelven justificables.",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Sesión 2 · Teoría</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/012_teoria_autocorrelacion.html#autocorrelación-definición",
+    "href": "notebooks/012_teoria_autocorrelacion.html#autocorrelación-definición",
+    "title": "14  Sesión 2 · Teoría",
+    "section": "14.4 2. Autocorrelación: definición",
+    "text": "14.4 2. Autocorrelación: definición\nPara una serie estacionaria \\(\\{y_t\\}\\) con media \\(\\mu\\) y varianza \\(\\sigma^2\\), la autocovarianza en el rezago \\(k\\) es:\n\\[\\gamma_k = \\mathrm{Cov}(y_t, y_{t-k}) = \\mathbb{E}\\!\\left[(y_t - \\mu)(y_{t-k} - \\mu)\\right]\\]\nY la autocorrelación (ACF) es la versión normalizada:\n\\[\\rho_k = \\frac{\\gamma_k}{\\gamma_0} = \\frac{\\mathrm{Cov}(y_t, y_{t-k})}{\\mathrm{Var}(y_t)} \\in [-1, 1]\\]\nLectura intuitiva:\n\n\\(\\rho_k\\) cercano a \\(+1\\) → cuando \\(y_{t-k}\\) está por arriba de la media, \\(y_t\\) tiende a estarlo también.\n\\(\\rho_k\\) cercano a \\(-1\\) → relación inversa (anti-persistencia).\n\\(\\rho_k \\approx 0\\) → el rezago \\(k\\) no aporta información lineal sobre \\(y_t\\).\n\n\n14.4.1 Estimador muestral\nCon \\(N\\) observaciones:\n\\[\\hat{\\rho}_k = \\frac{\\sum_{t=k+1}^{N} (y_t - \\bar{y})(y_{t-k} - \\bar{y})}{\\sum_{t=1}^{N} (y_t - \\bar{y})^2}\\]\n\n\n14.4.2 Bandas de confianza\nBajo la hipótesis nula de ruido blanco, \\(\\hat{\\rho}_k\\) se distribuye aproximadamente normal con desviación estándar \\(1/\\sqrt{N}\\). Por eso las bandas que statsmodels dibuja a \\(\\pm 1.96/\\sqrt{N}\\) separan rezagos significativos (fuera de la banda) de los compatibles con ruido blanco (dentro).",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Sesión 2 · Teoría</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/012_teoria_autocorrelacion.html#tres-series-sintéticas-para-entrenar-el-ojo",
+    "href": "notebooks/012_teoria_autocorrelacion.html#tres-series-sintéticas-para-entrenar-el-ojo",
+    "title": "14  Sesión 2 · Teoría",
+    "section": "14.5 3. Tres series sintéticas para entrenar el ojo",
+    "text": "14.5 3. Tres series sintéticas para entrenar el ojo\nVamos a fabricar tres procesos canónicos y mirar su ACF/PACF. Es la mejor manera de aprender a leerlas: viendo formas conocidas con etiqueta puesta.\n\nN = 500\n\n# 3.1 Ruido blanco: y_t = ε_t\nruido = np.random.normal(0, 1, N)\n\n# 3.2 AR(1): y_t = 0.8 * y_{t-1} + ε_t  (memoria que decae)\nphi = 0.8\nar1 = np.zeros(N)\nfor t in range(1, N):\n    ar1[t] = phi * ar1[t - 1] + np.random.normal(0, 1)\n\n# 3.3 MA(1): y_t = ε_t + 0.8 * ε_{t-1}  (memoria de un solo paso)\ntheta = 0.8\neps = np.random.normal(0, 1, N + 1)\nma1 = eps[1:] + theta * eps[:-1]\n\nfig, axes = plt.subplots(3, 1, figsize=(11, 6), sharex=True)\naxes[0].plot(ruido, lw=0.7, color=\"C7\"); axes[0].set_title(\"Ruido blanco\")\naxes[1].plot(ar1,   lw=0.7, color=\"C0\"); axes[1].set_title(\"AR(1) con $\\\\phi=0.8$\")\naxes[2].plot(ma1,   lw=0.7, color=\"C3\"); axes[2].set_title(\"MA(1) con $\\\\theta=0.8$\")\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\n\n\n\n14.5.1 A simple vista\n\nEl ruido blanco salta arriba y abajo sin memoria.\nEl AR(1) muestra “rachas”: cuando sube, se queda arriba un rato. Eso es persistencia.\nEl MA(1) se ve casi como ruido, pero con una suavización mínima.\n\nA simple vista cuesta distinguir AR(1) de MA(1). Aquí entran ACF y PACF.\n\ndef acf_pacf(series, title, lags=100):\n    fig, axes = plt.subplots(1, 2, figsize=(11, 3.2))\n    plot_acf(series, lags=lags, ax=axes[0]);  axes[0].set_title(f\"ACF — {title}\")\n    plot_pacf(series, lags=lags, ax=axes[1], method=\"ywm\"); axes[1].set_title(f\"PACF — {title}\")\n    plt.tight_layout(); plt.show()\n\nacf_pacf(ruido, \"ruido blanco\")\nacf_pacf(ar1,   \"AR(1), $\\\\phi=0.8$\")\nacf_pacf(ma1,   \"MA(1), $\\\\theta=0.8$\")\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n14.5.2 Cómo se leen las bandas sombreadas\nLas bandas son intervalos de confianza al 95 % bajo \\(H_0\\): “el coeficiente verdadero \\(\\rho_k\\) vale cero”. Su ancho sale del resultado asintótico de Bartlett: bajo ruido blanco,\n\\[\\hat{\\rho}_k \\sim \\mathcal{N}\\!\\left(0,\\ \\tfrac{1}{N}\\right) \\;\\Longrightarrow\\; \\text{banda} = \\pm\\,\\frac{1.96}{\\sqrt{N}}\\]\n(El \\(1.96\\) es el percentil 97.5 de la normal estándar; cubre el 95 % central.) Con \\(N=500\\) esto da \\(\\pm 0.088\\), que es justo el ancho que se ve en la ACF de ruido blanco y en las PACF de arriba.\n\n14.5.2.1 ¿Por qué la banda de la ACF del AR(1) parece una trompeta?\nPorque plot_acf usa por defecto la fórmula de Bartlett completa, que reconoce que si los rezagos pequeños tienen correlación, los rezagos grandes “heredan” varianza:\n\\[\\widehat{\\mathrm{Var}}(\\hat{\\rho}_k) \\approx \\frac{1}{N}\\left(1 + 2\\sum_{i=1}^{k-1}\\hat{\\rho}_i^2\\right)\\]\nLa banda arranca delgada en \\(k=1\\) y se ensancha conforme se acumula correlación previa. plot_pacf no hace esto y deja la banda rectangular.\n\n\n14.5.2.2 Qué significa que un punto caiga dentro de la banda\n\n\n\n\n\n\n\n\nPosición del punto\nDecisión\nLectura\n\n\n\n\nDentro\nNo rechazas \\(H_0\\)\n“Compatible con cero. No hay evidencia de correlación en este rezago.”\n\n\nFuera\nRechazas \\(H_0\\)\n“Demasiado lejos de cero para ser azar. Hay correlación significativa.”\n\n\n\n\n“Dentro de la banda” no significa “\\(\\rho_k\\) es exactamente cero”. Significa que con los \\(N\\) datos que tienes no puedes distinguirlo de cero. Con más datos la banda se encogería y un valor pequeño que hoy queda dentro mañana podría salir afuera.\n\n\n\n14.5.2.3 Tres trampas comunes\n\nFalsos positivos esperados. Con bandas al 95 %, el 5 % de los rezagos saldrá fuera aunque la serie sea ruido blanco puro. Mirando 30 rezagos, 1 o 2 puntos afuera es lo normal.\nSólo capturan dependencia lineal. \\(\\hat{\\rho}_k = 0\\) no descarta relaciones no lineales entre \\(y_t\\) y \\(y_{t-k}\\).\nLo que importa es el patrón, no el punto suelto. Un pico aislado en el lag 17 sin justificación física probablemente sea ruido; un pico en el lag 24 sobre datos horarios es el ciclo diario gritándote.\n\n\n\n14.5.2.4 Lectura concreta de las gráficas de arriba\n\nACF y PACF de ruido blanco — todos los puntos con \\(k\\geq 1\\) caen dentro: silencio estadístico, justo lo esperado.\nACF del AR(1) — los primeros ~10 lags están claramente fuera → autocorrelación real que decae geométricamente. A partir del lag ~15 los puntos entran a la banda: la correlación verdadera sigue ahí (vale \\(0.8^{15} \\approx 0.035\\)), pero ya es tan pequeña como el ruido muestral.\nPACF del AR(1) — sólo el lag 1 está fuera. Lectura textbook: “después de descontar \\(y_{t-1}\\), no queda correlación parcial”. Eso es la firma de un AR(1).\n\n\n\n14.5.2.5 Cómo modificarlas en statsmodels\nplot_acf(serie, lags=30, alpha=0.05)                          # default: banda Bartlett\nplot_acf(serie, lags=30, alpha=0.05, bartlett_confint=False)  # banda fija ±1.96/√N\nplot_acf(serie, lags=30, alpha=0.01)                          # banda al 99 % (más ancha)\n\nRegla del oficio. Dentro de la banda = silencio estadístico, no hay nada que reportar en ese rezago. Fuera de la banda = señal — pero pregúntate si es un patrón coherente o un pico suelto antes de celebrar.\n\n\n\n\n14.5.3 Lo que enseña la firma\n\n\n\nProceso\nACF\nPACF\n\n\n\n\nRuido blanco\nTodo dentro de las bandas\nTodo dentro de las bandas\n\n\nAR(1)\nDecae exponencialmente\nCorta después del rezago 1\n\n\nMA(1)\nCorta después del rezago 1\nDecae exponencialmente\n\n\n\nGeneralización (Box-Jenkins):\n\n\n\nProceso\nACF\nPACF\n\n\n\n\nAR(\\(p\\))\ndecae\ncorta tras rezago \\(p\\)\n\n\nMA(\\(q\\))\ncorta tras rezago \\(q\\)\ndecae\n\n\nARMA(\\(p,q\\))\ndecae\ndecae\n\n\n\nEsta tabla es la base para elegir órdenes \\((p,q)\\) en el Bloque 5.",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Sesión 2 · Teoría</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/012_teoria_autocorrelacion.html#pacf-por-qué-necesitamos-otra-gráfica",
+    "href": "notebooks/012_teoria_autocorrelacion.html#pacf-por-qué-necesitamos-otra-gráfica",
+    "title": "14  Sesión 2 · Teoría",
+    "section": "14.6 4. PACF: ¿por qué necesitamos otra gráfica?",
+    "text": "14.6 4. PACF: ¿por qué necesitamos otra gráfica?\nLa ACF en el rezago \\(k\\) contiene contribuciones de todos los rezagos intermedios. En un AR(1) la correlación entre \\(y_t\\) y \\(y_{t-2}\\) no es cero — pero toda esa correlación pasa por \\(y_{t-1}\\), no es información nueva.\nLa PACF (autocorrelación parcial) en el rezago \\(k\\) es la correlación entre \\(y_t\\) y \\(y_{t-k}\\) después de remover el efecto de \\(y_{t-1}, \\dots, y_{t-k+1}\\):\n\\[\\phi_{kk} = \\mathrm{Corr}(y_t, y_{t-k} \\mid y_{t-1}, \\dots, y_{t-k+1})\\]\nOperativamente: para cada \\(k\\), ajusta una regresión\n\\[y_t = \\phi_{k1} y_{t-1} + \\phi_{k2} y_{t-2} + \\dots + \\phi_{kk} y_{t-k} + \\varepsilon_t\\]\ny reporta \\(\\phi_{kk}\\), el último coeficiente.\n\nMnemónico. ACF mide correlación cruda entre \\(y_t\\) y \\(y_{t-k}\\); PACF mide correlación neta, descontando los pasos intermedios.",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Sesión 2 · Teoría</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/012_teoria_autocorrelacion.html#cuando-hay-estacionalidad",
+    "href": "notebooks/012_teoria_autocorrelacion.html#cuando-hay-estacionalidad",
+    "title": "14  Sesión 2 · Teoría",
+    "section": "14.7 5. Cuando hay estacionalidad",
+    "text": "14.7 5. Cuando hay estacionalidad\nLas series meteorológicas tienen ciclo diario y anual. ¿Cómo se ve eso en la ACF?\n\n# Serie sintética con estacionalidad diaria (período 24 si fuera horaria)\nn = 24 * 60   # 60 días de datos horarios\nt = np.arange(n)\nseason = 5 * np.sin(2 * np.pi * t / 24)\ntrend  = 0.01 * t\nnoise  = np.random.normal(0, 0.5, n)\ny_seasonal = trend + season + noise\n\nfig, ax = plt.subplots(figsize=(11, 3))\nax.plot(t[:24*7], y_seasonal[:24*7], lw=0.8, color=\"C2\")\nax.set_title(\"Serie sintética con tendencia + estacionalidad diaria (1ª semana)\")\nax.set_xlabel(\"Hora\")\nplt.tight_layout(); plt.show()\n\nacf_pacf(y_seasonal, \"tendencia + estacional diaria\", lags=72)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n14.7.1 Lo que vemos\n\nPicos periódicos en la ACF cada 24 rezagos. Esa es la firma del ciclo diario.\nLa ACF no decae a cero, oscila. Eso suele ser síntoma de no estacionariedad (la tendencia hace que correlaciones lejanas no se desvanezcan).\nLa PACF muestra picos en los primeros rezagos y luego se complica.\n\n\nRegla de bolsillo. Si tu serie tiene estacionalidad, la ACF te lo grita: aparecerán picos en los múltiplos del período. Esa es la base de la “detección de periodicidades” del laboratorio.",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Sesión 2 · Teoría</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/012_teoria_autocorrelacion.html#estacionariedad-intuitiva",
+    "href": "notebooks/012_teoria_autocorrelacion.html#estacionariedad-intuitiva",
+    "title": "14  Sesión 2 · Teoría",
+    "section": "14.8 6. Estacionariedad (intuitiva)",
+    "text": "14.8 6. Estacionariedad (intuitiva)\nUn proceso es (débilmente) estacionario si:\n\nLa media \\(\\mathbb{E}[y_t]\\) no depende de \\(t\\).\nLa varianza \\(\\mathrm{Var}(y_t)\\) no depende de \\(t\\).\nLa autocovarianza \\(\\gamma_k = \\mathrm{Cov}(y_t, y_{t-k})\\) depende sólo de \\(k\\), no de \\(t\\).\n\nEn cristiano: las propiedades estadísticas no cambian con el tiempo.\n\n14.8.1 ¿Por qué importa?\nCasi todos los modelos clásicos (ARIMA, SARIMA, regresión sobre rezagos) asumen estacionariedad. Si la serie tiene tendencia o cambia de varianza, el modelo se equivoca.\n\n\n14.8.2 ¿Cómo se detecta a ojo en la ACF?\n\n\n\n\n\n\n\nPatrón en la ACF\nProbable diagnóstico\n\n\n\n\nDecae rápido a cero (en pocos rezagos)\nEstacionaria\n\n\nDecae muy lentamente, casi lineal\nTendencia / raíz unitaria → diferenciar\n\n\nPicos periódicos sin decaer\nEstacionalidad → diferenciación estacional\n\n\n\nEn la sesión 6 formalizaremos esto con las pruebas ADF y KPSS. Por ahora basta con la pista visual.\n\n# Serie con tendencia (no estacionaria)\ny_trend = np.cumsum(np.random.normal(0, 1, 500))   # paseo aleatorio\n\nfig, axes = plt.subplots(1, 2, figsize=(11, 3))\naxes[0].plot(y_trend, lw=0.8, color=\"C5\"); axes[0].set_title(\"Paseo aleatorio (no estacionario)\")\nplot_acf(y_trend, lags=40, ax=axes[1]); axes[1].set_title(\"ACF — decae muy lento\")\nplt.tight_layout(); plt.show()\n\n# Después de diferenciar\ny_diff = np.diff(y_trend)\nfig, axes = plt.subplots(1, 2, figsize=(11, 3))\naxes[0].plot(y_diff, lw=0.8, color=\"C0\"); axes[0].set_title(\"Serie diferenciada\")\nplot_acf(y_diff, lags=40, ax=axes[1]); axes[1].set_title(\"ACF — ahora ruido blanco\")\nplt.tight_layout(); plt.show()\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nMensaje. Diferenciar (y.diff() en pandas) convierte un paseo aleatorio en ruido blanco. Esa es la “\\(d\\)” de ARIMA(\\(p,d,q\\)): cuántas veces hay que diferenciar para alcanzar estacionariedad.",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Sesión 2 · Teoría</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/012_teoria_autocorrelacion.html#gaps-y-control-de-calidad",
+    "href": "notebooks/012_teoria_autocorrelacion.html#gaps-y-control-de-calidad",
+    "title": "14  Sesión 2 · Teoría",
+    "section": "14.9 7. Gaps y control de calidad",
+    "text": "14.9 7. Gaps y control de calidad\nAntes de calcular cualquier ACF sobre datos reales hay tres trampas que conviene desactivar.\n\n14.9.1 7.1 Gaps temporales\nUn gap es un hueco en el muestreo: faltó un dato, faltaron diez, o faltó una semana. Hay dos formas de “faltar”:\n\nFaltar como NaN (la fila existe en el índice, el valor es NaN). Detectable con df.isna().\nFaltar de plano (la fila no existe; el índice salta del minuto 14:00 al 14:05). Mucho más insidioso, porque pandas no avisa.\n\nPara detectar el segundo tipo, comparamos el índice real con uno completo:\nesperado = pd.date_range(df.index.min(), df.index.max(), freq=\"1min\")\nfaltantes = esperado.difference(df.index)\nO calculamos df.index.to_series().diff() y miramos los valores distintos al paso esperado.\n\n\n14.9.2 7.2 Por qué los gaps rompen la ACF\nLa fórmula muestral de \\(\\hat{\\rho}_k\\) asume que entre \\(y_t\\) y \\(y_{t-k}\\) realmente hay \\(k\\) pasos de tiempo. Si el índice tiene un hueco, esto deja de ser cierto: el rezago “1” puede ser de 1 minuto en algunos puntos y de 1 hora en otros. El cálculo se contamina silenciosamente.\nstatsmodels típicamente requiere que la serie sea continua y acf lanza error con NaN. Hay que decidir una política: rellenar los gaps cortos, descartar los tramos largos, o trabajar dentro de bloques continuos.\n\n\n14.9.3 7.3 Control de calidad básico\nAntes de cualquier análisis temporal, las cuatro revisiones mínimas:\n\nRangos físicos. ¿La temperatura está entre \\(-50\\) y \\(60\\) °C? ¿La humedad entre 0 y 100 %? ¿La presión cerca de la media local? Cualquier valor fuera es basura, no anomalía.\nSaturación de sensor. Largos tramos con el mismo valor exacto (digamos, 50 minutos seguidos a 25.00 °C clavados) suelen indicar que el sensor se quedó pegado.\nContinuidad del índice. Que no haya gaps inesperados, ni timestamps duplicados.\nZona horaria. ¿UTC, hora local? ¿Aplica horario de verano? Sin esto, el “ciclo diario” puede salir mal centrado.\n\n\nRegla del oficio. Antes de ACF/PACF, antes de descomponer, antes de cualquier modelo: mira la serie. Una gráfica cruda detecta el 90 % de los problemas que un análisis automático ocultaría.",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Sesión 2 · Teoría</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/012_teoria_autocorrelacion.html#manejo-temporal-con-pandas",
+    "href": "notebooks/012_teoria_autocorrelacion.html#manejo-temporal-con-pandas",
+    "title": "14  Sesión 2 · Teoría",
+    "section": "14.10 8. Manejo temporal con pandas",
+    "text": "14.10 8. Manejo temporal con pandas\nUna rapidísima referencia de las operaciones que usaremos en el laboratorio.\n\n\n\n\n\n\n\nOperación\nCódigo\n\n\n\n\nAsegurar índice datetime\ndf.index = pd.to_datetime(df.index)\n\n\nAsignar zona horaria\ndf.tz_localize(\"America/Mexico_City\")\n\n\nConvertir entre zonas\ndf.tz_convert(\"UTC\")\n\n\nRango esperado\npd.date_range(inicio, fin, freq=\"1min\")\n\n\nResamplear a otra escala\ndf.resample(\"1h\").mean()\n\n\nDiferencia entre timestamps consecutivos\ndf.index.to_series().diff()\n\n\nDetectar duplicados de tiempo\ndf.index.duplicated()\n\n\n\n\nUna nota sobre zonas horarias. Si el cálculo del ciclo diario sale “torcido” (máximo a las 9 AM en lugar de 14:00, por ejemplo), casi siempre es porque los datos están en UTC y los estás tratando como locales (o viceversa). Es el bug número 1 en análisis meteorológico.",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Sesión 2 · Teoría</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/012_teoria_autocorrelacion.html#síntesis",
+    "href": "notebooks/012_teoria_autocorrelacion.html#síntesis",
+    "title": "14  Sesión 2 · Teoría",
+    "section": "14.11 9. Síntesis",
+    "text": "14.11 9. Síntesis\n\n\n\nConcepto\nPara qué sirve\n\n\n\n\nACF\nVer la dependencia cruda en cada rezago\n\n\nPACF\nVer la dependencia neta, descontando intermedios\n\n\nBandas \\(\\pm 1.96/\\sqrt{N}\\)\nSignificancia bajo H₀ de ruido blanco\n\n\nACF que decae lento\nSospechar no estacionariedad\n\n\nPicos cada \\(s\\) rezagos\nEstacionalidad de período \\(s\\)\n\n\nDiferenciación\nReceta para forzar estacionariedad\n\n\nGaps\nDetectar antes de modelar; rompen ACF\n\n\n\n\n14.11.1 Preguntas para reflexionar antes del laboratorio\n\nSi tomamos la temperatura horaria de Temixco, ¿en qué rezago esperarías el primer pico estacional de la ACF?\n¿Por qué la PACF de un proceso AR(1) tiene un solo pico significativo y no dos?\nSi la ACF de los residuales de tu modelo STL muestra picos cada 24 rezagos a resolución horaria, ¿qué te está diciendo eso del modelo?\nUna estación reporta tdb = -999 en algunos minutos. ¿Es un dato faltante, un outlier o un gap? ¿Cómo lo manejarías?\n\n\n\n14.11.2 Lectura recomendada (opcional)\n\nHyndman & Athanasopoulos, Forecasting: Principles and Practice (3a ed.), capítulo 2.8 (Autocorrelación) y 9.1–9.5 (ARIMA). https://otexts.com/fpp3/\nBox, G. E. P., Jenkins, G. M., Reinsel, G. C., & Ljung, G. M. (2015). Time Series Analysis: Forecasting and Control (5a ed.), capítulos 2–3.",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Sesión 2 · Teoría</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/013_laboratorio_autocorrelacion.html",
+    "href": "notebooks/013_laboratorio_autocorrelacion.html",
+    "title": "15  Sesión 2 · Laboratorio",
+    "section": "",
+    "text": "15.1 ACF/PACF, gaps y manejo temporal sobre ClimaLab\nEstadística, Detección de Anomalías e Imputación de Series Temporales Posgrado en Ingeniería · Área Energía · IER-UNAM",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Sesión 2 · Laboratorio</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/013_laboratorio_autocorrelacion.html#acfpacf-gaps-y-manejo-temporal-sobre-climalab",
+    "href": "notebooks/013_laboratorio_autocorrelacion.html#acfpacf-gaps-y-manejo-temporal-sobre-climalab",
+    "title": "15  Sesión 2 · Laboratorio",
+    "section": "",
+    "text": "15.1.1 Objetivos del laboratorio\n\nManejar correctamente timestamps y zonas horarias en pandas.\nDetectar gaps explícitos e implícitos en una serie meteorológica real.\nAplicar control de calidad básico (rangos físicos, saturación de sensor).\nCalcular ACF y PACF con statsmodels sobre la serie de temperatura.\nIdentificar visualmente las periodicidades diaria y anual a partir de la ACF.\nAplicar ACF/PACF sobre los residuales de una descomposición STL para validar el modelo.\n\n\nimport numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\nimport matplotlib.dates as mdates\nfrom statsmodels.graphics.tsaplots import plot_acf, plot_pacf\nfrom statsmodels.tsa.stattools import acf, pacf\nfrom statsmodels.tsa.seasonal import STL\n\nplt.rcParams[\"figure.figsize\"] = (11, 4)\nplt.rcParams[\"axes.grid\"] = True\nplt.rcParams[\"grid.alpha\"] = 0.3",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Sesión 2 · Laboratorio</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/013_laboratorio_autocorrelacion.html#carga",
+    "href": "notebooks/013_laboratorio_autocorrelacion.html#carga",
+    "title": "15  Sesión 2 · Laboratorio",
+    "section": "15.2 1. Carga",
+    "text": "15.2 1. Carga\n\nf = \"../data/ClimaLab_2023-05-31_2025-06-20.parquet\"\n\ndf = pd.read_parquet(f)\ndf.head()\n\n\n\n\n\n\n\nvariable\ndhi\ndni\nghi\np_atm\nrain_acc\nrh\nsolar_altitude\ntdb\nuv\nwd\nws\n\n\ndate\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n2023-05-31 18:59:00\n7.391\n21.710\n9.66\n641.4001\n0.0\n60.18\n1.867189\n27.78\n0.0\n336.6\n0.0\n\n\n2023-05-31 19:00:00\n7.020\n0.000\n9.26\n641.4001\n0.0\n60.46\n1.663787\n27.73\n0.0\n344.7\n0.0\n\n\n2023-05-31 19:01:00\n6.603\n2.945\n8.83\n641.3997\n0.0\n60.42\n1.461872\n27.71\n0.0\n319.1\n0.0\n\n\n2023-05-31 19:02:00\n6.262\n3.643\n8.46\n641.4001\n0.0\n60.81\n1.261586\n27.69\n0.0\n322.8\n0.0\n\n\n2023-05-31 19:03:00\n5.952\n7.574\n8.02\n641.3999\n0.0\n60.45\n1.063073\n27.65\n0.0\n346.9\n0.0\n\n\n\n\n\n\n\n\ndf.tdb.plot()\n\n\n\n\n\n\n\n\n\nprint(f\"Forma del DataFrame: {df.shape[0]:,} filas × {df.shape[1]} columnas\")\nprint(f\"Período: {df.index.min()} a {df.index.max()}\")\nprint(f\"Frecuencia esperada: 1 min\")\nprint(f\"Tipo de índice: {type(df.index).__name__}, tz = {df.index.tz}\")\n\nForma del DataFrame: 1,076,768 filas × 11 columnas\nPeríodo: 2023-05-31 18:59:00 a 2025-06-20 00:00:00\nFrecuencia esperada: 1 min\nTipo de índice: DatetimeIndex, tz = None",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Sesión 2 · Laboratorio</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/013_laboratorio_autocorrelacion.html#manejo-de-timestamps-y-zonas-horarias",
+    "href": "notebooks/013_laboratorio_autocorrelacion.html#manejo-de-timestamps-y-zonas-horarias",
+    "title": "15  Sesión 2 · Laboratorio",
+    "section": "15.3 2. Manejo de timestamps y zonas horarias",
+    "text": "15.3 2. Manejo de timestamps y zonas horarias\nEl índice viene naive (tz=None). Recordemos: ClimaLab guarda hora local de Morelos (UTC−6, sin DST). Hagamos explícito ese contexto.\n\n# Anclamos la zona horaria. Esto NO modifica los timestamps,\n# sólo les pega una etiqueta. La diferencia con tz_convert es importante:\n#  - tz_localize(\"America/Mexico_City\"):  \"estos números YA estaban en hora local\"\n#  - tz_convert(\"America/Mexico_City\"):    \"estos números están en UTC, conviértelos\"\ndf = df.tz_localize(\"America/Mexico_City\", nonexistent=\"shift_forward\", ambiguous=\"NaT\")\n\nprint(\"Índice ahora con tz:\", df.index.tz)\nprint(\"Primer timestamp:    \", df.index[0])\nprint(\"Último timestamp:    \", df.index[-1])\n\nÍndice ahora con tz: America/Mexico_City\nPrimer timestamp:     2023-05-31 18:59:00-06:00\nÚltimo timestamp:     2025-06-20 00:00:00-06:00\n\n\n\n15.3.1 ¿Por qué importa tanto?\nSi tratamos UTC como local (o viceversa), el ciclo diario aparecerá desplazado: el máximo diurno se moverá 6 horas y la descomposición saldrá mal centrada. Es el error más común en análisis meteorológico y la razón por la que vale la pena dedicarle 30 segundos cada vez que se carga un dataset.",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Sesión 2 · Laboratorio</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/013_laboratorio_autocorrelacion.html#detección-de-gaps",
+    "href": "notebooks/013_laboratorio_autocorrelacion.html#detección-de-gaps",
+    "title": "15  Sesión 2 · Laboratorio",
+    "section": "15.4 3. Detección de gaps",
+    "text": "15.4 3. Detección de gaps\nHay dos clases de gaps a buscar:\n\nFilas faltantes (el índice salta).\nNaN dentro de filas existentes (la fila está, el valor no).\n\n\n# 3.1 Filas faltantes: comparamos el índice real con un rango completo a 1 min\nesperado = pd.date_range(df.index.min(), df.index.max(), freq=\"1min\", tz=df.index.tz)\nfaltantes_idx = esperado.difference(df.index)\n\nprint(f\"Filas esperadas: {len(esperado):,}\")\nprint(f\"Filas presentes: {len(df):,}\")\nprint(f\"Filas faltantes: {len(faltantes_idx):,}  ({100*len(faltantes_idx)/len(esperado):.2f}%)\")\n\nFilas esperadas: 1,080,302\nFilas presentes: 1,076,768\nFilas faltantes: 3,534  (0.33%)\n\n\n\n# 3.2 ¿Cómo se distribuyen esos gaps en el tiempo? ¿Son cortos y dispersos\n#     o largos y concentrados?\nif len(faltantes_idx) &gt; 0:\n    # Agrupamos timestamps faltantes consecutivos en bloques (gap \"real\")\n    faltantes_serie = pd.Series(1, index=faltantes_idx)\n    bloques = (faltantes_serie.index.to_series().diff() != pd.Timedelta(\"1min\")).cumsum()\n    duraciones = faltantes_serie.groupby(bloques).size()  # minutos por bloque\n    print(f\"Número de bloques de gap: {len(duraciones):,}\")\n    print(f\"Mediana del bloque (min): {duraciones.median():.0f}\")\n    print(f\"Bloque más largo (min):   {duraciones.max():,}\")\n    print()\n    print(\"Top-5 gaps más largos:\")\n    top = duraciones.sort_values(ascending=False).head(5)\n    for b, dur in top.items():\n        inicio = faltantes_serie[bloques == b].index[0]\n        print(f\"  {inicio}  →  {dur:,} min  ({dur/60:.1f} h)\")\nelse:\n    print(\"Sin filas faltantes.\")\n\nNúmero de bloques de gap: 233\nMediana del bloque (min): 1\nBloque más largo (min):   624\n\nTop-5 gaps más largos:\n  2024-02-17 21:12:00-06:00  →  624 min  (10.4 h)\n  2023-05-31 22:00:00-06:00  →  573 min  (9.6 h)\n  2025-04-26 04:32:00-06:00  →  132 min  (2.2 h)\n  2025-05-06 04:28:00-06:00  →  126 min  (2.1 h)\n  2025-05-01 04:39:00-06:00  →  125 min  (2.1 h)\n\n\n\n# 3.3 NaN por columna (la otra cara de los gaps)\nfaltantes_col = df.isna().sum()\nporcentajes = (faltantes_col / len(df) * 100).round(1)\npd.DataFrame({\"NaN\": faltantes_col, \"%\": porcentajes}).sort_values(\"%\", ascending=False)\n\n\n\n\n\n\n\n\nNaN\n%\n\n\nvariable\n\n\n\n\n\n\ndni\n534987\n49.7\n\n\nghi\n533579\n49.6\n\n\ndhi\n533536\n49.5\n\n\np_atm\n0\n0.0\n\n\nrain_acc\n0\n0.0\n\n\nrh\n0\n0.0\n\n\nsolar_altitude\n0\n0.0\n\n\ntdb\n0\n0.0\n\n\nuv\n0\n0.0\n\n\nwd\n0\n0.0\n\n\nws\n0\n0.0\n\n\n\n\n\n\n\nRecordatorio del lab anterior. dhi, dni, ghi tienen ~50 % de NaN porque sólo se reportan de día. No es un defecto, es estructural. tdb (temperatura) está casi completa: la usaremos como caso base para ACF/PACF.",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Sesión 2 · Laboratorio</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/013_laboratorio_autocorrelacion.html#control-de-calidad-básico",
+    "href": "notebooks/013_laboratorio_autocorrelacion.html#control-de-calidad-básico",
+    "title": "15  Sesión 2 · Laboratorio",
+    "section": "15.5 4. Control de calidad básico",
+    "text": "15.5 4. Control de calidad básico\nAntes de calcular ACF, los cuatro chequeos del oficio: rangos físicos, saturación, duplicados de tiempo, y outliers gruesos.\n\n# 4.1 Rangos físicos plausibles para Morelos\nlimites = {\n    \"tdb\":   (-5,   50),\n    \"rh\":    (0,   100),\n    \"p_atm\": (800, 900),    # Temixco está a ~1280 m, ~870 hPa típica\n    \"ws\":    (0,    40),\n    \"ghi\":   (0,  1500),\n}\n\nresumen = []\nfor var, (lo, hi) in limites.items():\n    s = df[var].dropna()\n    fuera = ((s &lt; lo) | (s &gt; hi)).sum()\n    resumen.append({\"var\": var, \"min\": s.min(), \"max\": s.max(),\n                    \"fuera_rango\": fuera, \"% fuera\": 100 * fuera / len(s)})\npd.DataFrame(resumen).round(2)\n\n\n\n\n\n\n\n\nvar\nmin\nmax\nfuera_rango\n% fuera\n\n\n\n\n0\ntdb\n10.98\n39.93\n0\n0.00\n\n\n1\nrh\n-8.19\n138.50\n117\n0.01\n\n\n2\np_atm\n443.27\n1593.04\n199705\n18.55\n\n\n3\nws\n0.00\n18.28\n0\n0.00\n\n\n4\nghi\n0.00\n1360.00\n0\n0.00\n\n\n\n\n\n\n\nConfirmamos lo del lab anterior: p_atm y rh tienen valores físicamente imposibles. Para esta sesión los marcaremos como NaN en una copia limpia.\n\ndf_qc = df.copy()\nfor var, (lo, hi) in limites.items():\n    mask_fuera = (df_qc[var] &lt; lo) | (df_qc[var] &gt; hi)\n    df_qc.loc[mask_fuera, var] = np.nan\n    if mask_fuera.sum():\n        print(f\"  {var}: marcados {mask_fuera.sum():,} valores fuera de [{lo}, {hi}]\")\n\n  rh: marcados 117 valores fuera de [0, 100]\n  p_atm: marcados 199,705 valores fuera de [800, 900]\n\n\n\n# 4.2 Saturación: tramos donde el sensor reporta el mismo valor exacto\n#     durante muchos minutos seguidos. Buscamos en tdb (no debería ocurrir).\ntdb = df_qc[\"tdb\"].dropna()\nruns = (tdb != tdb.shift()).cumsum()\nduraciones_run = tdb.groupby(runs).size()\nprint(f\"Run más largo de tdb constante: {duraciones_run.max()} minutos\")\nprint(f\"Runs de &gt;30 min con tdb idéntica: {(duraciones_run &gt; 30).sum()}\")\n\nRun más largo de tdb constante: 10 minutos\nRuns de &gt;30 min con tdb idéntica: 0\n\n\n\n# 4.3 Timestamps duplicados\nduplicados = df.index.duplicated().sum()\nprint(f\"Timestamps duplicados en el índice: {duplicados}\")\n\nTimestamps duplicados en el índice: 0",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Sesión 2 · Laboratorio</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/013_laboratorio_autocorrelacion.html#acf-y-pacf-a-resolución-horaria-ciclo-diario",
+    "href": "notebooks/013_laboratorio_autocorrelacion.html#acf-y-pacf-a-resolución-horaria-ciclo-diario",
+    "title": "15  Sesión 2 · Laboratorio",
+    "section": "15.6 5. ACF y PACF a resolución horaria — ciclo diario",
+    "text": "15.6 5. ACF y PACF a resolución horaria — ciclo diario\nCon 1 millón de filas a 1 min, calcular ACF directamente es lento e innecesario para ver el ciclo diario. Resampleamos a 1 hora y nos fijamos en hasta 72 rezagos (3 días).\n\nhorario = df_qc.resample(\"h\").mean(numeric_only=True)\ntdb_h = horario[\"tdb\"].dropna()\n\nprint(f\"tdb horaria: {len(tdb_h):,} puntos\")\nprint(f\"NaN restantes: {tdb_h.isna().sum()}\")\n\ntdb horaria: 17,982 puntos\nNaN restantes: 0\n\n\n\ntdb\n\ndate\n2023-05-31 18:59:00-06:00    27.78\n2023-05-31 19:00:00-06:00    27.73\n2023-05-31 19:01:00-06:00    27.71\n2023-05-31 19:02:00-06:00    27.69\n2023-05-31 19:03:00-06:00    27.65\n                             ...  \n2025-06-19 23:56:00-06:00    18.88\n2025-06-19 23:57:00-06:00    18.89\n2025-06-19 23:58:00-06:00    18.87\n2025-06-19 23:59:00-06:00    18.87\n2025-06-20 00:00:00-06:00    18.87\nName: tdb, Length: 1076768, dtype: float64\n\n\n\n60*24*365\n\n525600\n\n\n\nfig, axes = plt.subplots(1, 2, figsize=(12, 3.5))\nplot_acf(tdb_h, lags=40, ax=axes[0])\naxes[0].set_title(\"ACF — tdb horaria (72 rezagos = 3 días)\")\nplot_pacf(tdb_h, lags=128, ax=axes[1], method=\"ywm\")\naxes[1].set_title(\"PACF — tdb horaria\")\nplt.tight_layout(); plt.show()\n\n\n\n\n\n\n\n\n\n15.6.1 Lo que vemos\n\nPicos en la ACF cada 24 rezagos (24, 48, 72): firma inequívoca del ciclo diario.\nLa ACF no decae rápido a cero: oscila. Eso confirma que la serie no es estacionaria — la estacionalidad la hace volver una y otra vez al mismo nivel.\nLa PACF tiene un pico fuerte en lag 1 (la temperatura de “ahora” está casi determinada por la de “hace 1 hora”), y picos secundarios cerca de 24.\n\n\nConclusión práctica. Si vamos a modelar tdb con ARIMA, necesitamos diferenciación estacional (\\(s=24\\)) para volverla estacionaria. Eso es la \\(D\\) de SARIMA, que veremos en la sesión 7.",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Sesión 2 · Laboratorio</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/013_laboratorio_autocorrelacion.html#acf-a-resolución-diaria-ciclo-anual",
+    "href": "notebooks/013_laboratorio_autocorrelacion.html#acf-a-resolución-diaria-ciclo-anual",
+    "title": "15  Sesión 2 · Laboratorio",
+    "section": "15.7 6. ACF a resolución diaria — ciclo anual",
+    "text": "15.7 6. ACF a resolución diaria — ciclo anual\nAhora resampleamos a un día y miramos hasta 400 rezagos (más de un año).\n\ndiario = df_qc.resample(\"1D\").mean(numeric_only=True)\ntdb_d = diario[\"tdb\"].dropna()\nprint(f\"tdb diaria: {len(tdb_d):,} puntos\")\n\ntdb diaria: 752 puntos\n\n\n\nfig, axes = plt.subplots(1, 2, figsize=(12, 3.5))\nplot_acf(tdb_d, lags=400, ax=axes[0])\naxes[0].set_title(\"ACF — tdb diaria (400 rezagos)\")\nplot_pacf(tdb_d, lags=60, ax=axes[1], method=\"ywm\")\naxes[1].set_title(\"PACF — tdb diaria (60 rezagos)\")\nplt.tight_layout(); plt.show()\n\n\n\n\n\n\n\n\n\n15.7.1 Lo que vemos\n\nEn la ACF diaria, la correlación cae los primeros días, vuelve a subir alrededor del rezago 365. Ese es el ciclo anual: la temperatura de hoy se parece a la de hace exactamente un año.\nEn los rezagos cercanos a 180 hay correlación negativa: hoy se parece poco a hace 6 meses (que es la estación opuesta).\nLa PACF en los primeros rezagos ya muestra que tdb diaria tiene memoria de varios días — un AR de orden alto o un ARMA es el modelo natural.",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Sesión 2 · Laboratorio</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/013_laboratorio_autocorrelacion.html#acf-sobre-los-residuales-de-stl",
+    "href": "notebooks/013_laboratorio_autocorrelacion.html#acf-sobre-los-residuales-de-stl",
+    "title": "15  Sesión 2 · Laboratorio",
+    "section": "15.8 7. ACF sobre los residuales de STL",
+    "text": "15.8 7. ACF sobre los residuales de STL\nUna de las pruebas más útiles: ajustamos un modelo y miramos si los residuales se ven como ruido blanco. Si la ACF de los residuales sale plana, el modelo capturó la estructura; si quedan picos, hay algo más que explicar.\n\n# Re-aplicamos STL diaria con período = 365 (igual que en la sesión 1)\nstl = STL(tdb_d, period=365, robust=True).fit()\nresid = stl.resid.dropna()\n\nfig, axes = plt.subplots(2, 1, figsize=(11, 5), sharex=False)\naxes[0].plot(resid.index, resid.values, lw=0.6, color=\"C7\")\naxes[0].set_title(\"Residuales STL · tdb diaria\")\naxes[0].set_ylabel(\"°C\")\n\nplot_acf(resid, lags=60, ax=axes[1])\naxes[1].set_title(\"ACF de los residuales (60 rezagos)\")\nplt.tight_layout(); plt.show()\n\n\n\n\n\n\n\n\n\n15.8.1 Interpretación\n\nSi la ACF de los residuales está mayoritariamente dentro de las bandas → STL hizo bien su trabajo.\nSi quedan picos significativos en los primeros rezagos → hay autocorrelación de corto plazo no capturada (típico en datos diarios: el “estado” del clima persiste varios días). Esto es una oportunidad de modelar el residual con un AR de orden bajo.\n\nVolveremos a este flujo en el Bloque 4: anomalías como puntos cuyo residual no encaja en lo que la ACF esperaría.",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Sesión 2 · Laboratorio</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/013_laboratorio_autocorrelacion.html#periodicidad-escondida-la-veríamos-sin-saber-que-está",
+    "href": "notebooks/013_laboratorio_autocorrelacion.html#periodicidad-escondida-la-veríamos-sin-saber-que-está",
+    "title": "15  Sesión 2 · Laboratorio",
+    "section": "15.9 8. Periodicidad escondida: ¿la veríamos sin saber que está?",
+    "text": "15.9 8. Periodicidad escondida: ¿la veríamos sin saber que está?\nPregunta provocadora: si no supiéramos que el ciclo diario tiene período 24, ¿la ACF nos lo descubriría?\nTomemos un mes de tdb horaria y simulemos a alguien que no sabe nada del fenómeno.\n\ntdb_mes = horario[\"tdb\"].loc[\"2024-03\"].dropna()\n\nfig, axes = plt.subplots(2, 1, figsize=(11, 5))\naxes[0].plot(tdb_mes.index, tdb_mes.values, lw=0.8, color=\"C2\")\naxes[0].set_title(\"tdb horaria · marzo 2024\")\naxes[0].set_ylabel(\"°C\")\n\nplot_acf(tdb_mes, lags=96, ax=axes[1])  # 96 h = 4 días\naxes[1].set_title(\"ACF — primeros 96 rezagos\")\nplt.tight_layout(); plt.show()\n\n# Y, programáticamente, ¿en qué rezago está el primer máximo local de la ACF?\nacf_vals = acf(tdb_mes, nlags=96)\n# Buscamos el primer pico después del lag 0\ndiffs = np.diff(acf_vals)\npicos = np.where((diffs[:-1] &gt; 0) & (diffs[1:] &lt; 0))[0] + 1\nprint(f\"Primer pico local de la ACF en rezago: {picos[0]}\")\n\n\n\n\n\n\n\n\nPrimer pico local de la ACF en rezago: 24\n\n\nSin asumir nada del fenómeno, la ACF nos entrega el período 24. Esto es lo que la hace tan poderosa para series donde no conocemos a priori los ciclos (procesos industriales, biomédicos, financieros).",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Sesión 2 · Laboratorio</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/013_laboratorio_autocorrelacion.html#ejercicio-guiado-15-min-en-parejas",
+    "href": "notebooks/013_laboratorio_autocorrelacion.html#ejercicio-guiado-15-min-en-parejas",
+    "title": "15  Sesión 2 · Laboratorio",
+    "section": "15.10 9. Ejercicio guiado (15 min, en parejas)",
+    "text": "15.10 9. Ejercicio guiado (15 min, en parejas)\nRepite el flujo para la humedad relativa (rh) ya filtrada por QC:\n\nResampleo horario y diario.\nACF/PACF horaria con 72 rezagos.\nACF diaria con 400 rezagos.\nSTL diaria + ACF de residuales.\n\nDiscusión:\n\n¿La estacionalidad diaria de rh es tan limpia como la de tdb?\n¿En qué meses se observan los máximos de humedad? ¿Coincide con la temporada de lluvias en Morelos (junio–octubre)?\n¿Los residuales de STL para rh se ven más o menos “blancos” que los de tdb?\n\n# Plantilla\nrh_h = horario[\"rh\"].dropna()\nrh_d = diario[\"rh\"].dropna()\n\n# 1) ACF/PACF horaria\n# fig, axes = plt.subplots(1, 2, figsize=(12, 3.5))\n# plot_acf(rh_h, lags=72, ax=axes[0])\n# plot_pacf(rh_h, lags=72, ax=axes[1], method=\"ywm\")\n# ...\n\n# Tu código aquí\nrh_h = horario[\"rh\"].dropna()\nrh_d = diario[\"rh\"].dropna()",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Sesión 2 · Laboratorio</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/013_laboratorio_autocorrelacion.html#reto-para-casa",
+    "href": "notebooks/013_laboratorio_autocorrelacion.html#reto-para-casa",
+    "title": "15  Sesión 2 · Laboratorio",
+    "section": "15.11 10. Reto para casa",
+    "text": "15.11 10. Reto para casa\nToma la serie horaria de GHI (irradiancia global horizontal) sólo durante horas con sol (filtra por solar_altitude &gt; 0). Sobre esa serie ya filtrada:\n\nCalcula la ACF a 200 rezagos.\n¿Aparece un ciclo de período 24? ¿Por qué sí o por qué no?\n¿Qué pasa si en lugar de filtrar por altura solar, resampleas a diario?\n\nEntrega un notebook con tus gráficas y una conclusión de 3 renglones.",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Sesión 2 · Laboratorio</span>"
+    ]
+  },
+  {
+    "objectID": "notebooks/013_laboratorio_autocorrelacion.html#síntesis-de-la-sesión",
+    "href": "notebooks/013_laboratorio_autocorrelacion.html#síntesis-de-la-sesión",
+    "title": "15  Sesión 2 · Laboratorio",
+    "section": "15.12 11. Síntesis de la sesión",
+    "text": "15.12 11. Síntesis de la sesión\n\n\n\nTarea\nHerramienta\n\n\n\n\nAnclar zona horaria\ndf.tz_localize(\"America/Mexico_City\")\n\n\nDetectar filas faltantes\npd.date_range(...).difference(df.index)\n\n\nMarcar valores fuera de rango\nmáscara booleana → NaN\n\n\nACF/PACF\nstatsmodels.graphics.tsaplots.plot_acf, plot_pacf\n\n\nIdentificar ciclo diario\npico de ACF en rezago 24 (datos horarios)\n\n\nIdentificar ciclo anual\npico de ACF en rezago 365 (datos diarios)\n\n\nValidar un modelo\nACF de los residuales debe ser ≈ ruido blanco\n\n\n\n\nTres reflejos del oficio que te llevas de esta sesión.\n\nAntes de cualquier modelo, busca gaps y rangos imposibles.\nAntes de modelar, mira la ACF. Te dice si tu serie es estacionaria, qué períodos tiene y qué orden ARIMA tentativo probar.\nDespués de modelar, mira la ACF de los residuales. Si no es plana, tu modelo es mejorable.",
+    "crumbs": [
+      "Clases",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Sesión 2 · Laboratorio</span>"
+    ]
   }
 ]
