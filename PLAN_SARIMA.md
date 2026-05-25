@@ -96,28 +96,63 @@ Como se interpreta la formula, como se construyó así ?
 
 ---
 
-### `020_tdb_configuracion.py` — *Configurar SARIMA con el widget*
+### `020_tdb_configuracion.py` — *Configurar SARIMA desde el código (autocontenida)*
 
-**Idea.** Lo que ya hace `017_SARIMA.py` con viento de La Ventosa, pero ahora
-con `tdb` y con plotly. El énfasis es **leer los diagnósticos** (residuos,
-ACF/PACF de residuos, Ljung-Box) para iterar las perillas
-`(p, d, q)(P, D, Q, s)`.
+**Idea.** Aprender a configurar SARIMA **sin widgets**: cada iteración es una
+celda que se edita y se vuelve a ejecutar. La libreta enseña (a) cómo deducir
+los parámetros iniciales a partir de la serie y (b) cómo iterarlos leyendo
+los diagnósticos. **No depende de la libreta 019** — todo lo necesario se
+vuelve a explicar y a calcular aquí.
+
+**Constantes fijas** (para que solo varíen las perillas SARIMA):
+- Serie: `tdb`, resampleada a **1 hora**.
+- Train: **2024-03-15 00:00 → 2024-04-11 23:00** (4 semanas = 672 obs).
+- Holdout: **2024-04-12 00:00 → 2024-04-12 23:00** (24 h).
+- Estacionalidad fija `s = 24`; horizonte de pronóstico fijo 24 h.
+- Métrica principal: RMSE en el holdout (acompañada de MAE y MAPE).
 
 **Contenido.**
-1. Recordar la ecuación SARIMA (resumen breve, no repetir todo lo de 017;
-   un cuadro tabla + una imagen mental).
-2. Selector de ventana de entrenamiento (varias semanas hourly), separar
-   train/test (`mo.ui.number` para el horizonte en horas).
-3. **Widget de órdenes** `(p,d,q)(P,D,Q,s)` con `s=24` por defecto.
-4. Fit + tabla AIC/BIC + RMSE/MAE en holdout.
-5. **Panel de diagnóstico plotly 2×2**: forecast vs holdout, residuos, ACF y
-   PACF de residuos. Hover muestra el lag exacto.
-6. **Prueba de Ljung-Box** sobre residuos como semáforo de "ya no hay
-   estructura".
-7. Recetario corto: "si ves esto en residuos → mueve esta perilla".
+1. **Setup y vista de los datos** — carga, resample horario, recorte fijo
+   train+holdout, plot plotly con línea divisoria.
+2. **Tabla compacta de SARIMA** — `(p, d, q)(P, D, Q, s)` con una línea por
+   parámetro. Sin la fórmula larga; solo lo necesario para iterar.
+3. **Selección de parámetros desde la serie (autocontenida)**.
+   - Plot del train.
+   - Perfil diario (boxplot por hora) → confirma `s = 24`.
+   - **ADF y KPSS** sobre `y`, `Δy`, `Δ₂₄y`, `ΔΔ₂₄y` → decide `(d, D)`.
+   - **ACF y PACF** sobre la serie ya diferenciada → lee picos en lags
+     pequeños y en `s, 2s` → propone `(p, q, P, Q)`.
+   - Celda markdown con la **propuesta M1** justificada.
+4. **Fit M1** — `SARIMAX(...)`, `res.summary()`, forecast 24h con intervalo
+   95%, plot, métricas AIC/BIC/log-lik/RMSE/MAE/MAPE.
+5. **Diagnóstico de residuos M1** — residuos en el tiempo, ACF/PACF de
+   residuos hasta lag 48, QQ-plot, Ljung-Box a lags 10/24/48.
+6. **Recetario de iteración** (sección teórica corta).
+   - Pico ACF residuos lag k pequeño → sube `q`.
+   - Pico PACF lag k pequeño → sube `p`.
+   - Pico ACF en `s, 2s` → sube `Q`.
+   - Pico PACF en `s, 2s` → sube `P`.
+   - Ljung-Box p < 0.05 → queda estructura, sigue iterando.
+   - AIC sube al añadir un parámetro → quítalo (sobreajuste).
+   - Coeficiente con p > 0.1 → término redundante.
+7. **Iteración M2** — repetir la lectura ACF/PACF de residuos de M1, proponer
+   un cambio concreto, fit + diagnósticos.
+8. **Iteración M3** — repetir sobre los residuos de M2.
+9. **Tabla acumulativa** — `pd.DataFrame` con todos los modelos:
+   orden, `n_params`, log-lik, AIC, BIC, RMSE/MAE/MAPE en holdout,
+   Ljung-Box p. Observación guiada: ¿coinciden AIC mínimo y RMSE mínimo?
+10. **Métricas para decidir** (teoría).
+    - AIC vs BIC (qué penaliza cada uno).
+    - RMSE/MAE/MAPE en holdout como prueba honesta.
+    - Ljung-Box como semáforo.
+    - Parsimonia (Occam).
+    - Trade-off: AIC más bajo ≠ mejor en holdout.
+11. **Decisión final** — celda markdown justificando el modelo elegido. Es
+    el que hereda 021.
 
-**Teoría incluida.** Cómo leer ACF/PACF de residuos, qué dice Ljung-Box,
-trade-off AIC vs RMSE.
+**Fuera de alcance (para mantener simple).** Widgets `mo.ui.*` para órdenes;
+búsqueda en cuadrícula automática; rolling forecast (eso es 021);
+estacionalidad anual.
 
 ---
 

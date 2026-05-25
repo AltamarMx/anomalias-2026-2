@@ -227,7 +227,7 @@
         {
           "type": "data",
           "data": {
-            "text/html": "<marimo-ui-element object-id='fbaq-0' random-id='e1aaa239-e165-7535-5a32-5789654b9a52'><marimo-slider data-initial-value='72' data-label='&quot;&lt;span class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&gt;&lt;span class=&#92;&quot;paragraph&#92;&quot;&gt;Rezagos a mostrar (en horas)&lt;/span&gt;&lt;/span&gt;&quot;' data-start='24' data-stop='168' data-step='24' data-steps='[]' data-debounce='false' data-disabled='false' data-orientation='&quot;horizontal&quot;' data-show-value='true' data-include-input='false' data-full-width='false'></marimo-slider></marimo-ui-element>"
+            "text/html": "<marimo-ui-element object-id='ROlb-0' random-id='60584b55-e80e-a5bc-a6f2-ca19cfb91f24'><marimo-slider data-initial-value='72' data-label='&quot;&lt;span class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&gt;&lt;span class=&#92;&quot;paragraph&#92;&quot;&gt;Rezagos a mostrar (en horas)&lt;/span&gt;&lt;/span&gt;&quot;' data-start='24' data-stop='168' data-step='24' data-steps='[]' data-debounce='false' data-disabled='false' data-orientation='&quot;horizontal&quot;' data-show-value='true' data-include-input='false' data-full-width='false'></marimo-slider></marimo-ui-element>"
           }
         }
       ],
