@@ -33,6 +33,7 @@ book:
         - notebooks/019_tdb_teoria_exploracion.ipynb
         - notebooks/020_tdb_configuracion.ipynb
         - notebooks/021_tdb_outliers.ipynb
+        - notebooks/022_temario_sarimax.qmd
 
 format:
   html:

@@ -1,0 +1,379 @@
+---
+title: "Temario · Aprender SARIMAX desde cero (perfil ingeniería)"
+subtitle: "Ruta de estudio para reproducir las libretas 020 y 021"
+date: today
+---
+
+## A quién va dirigido
+
+A quien tiene **base de ingeniería** —cálculo, álgebra, señales, programación—
+pero **no ha llevado estadística formal**. La meta es concreta: entender y poder
+reproducir, sin huecos, lo que hacen las libretas **020** (configurar e iterar
+un SARIMA sobre la temperatura `tdb`) y **021** (usar ese modelo para detectar
+outliers y extenderlo a **SARIMAX** con un regresor exógeno).
+
+Este documento es **solo el temario** —qué estudiar y en qué orden— sin horario.
+Está pensado como ruta autocontenida: cada módulo es independiente del resto de
+las libretas del curso y cita un recurso externo donde profundizar.
+
+## Cómo leer cada tema
+
+Cada tema sigue el mismo patrón de tres líneas:
+
+> **Objetivo** · qué sabrás hacer al terminarlo.
+> **Conceptos clave** · términos y fórmulas que hay que dominar.
+> **Herramienta** · la función o clase de Python con que se aplica.
+
+La regla de oro: **no avances de módulo si no puedes explicar, con tus
+palabras, los "conceptos clave" del anterior.** SARIMAX es acumulativo —el
+Módulo 9 (outliers) no tiene sentido sin el Módulo 8 (incertidumbre del
+pronóstico), que a su vez descansa en el Módulo 1 (la Normal y sus cuantiles).
+
+## Mapa — qué módulo resuelve qué parte de 020/021
+
+| Módulo | Tema | Para qué sirve en 020/021 |
+|---|---|---|
+| 0 | Herramientas de cómputo | Cargar el parquet, resamplear a 1 h, partir train/holdout |
+| 1 | Fundamentos de estadística | Leer p-valores, la Normal de los IC, la t de Student de §8 (021) |
+| 2 | Series de tiempo | Entender tendencia, estacionalidad y ruido de `tdb` |
+| 3 | Autocorrelación e identificación | ACF/PACF y periodograma de §3 (020) → deducir `s` y `(p,q,P,Q)` |
+| 4 | Estacionariedad y diferenciación | ADF/KPSS de §3.5 (020) → decidir `(d, D)` |
+| 5 | Modelos ARMA | La maquinaria AR/MA detrás de los coeficientes del `summary` |
+| 6 | ARIMA y SARIMA | Los 7 parámetros `(p,d,q)(P,D,Q,s)` y el ciclo Box-Jenkins |
+| 7 | Diagnóstico y selección | Ljung-Box, QQ-plot, AIC/BIC, RMSE → elegir M1/M2/M3 |
+| 8 | Pronóstico e incertidumbre | `get_forecast`, banda de predicción, multi-paso vs un-paso |
+| 9 | Detección de outliers | Residuo estandarizado, umbral, calibración (todo §4–§8 de 021) |
+| 10 | SARIMAX: exógenos | La "X" — meter `ws`/`ghi` como regresor (§9 de 021) |
+
+---
+
+## Módulo 0 · Herramientas de cómputo
+
+Antes de la estadística, el entorno. 020/021 son código de principio a fin.
+
+**Python científico y entorno**
+
+> **Objetivo** · ejecutar una libreta, importar paquetes y leer la salida.
+> **Conceptos clave** · entorno virtual, `import`, celdas, `print`/visualización
+> de DataFrames y figuras.
+> **Herramienta** · Jupyter o **marimo** (estas libretas son marimo).
+
+**Manejo de datos tabulares**
+
+> **Objetivo** · cargar el parquet del ClimaLab y manipular columnas.
+> **Conceptos clave** · `DataFrame` vs `Series`, indexado por etiqueta, NaN.
+> **Herramienta** · `pandas.read_parquet`, `numpy`.
+
+**Series de tiempo en pandas**
+
+> **Objetivo** · pasar de datos crudos a una serie horaria limpia y partida en
+> train/holdout, exactamente como las primeras celdas de 020.
+> **Conceptos clave** · `DatetimeIndex`, frecuencia, *resampling*, recorte por
+> fechas, alineación temporal.
+> **Herramienta** · `resample("h").mean()`, `asfreq("h")`, `dropna()`,
+> `pd.Timestamp`, `pd.Timedelta`, slicing por índice temporal.
+
+**Gráficas**
+
+> **Objetivo** · graficar series, bandas e histogramas para diagnosticar.
+> **Conceptos clave** · línea, dispersión, banda rellena (IC), subplots.
+> **Herramienta** · `plotly.express` / `plotly.graph_objects`; alternativa
+> `matplotlib`.
+
+> **Recurso** · documentación oficial *pandas — Time series / date functionality*.
+
+---
+
+## Módulo 1 · Fundamentos de estadística (desde cero)
+
+El módulo que el perfil de ingeniería suele saltarse. 020/021 lo dan por
+sabido en cada p-valor y cada intervalo.
+
+**Variable aleatoria, población y muestra**
+
+> **Objetivo** · distinguir el valor que mides del proceso que lo genera.
+> **Conceptos clave** · variable aleatoria, realización, población vs muestra,
+> distribución de probabilidad, función de densidad.
+> **Herramienta** · `numpy.random`.
+
+**Estadística descriptiva**
+
+> **Objetivo** · resumir una muestra con números.
+> **Conceptos clave** · media $\bar x$, varianza $s^2$, desviación estándar $s$,
+> histograma.
+> **Herramienta** · `np.mean`, `np.std`, `np.var`, `Series.describe()`.
+
+**La distribución Normal**
+
+> **Objetivo** · reconocer la campana y razonar con ella; es la base de todos
+> los intervalos de confianza y de predicción de 020/021.
+> **Conceptos clave** · $\mathcal{N}(\mu, \sigma^2)$, estandarización
+> $z = (x-\mu)/\sigma$, **regla 68-95-99.7**.
+> **Herramienta** · `scipy.stats.norm` (`.pdf`, `.cdf`, `.ppf`).
+
+**Cuantiles y percentiles**
+
+> **Objetivo** · traducir entre "probabilidad" y "valor de corte" — es lo que
+> hace el umbral $k$ de los outliers en 021.
+> **Conceptos clave** · cuantil, percentil, mediana, el $1.96$ del 95% y el
+> $2.58$ del 99% como cuantiles de la Normal.
+> **Herramienta** · `np.quantile`, `stats.norm.ppf`.
+
+**Teorema del límite central**
+
+> **Objetivo** · entender por qué la Normal aparece "por todos lados".
+> **Conceptos clave** · promedios de muchas variables → Normal; desviación
+> estándar del promedio $\propto 1/\sqrt{n}$ (origen de la banda
+> $\pm 1.96/\sqrt n$ de la ACF).
+> **Herramienta** · simulación con `numpy.random`.
+
+**Correlación y covarianza**
+
+> **Objetivo** · medir cuánto se mueven dos variables juntas.
+> **Conceptos clave** · covarianza, coeficiente de correlación $\in[-1,1]$,
+> correlación ≠ causalidad.
+> **Herramienta** · `Series.corr`, `np.corrcoef`.
+
+**Prueba de hipótesis y p-valor**
+
+> **Objetivo** · leer "p < 0.05" y saber qué se rechaza — aparece en ADF, KPSS,
+> Ljung-Box y en cada coeficiente del `summary`.
+> **Conceptos clave** · hipótesis nula $H_0$, nivel de significancia $\alpha$,
+> **p-valor**, rechazar vs no rechazar, hipótesis nulas **opuestas** (clave para
+> usar ADF y KPSS juntas).
+> **Herramienta** · `scipy.stats` (pruebas básicas).
+
+**t de Student, colas pesadas y curtosis**
+
+> **Objetivo** · entender por qué los residuos de `tdb` no son del todo Normales
+> y qué corrige la t — central en §8 de 021.
+> **Conceptos clave** · distribución **t de Student** y sus grados de libertad,
+> **colas pesadas**, **curtosis** (exceso > 0).
+> **Herramienta** · `scipy.stats.t` (`.fit`, `.ppf`), `stats.kurtosis`.
+
+> **Recurso** · *OpenIntro Statistics* (gratis en PDF) o Khan Academy
+> "Statistics and Probability".
+
+---
+
+## Módulo 2 · Series de tiempo: conceptos
+
+> **Objetivo** · ver una serie como datos **ordenados en el tiempo** y nombrar
+> sus partes.
+> **Conceptos clave** · serie de tiempo, frecuencia/periodicidad; **componentes**
+> tendencia, **estacionalidad**, ciclo y ruido; descomposición aditiva;
+> **ruido blanco** (media 0, varianza constante, sin autocorrelación); idea
+> intuitiva de **estacionariedad** (sus propiedades no cambian con el tiempo).
+> **Herramienta** · `statsmodels.tsa.seasonal.seasonal_decompose`.
+
+> **Recurso** · Hyndman & Athanasopoulos, *Forecasting: Principles and Practice*
+> (FPP3, gratis en línea), caps. 2–3.
+
+---
+
+## Módulo 3 · Autocorrelación e identificación
+
+El corazón de §3 de la libreta 020: mirar la serie para proponer parámetros.
+
+**Autocorrelación (ACF) y parcial (PACF)**
+
+> **Objetivo** · leer los dos gráficos que sugieren los órdenes del modelo.
+> **Conceptos clave** · autocorrelación a rezago $k$; **ACF** vs **PACF** (la
+> parcial descuenta los rezagos intermedios); leerlas **juntas** con la
+> mnemotecnia **ACF → MA (`q`, `Q`)**, **PACF → AR (`p`, `P`)**; picos en lags
+> $s, 2s$ = estructura estacional.
+> **Herramienta** · `statsmodels` `acf`, `pacf`, `plot_acf`, `plot_pacf`.
+
+**Banda de significancia**
+
+> **Objetivo** · distinguir un pico real de uno por azar.
+> **Conceptos clave** · bajo ruido blanco $\hat r_k \sim \mathcal{N}(0, 1/n)$
+> (Bartlett) → banda **$\pm 1.96/\sqrt{n}$**; barra dentro = ruido, fuera =
+> estructura.
+> **Herramienta** · la banda que dibujan `plot_acf`/`plot_pacf`.
+
+**Análisis espectral — detectar el periodo `s`**
+
+> **Objetivo** · descubrir el ciclo de 24 h **sin** suponerlo de antemano.
+> **Conceptos clave** · frecuencia vs periodo, transformada de Fourier, **periodograma**,
+> potencia espectral, pico dominante.
+> **Herramienta** · `scipy.signal.periodogram`.
+
+> **Recurso** · FPP3 cap. 9; clásico Box, Jenkins & Reinsel.
+
+---
+
+## Módulo 4 · Estacionariedad y diferenciación
+
+Cómo se decide `(d, D)` en §3.5 de 020.
+
+> **Objetivo** · volver estacionaria la serie con el mínimo de diferencias.
+> **Conceptos clave** · estacionariedad formal, **raíz unitaria**; prueba
+> **ADF** ($H_0$: hay raíz unitaria → rechazar = estacionaria) y **KPSS**
+> ($H_0$: estacionaria → rechazar = no estacionaria); por qué se usan **juntas**
+> (hipótesis nulas opuestas); **diferencia regular** $\Delta y_t = y_t - y_{t-1}$
+> (orden `d`) y **estacional** $\Delta_s y_t = y_t - y_{t-s}$ (orden `D`); regla
+> práctica **`d + D ≤ 2`** (diferenciar de más amplifica el ruido).
+> **Herramienta** · `statsmodels` `adfuller`, `kpss`; `Series.diff()`,
+> `Series.diff(s)`.
+
+---
+
+## Módulo 5 · Modelos ARMA
+
+La maquinaria que produce los coeficientes que se leen en el `summary`.
+
+> **Objetivo** · saber qué ecuación ajusta el modelo sobre la serie ya
+> estacionaria.
+> **Conceptos clave** · **AR(p)** —inercia, $y_t = \sum \phi_i y_{t-i} +
+> \varepsilon_t$—; **MA(q)** —eco de choques, $y_t = \varepsilon_t + \sum
+> \theta_j \varepsilon_{t-j}$—; **ARMA(p,q)**; las **innovaciones**
+> $\varepsilon_t$ (la parte impredecible, ruido blanco con varianza $\sigma^2$);
+> **estacionariedad** e **invertibilidad** (raíces dentro del círculo unidad);
+> estimación por **máxima verosimilitud (MLE)** vía **filtro de Kalman**
+> (conceptual, sin derivarlo).
+> **Herramienta** · `statsmodels` ARIMA (`order=(p,0,q)`).
+
+> **Recurso** · FPP3 cap. 9; Shumway & Stoffer, *Time Series Analysis and Its
+> Applications*.
+
+---
+
+## Módulo 6 · ARIMA y SARIMA
+
+Donde se juntan los Módulos 4 y 5 en el modelo de la libreta 020.
+
+> **Objetivo** · interpretar los **siete parámetros** y saber el flujo para
+> elegirlos.
+> **Conceptos clave** · integración **I** (la `d` ya vista) → **ARIMA(p, d, q)**;
+> componente **estacional** → **SARIMA `(p, d, q)(P, D, Q, s)`**; qué controla
+> cada símbolo (`p,q` corto plazo; `P,Q` en saltos de `s`; `d,D` diferencias;
+> `s` longitud del ciclo); el **ciclo Box-Jenkins**: identificar → estimar →
+> diagnosticar → decidir, en bucle.
+> **Herramienta** · `from statsmodels.tsa.statespace.sarimax import SARIMAX`;
+> lectura del `summary` (coeficientes `ar.L1`, `ma.S.L24`…; columna **`P>|z|`**;
+> `sigma2`; AIC/BIC).
+
+---
+
+## Módulo 7 · Diagnóstico y selección de modelo
+
+Cómo se decide entre M1, M2 y M3 en §4–§11 de 020.
+
+**Residuos como ruido blanco**
+
+> **Objetivo** · juzgar si al modelo "ya no le queda estructura por modelar".
+> **Conceptos clave** · residuo, **burn-in** (descartar las primeras `s` obs),
+> residuos ≈ ruido blanco; prueba de **Ljung-Box** ($H_0$: residuos son ruido
+> blanco; queremos **p alto**), `model_df = p+q+P+Q`.
+> **Herramienta** · `statsmodels` `acorr_ljungbox`; `res.resid`.
+
+**Normalidad de residuos**
+
+> **Objetivo** · revisar (informativamente) si los residuos son Normales.
+> **Conceptos clave** · **QQ-plot** (cuantil-cuantil), colas pesadas vs
+> diagonal, Jarque-Bera; SARIMA **no exige** normalidad.
+> **Herramienta** · `scipy.stats.probplot`.
+
+**Criterios de información y métricas de error**
+
+> **Objetivo** · comparar modelos con números, no a ojo.
+> **Conceptos clave** · **AIC** $= -2\ell + 2k$ y **BIC** $= -2\ell + k\log n$
+> (más bajo = mejor; BIC penaliza más la complejidad); **RMSE**, **MAE**,
+> **MAPE** sobre el **holdout** (la prueba honesta, no el train); **parsimonia**
+> (navaja de Occam); recetario de iteración (subir **un** parámetro a la vez
+> según el pico residual que se vea).
+> **Herramienta** · `res.aic`, `res.bic`, `res.llf`; cálculo manual de RMSE/MAE
+> con `numpy`.
+
+---
+
+## Módulo 8 · Pronóstico e incertidumbre
+
+La base teórica de las bandas que 021 usa para detectar outliers.
+
+> **Objetivo** · pronosticar `h` pasos con su intervalo y entender por qué la
+> banda se ensancha.
+> **Conceptos clave** · `get_forecast(h)`, **predicción puntual** vs
+> **intervalo de predicción**; error de pronóstico; representación **MA(∞)** con
+> pesos $\psi_j$ ("respuesta al impulso"); varianza a `h` pasos
+> $\sigma_{(h)}^2 = \sigma^2 \sum_{j=0}^{h-1}\psi_j^2$ → **crece con el
+> horizonte** (predecir +24 h es menos seguro que +1 h); **multi-paso** (predigo
+> 24 h de un tiro) vs **un-paso-adelante** (alimento el dato real de cada hora
+> antes de predecir la siguiente → banda angosta y pareja).
+> **Herramienta** · `res.get_forecast`, `.predicted_mean`, `.conf_int(alpha)`,
+> `.se_mean`; `res.append(test, refit=False)` + `get_prediction` para el
+> un-paso; `res.standardized_forecasts_error`.
+
+---
+
+## Módulo 9 · Detección de outliers
+
+El objetivo central de la libreta 021 (§4–§8).
+
+**Residuo estandarizado y umbral**
+
+> **Objetivo** · convertir "qué tan lejos cayó el dato" en un número comparable.
+> **Conceptos clave** · innovación $\varepsilon_t$; residuo estandarizado
+> $z_{(h)} = e_{T+h}/\sigma_{(h)} \sim \mathcal{N}(0,1)$; umbral **$|z|>k$** y su
+> cobertura ($k=1.96$ → 95%, $2.58$ → 99%, $3$ → 99.7%); un punto fuera del
+> intervalo de predicción **es** un punto con $|z|>k$.
+> **Herramienta** · `se_mean`, `conf_int`.
+
+**Tipos de outlier e in/out-of-sample**
+
+> **Objetivo** · nombrar lo que se encuentre y elegir dónde buscarlo.
+> **Conceptos clave** · tipología **Box-Tiao**: aditivo (AO), cambio de nivel
+> (LS), transitorio (TC), innovacional (IO); **in-sample** (en el train, el
+> outlier sesga el ajuste) vs **out-of-sample** (en datos frescos del holdout).
+> **Herramienta** · interpretación sobre la tabla de residuos.
+
+**El problema del multi-paso y la calibración del umbral**
+
+> **Objetivo** · no confundir error de pronóstico con anomalía.
+> **Conceptos clave** · el multi-paso **infla falsos positivos** (errores
+> correlacionados, banda que asume el modelo correcto, sensibilidad desigual por
+> horizonte); **error de pronóstico ≠ anomalía**; calibrar el umbral con los
+> **residuos reales** en vez de la Normal: **cuantil empírico** de $|z|$ y
+> **t de Student** ajustada (captura las **colas pesadas**); reencuadre de
+> severidad (un mismo $z$ es "raro" bajo Normal y "plausible" bajo t).
+> **Herramienta** · `scipy.stats` (`t.fit`, `t.ppf`, `norm.ppf`),
+> `np.quantile`, `stats.kurtosis`.
+
+---
+
+## Módulo 10 · SARIMAX: regresores exógenos
+
+La "X" que da nombre al modelo — §9–§10 de la libreta 021.
+
+> **Objetivo** · añadir una variable externa que **explique** parte de la
+> variación y saber cuándo vale la pena.
+> **Conceptos clave** · la **"X"** = regresor **exógeno** (`exog`); un exógeno
+> ayuda solo si aporta **información que la estacionalidad no tenía ya**
+> —el viento `ws` (no periódico) **baja** el AIC; la radiación `ghi`
+> (≈ ciclo diario, ya capturado por `D=1, s=24`) es **redundante** y lo sube—;
+> se necesita el exógeno también en el **futuro/holdout**; **un modelo, dos
+> modos**: *pronóstico* (`get_forecast`, banda ancha multi-paso) y
+> *clasificación de outliers* (un-paso, banda angosta calibrada); menciones de
+> cierre: varianza variable (**heterocedasticidad / GARCH**) y
+> **multicolinealidad / circularidad** entre exógenos (p. ej. humedad
+> co-determinada con la temperatura).
+> **Herramienta** · `SARIMAX(y, exog=X_train, order=..., seasonal_order=...)`;
+> `get_forecast(steps, exog=X_test)`; `append(..., exog=...)`.
+
+---
+
+## Recursos recomendados
+
+- **Hyndman & Athanasopoulos — *Forecasting: Principles and Practice* (FPP3)**,
+  gratis en <https://otexts.com/fpp3/>. La referencia más accesible para series
+  de tiempo; los caps. 2, 3 y 9 cubren los Módulos 2–6.
+- **OpenIntro Statistics** (PDF gratuito) — para el Módulo 1 desde cero.
+- **Shumway & Stoffer — *Time Series Analysis and Its Applications*** — más
+  formal, para profundizar en ARMA/Kalman (Módulos 5–8).
+- **Documentación de `statsmodels`** (módulo `tsa`) y de **`pandas`** (*Time
+  series*) — referencia de las herramientas de cada módulo.
+
+> Este temario **no fija horario ni calendario**: es la lista de temas, en
+> orden de dependencia, que hay que dominar para reproducir con criterio las
+> libretas 020 y 021. El ritmo lo pone cada quien.
