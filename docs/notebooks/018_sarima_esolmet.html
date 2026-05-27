@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>10&nbsp; 1. Cargar y conocer la población – Anomalías 2026-2</title>
+<title>sarima_esolmet – Anomalías 2026-2</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -68,8 +68,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../notebooks/009_PruebasHipotesis.html" rel="next">
-<link href="../notebooks/008a_muestreo_lab.html" rel="prev">
+<link href="../notebooks/019_tdb_teoria_exploracion.html" rel="next">
+<link href="../notebooks/017_SARIMA.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -120,7 +120,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notebooks/001_birthday_problem.html">Clases</a></li><li class="breadcrumb-item"><a href="../notebooks/008b_muestreo_lab.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">1. Cargar y conocer la población</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notebooks/001_birthday_problem.html">Clases</a></li><li class="breadcrumb-item"><a href="../notebooks/018_sarima_esolmet.html"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">018_sarima_esolmet.html</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -216,7 +216,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../notebooks/008b_muestreo_lab.html" class="sidebar-item-text sidebar-link active">
+  <a href="../notebooks/008b_muestreo_lab.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">1. Cargar y conocer la población</span></span></a>
   </div>
 </li>
@@ -264,7 +264,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../notebooks/018_sarima_esolmet.html" class="sidebar-item-text sidebar-link">
+  <a href="../notebooks/018_sarima_esolmet.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">018_sarima_esolmet.html</span></span></a>
   </div>
 </li>
@@ -293,213 +293,149 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
-   
-  <ul>
-  <li><a href="#teorema-de-limite-central" id="toc-teorema-de-limite-central" class="nav-link active" data-scroll-target="#teorema-de-limite-central"><span class="header-section-number">11</span> Teorema de limite central</a></li>
-  </ul>
-</nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notebooks/001_birthday_problem.html">Clases</a></li><li class="breadcrumb-item"><a href="../notebooks/008b_muestreo_lab.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">1. Cargar y conocer la población</span></a></li></ol></nav>
-<div class="quarto-title">
-<h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">1. Cargar y conocer la población</span></h1>
-</div>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notebooks/001_birthday_problem.html">Clases</a></li><li class="breadcrumb-item"><a href="../notebooks/018_sarima_esolmet.html"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">018_sarima_esolmet.html</span></a></li></ol></nav></header>
 
 
 
-<div class="quarto-title-meta">
 
-    
-  
-    
-  </div>
-  
-
-
-</header>
-
-
-<div id="6cb72f56" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<div id="Hbol" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> marimo <span class="im">as</span> mo</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>plt.rcParams.update(</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    {</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">"figure.facecolor"</span>: <span class="st">"white"</span>,</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">"axes.facecolor"</span>: <span class="st">"white"</span>,</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">"axes.grid"</span>: <span class="va">True</span>,</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">"grid.alpha"</span>: <span class="fl">0.3</span>,</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">"axes.spines.top"</span>: <span class="va">False</span>,</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">"axes.spines.right"</span>: <span class="va">False</span>,</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">42</span>)</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ipywidgets <span class="im">as</span> widgets</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> ipywidgets <span class="im">import</span> interact, interactive_output</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> display, Markdown</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.tsa.statespace.sarimax <span class="im">import</span> SARIMAX</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.graphics.tsaplots <span class="im">import</span> plot_acf, plot_pacf</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<hr>
-<div id="d3127083" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_parquet(<span class="st">"../data/ClimaLab_2023-05-31_2025-06-20.parquet"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<section id="teorema-de-limite-central" class="level1" data-number="11">
-<h1 data-number="11"><span class="header-section-number">11</span> Teorema de limite central</h1>
-<p>Objetivos:</p>
-<ol type="1">
-<li>Tomar tdb del conjunto de datos y definir K subconjuntos de tamaño n, definidos en el inicio de la celda y calcular la media. Si K &gt; 1, graficar juntos el promedio con un bin también definido por el usuario, para poder ver como se va cumpliendo el teorema de limite central.</li>
-<li>Una vez definido un tamaño de muestra, y considerando que se conoce el promedio de tdb, calcular la desviación estándard y promedio del subconjunto y compararlo con sigma = sigma_hat * sqr( (1- 1/N)/(1-(1/n))), donde N es el tamaño del conjunto tdb</li>
-</ol>
-<div id="a08afd35" class="cell" data-execution_count="72">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Objetivo 1: Teorema de Límite Central ---</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>tdb <span class="op">=</span> df[<span class="st">"tdb"</span>].dropna().values</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="bu">len</span>(tdb)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">1</span>       <span class="co"># tamaño de cada subconjunto</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>K <span class="op">=</span> <span class="dv">1</span>        <span class="co"># número de repeticiones</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>bins <span class="op">=</span> <span class="dv">30</span>     <span class="co"># bins del histograma</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>medias <span class="op">=</span> np.array([rng.choice(tdb, size<span class="op">=</span>n, replace<span class="op">=</span><span class="va">False</span>).mean() <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(K)])</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">8</span>))</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].hist(tdb, bins<span class="op">=</span>bins, density<span class="op">=</span><span class="va">False</span>, alpha<span class="op">=</span><span class="fl">0.6</span>, label<span class="op">=</span><span class="st">"Población"</span>)</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].axvline(tdb.mean(), color<span class="op">=</span><span class="st">"red"</span>, ls<span class="op">=</span><span class="st">"--"</span>, label<span class="op">=</span><span class="ss">f"μ = </span><span class="sc">{</span>tdb<span class="sc">.</span>mean()<span class="sc">:.2f}</span><span class="ss">"</span>)</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">"tdb [°C]"</span>, ylabel<span class="op">=</span><span class="st">"Conteo"</span>, title<span class="op">=</span><span class="st">"Distribución de la población"</span>)</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].legend()</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].hist(medias, bins<span class="op">=</span>bins, density<span class="op">=</span><span class="va">False</span>, alpha<span class="op">=</span><span class="fl">0.6</span>, color<span class="op">=</span><span class="st">"orange"</span>, label<span class="op">=</span><span class="ss">f"K=</span><span class="sc">{</span>K<span class="sc">}</span><span class="ss"> medias (n=</span><span class="sc">{</span>n<span class="sc">}</span><span class="ss">)"</span>)</span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].axvline(tdb.mean(), color<span class="op">=</span><span class="st">"red"</span>, ls<span class="op">=</span><span class="st">"--"</span>, label<span class="op">=</span><span class="ss">f"μ = </span><span class="sc">{</span>tdb<span class="sc">.</span>mean()<span class="sc">:.2f}</span><span class="ss">"</span>)</span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].axvline(medias.mean(), color<span class="op">=</span><span class="st">"black"</span>, ls<span class="op">=</span><span class="st">":"</span>, label<span class="op">=</span><span class="ss">f"x̄ medias = </span><span class="sc">{</span>medias<span class="sc">.</span>mean()<span class="sc">:.2f}</span><span class="ss">"</span>)</span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">"Media de tdb [°C]"</span>, ylabel<span class="op">=</span><span class="st">"Conteo"</span>, title<span class="op">=</span><span class="st">"Distribución de medias muestrales (TLC)"</span>)</span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].legend()</span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="co"># axes[1].set_xlim(min(tdb),max(tdb))</span></span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Población:  μ = </span><span class="sc">{</span>tdb<span class="sc">.</span>mean()<span class="sc">:.4f}</span><span class="ss">,  σ = </span><span class="sc">{</span>tdb<span class="sc">.</span>std()<span class="sc">:.4f}</span><span class="ss">,  N = </span><span class="sc">{</span>N<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Medias:     x̄ = </span><span class="sc">{</span>medias<span class="sc">.</span>mean()<span class="sc">:.4f}</span><span class="ss">,  s = </span><span class="sc">{</span>medias<span class="sc">.</span>std()<span class="sc">:.4f}</span><span class="ss">,  K = </span><span class="sc">{</span>K<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="MJUe" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> <span class="st">'data/ClimaLab_2023-05-31_2025-06-20.parquet'</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>tdb_all <span class="op">=</span> pd.read_parquet(f)[<span class="st">'tdb'</span>]</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>tdb_h <span class="op">=</span> tdb_all.resample(<span class="st">'h'</span>).mean().dropna()</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>tdb_h.plot(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">3</span>), title<span class="op">=</span><span class="st">'tdb horaria — ESOLMET (todo el periodo)'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="008b_muestreo_lab_files/figure-html/cell-4-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="018_sarima_esolmet_files/figure-html/cell-3-output-1.png" width="822" height="316" class="figure-img"></p>
 </figure>
 </div>
 </div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Población:  μ = 24.4479,  σ = 4.9352,  N = 1076768
-Medias:     x̄ = 23.9600,  s = 0.0000,  K = 1</code></pre>
+</div>
+<div id="vblA" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>tdb <span class="op">=</span> tdb_h.loc[<span class="st">'2025-05-01'</span>:<span class="st">'2025-06-20'</span>]</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> tdb.astype(<span class="bu">float</span>).asfreq(<span class="st">'h'</span>).interpolate(<span class="st">'time'</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>gaps <span class="op">=</span> <span class="bu">int</span>(tdb.asfreq(<span class="st">'h'</span>).isna().<span class="bu">sum</span>())</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>tdb.plot(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">3</span>), title<span class="op">=</span><span class="ss">f'tdb horaria — ventana de trabajo (</span><span class="sc">{</span><span class="bu">len</span>(y)<span class="sc">}</span><span class="ss"> h, </span><span class="sc">{</span>gaps<span class="sc">}</span><span class="ss"> huecos interpolados)'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="018_sarima_esolmet_files/figure-html/cell-4-output-1.png" width="835" height="327" class="figure-img"></p>
+</figure>
 </div>
 </div>
-<div id="08fa370f" class="cell" data-execution_count="56">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">1000</span>       <span class="co"># tamaño de cada subconjunto</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+</div>
+<div id="bkHC" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;marimo&quot;,&quot;value&quot;:{&quot;config&quot;:{&quot;hide_code&quot;:true}}}">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>horizon <span class="op">=</span> <span class="dv">240</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>y_train <span class="op">=</span> y.iloc[:<span class="op">-</span>horizon]</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>y_test <span class="op">=</span> y.iloc[<span class="op">-</span>horizon:]</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>mo.md(</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"Train: **</span><span class="sc">{</span><span class="bu">len</span>(y_train)<span class="sc">}</span><span class="ss">** h (</span><span class="sc">{</span>y_train<span class="sc">.</span>index[<span class="dv">0</span>]<span class="sc">}</span><span class="ss"> → </span><span class="sc">{</span>y_train<span class="sc">.</span>index[<span class="op">-</span><span class="dv">1</span>]<span class="sc">}</span><span class="ss">)  </span><span class="ch">\n</span><span class="ss">"</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"Test:  **</span><span class="sc">{</span><span class="bu">len</span>(y_test)<span class="sc">}</span><span class="ss">** h (</span><span class="sc">{</span>y_test<span class="sc">.</span>index[<span class="dv">0</span>]<span class="sc">}</span><span class="ss"> → </span><span class="sc">{</span>y_test<span class="sc">.</span>index[<span class="op">-</span><span class="dv">1</span>]<span class="sc">}</span><span class="ss">)"</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Train: <strong>961</strong> h (2025-05-01 00:00:00 → 2025-06-10 00:00:00)<br>
+Test: <strong>240</strong> h (2025-06-10 01:00:00 → 2025-06-20 00:00:00)</p>
+</div>
+</div>
+<div id="lEQa" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;marimo&quot;,&quot;value&quot;:{&quot;config&quot;:{&quot;hide_code&quot;:true}}}">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>order_form <span class="op">=</span> (</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    mo.md(</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">"""</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="st">        **Non-seasonal**  p = </span><span class="sc">{p}</span><span class="st">, d = </span><span class="sc">{d}</span><span class="st">, q = </span><span class="sc">{q}</span></span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Objetivo 2: Comparación σ teórica vs σ observada ---</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>muestra <span class="op">=</span> rng.choice(tdb, size<span class="op">=</span>n, replace<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>media_muestra <span class="op">=</span> muestra.mean()</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>sigma_muestra <span class="op">=</span> muestra.std()</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co"># sigma corregida por población finita</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>sigma_teorica <span class="op">=</span> sigma_muestra <span class="op">*</span> np.sqrt((<span class="dv">1</span> <span class="op">-</span> <span class="dv">1</span><span class="op">/</span>N) <span class="op">/</span> (<span class="dv">1</span> <span class="op">-</span> <span class="dv">1</span><span class="op">/</span>n))</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Tamaño de muestra:    n = </span><span class="sc">{</span>n<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Tamaño de población:  N = </span><span class="sc">{</span>N<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Media población (μ):          </span><span class="sc">{</span>tdb<span class="sc">.</span>mean()<span class="sc">:.4f}</span><span class="ss"> °C"</span>)</span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Media muestra (x̄):            </span><span class="sc">{</span>media_muestra<span class="sc">:.4f}</span><span class="ss"> °C"</span>)</span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="co"># print(f"Diferencia |μ - x̄|:           {abs(tdb.mean() - media_muestra):.4f} °C")</span></span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"σ̂ muestra ():                 </span><span class="sc">{</span>sigma_muestra<span class="sc">:.4f}</span><span class="ss"> °C"</span>)</span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"σ población real:             </span><span class="sc">{</span>tdb<span class="sc">.</span>std()<span class="sc">:.4f}</span><span class="ss"> °C"</span>)</span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"σ corregida (teórica):        </span><span class="sc">{</span>sigma_teorica<span class="sc">:.4f}</span><span class="ss"> °C"</span>)</span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Diferencia |σ_real - σ_teór|: </span><span class="sc">{</span><span class="bu">abs</span>(tdb.std() <span class="op">-</span> sigma_teorica)<span class="sc">:.4f}</span><span class="ss"> °C"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Tamaño de muestra:    n = 1000
-Tamaño de población:  N = 1076768
-
-Media población (μ):          24.4479 °C
-Media muestra (x̄):            24.3031 °C
-
-σ̂ muestra ():                 4.9748 °C
-σ población real:             4.9352 °C
-σ corregida (teórica):        4.9773 °C
-Diferencia |σ_real - σ_teór|: 0.0422 °C</code></pre>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="st">        **Seasonal**      P = </span><span class="sc">{P}</span><span class="st">, D = </span><span class="sc">{D}</span><span class="st">, Q = </span><span class="sc">{Q}</span><span class="st">, s = </span><span class="sc">{s}</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="st">        """</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    .batch(</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>        p<span class="op">=</span>mo.ui.slider(<span class="dv">0</span>, <span class="dv">5</span>, value<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="st">"p"</span>),</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>        d<span class="op">=</span>mo.ui.slider(<span class="dv">0</span>, <span class="dv">2</span>, value<span class="op">=</span><span class="dv">0</span>, label<span class="op">=</span><span class="st">"d"</span>),</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>        q<span class="op">=</span>mo.ui.slider(<span class="dv">0</span>, <span class="dv">5</span>, value<span class="op">=</span><span class="dv">1</span>, label<span class="op">=</span><span class="st">"q"</span>),</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>        P<span class="op">=</span>mo.ui.slider(<span class="dv">0</span>, <span class="dv">2</span>, value<span class="op">=</span><span class="dv">1</span>, label<span class="op">=</span><span class="st">"P"</span>),</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>        D<span class="op">=</span>mo.ui.slider(<span class="dv">0</span>, <span class="dv">1</span>, value<span class="op">=</span><span class="dv">1</span>, label<span class="op">=</span><span class="st">"D"</span>),</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>        Q<span class="op">=</span>mo.ui.slider(<span class="dv">0</span>, <span class="dv">2</span>, value<span class="op">=</span><span class="dv">1</span>, label<span class="op">=</span><span class="st">"Q"</span>),</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>        s<span class="op">=</span>mo.ui.number(<span class="dv">2</span>, <span class="dv">168</span>, value<span class="op">=</span><span class="dv">24</span>, label<span class="op">=</span><span class="st">"s"</span>),</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    .form(submit_button_label<span class="op">=</span><span class="st">"Fit SARIMA"</span>)</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>order_form</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>&lt;marimo-form data-initial-value='null' data-label='null' data-element-id='&amp;quot;lEQa-22&amp;quot;' data-loading='false' data-bordered='true' data-submit-button-label='&amp;quot;Fit SARIMA&amp;quot;' data-submit-button-disabled='false' data-clear-on-submit='false' data-show-clear-button='false' data-clear-button-label='&amp;quot;Clear&amp;quot;' data-should-validate='false'&gt;&lt;marimo-ui-element object-id='lEQa-22' random-id='b975807e-a879-0eec-6ee3-88489ac17056'&gt;&lt;marimo-dict data-initial-value='{&amp;quot;p&amp;quot;:2,&amp;quot;d&amp;quot;:0,&amp;quot;q&amp;quot;:1,&amp;quot;P&amp;quot;:1,&amp;quot;D&amp;quot;:1,&amp;quot;Q&amp;quot;:1,&amp;quot;s&amp;quot;:24}' data-label='null' data-element-ids='{&amp;quot;lEQa-15&amp;quot;:&amp;quot;p&amp;quot;,&amp;quot;lEQa-16&amp;quot;:&amp;quot;d&amp;quot;,&amp;quot;lEQa-17&amp;quot;:&amp;quot;q&amp;quot;,&amp;quot;lEQa-18&amp;quot;:&amp;quot;P&amp;quot;,&amp;quot;lEQa-19&amp;quot;:&amp;quot;D&amp;quot;,&amp;quot;lEQa-20&amp;quot;:&amp;quot;Q&amp;quot;,&amp;quot;lEQa-21&amp;quot;:&amp;quot;s&amp;quot;}'&gt;&lt;span class="markdown prose dark:prose-invert contents"&gt;&lt;span class="paragraph"&gt;&lt;strong&gt;Non-seasonal&lt;/strong&gt; p = &lt;marimo-ui-element object-id='lEQa-15' random-id='6f82d0b9-db6e-4089-32a9-2501dc18acd2'&gt;&lt;marimo-slider data-initial-value='2' data-label='&amp;quot;&amp;lt;span class=&amp;#92;&amp;quot;markdown prose dark:prose-invert contents&amp;#92;&amp;quot;&amp;gt;&amp;lt;span class=&amp;#92;&amp;quot;paragraph&amp;#92;&amp;quot;&amp;gt;p&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;quot;' data-start='0' data-stop='5' data-steps='[]' data-debounce='false' data-disabled='false' data-orientation='&amp;quot;horizontal&amp;quot;' data-show-value='false' data-include-input='false' data-full-width='false'&gt;&lt;/marimo-slider&gt;&lt;/marimo-ui-element&gt;, d = &lt;marimo-ui-element object-id='lEQa-16' random-id='8e35956e-1691-f360-3863-01111cfb6c69'&gt;&lt;marimo-slider data-initial-value='0' data-label='&amp;quot;&amp;lt;span class=&amp;#92;&amp;quot;markdown prose dark:prose-invert contents&amp;#92;&amp;quot;&amp;gt;&amp;lt;span class=&amp;#92;&amp;quot;paragraph&amp;#92;&amp;quot;&amp;gt;d&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;quot;' data-start='0' data-stop='2' data-steps='[]' data-debounce='false' data-disabled='false' data-orientation='&amp;quot;horizontal&amp;quot;' data-show-value='false' data-include-input='false' data-full-width='false'&gt;&lt;/marimo-slider&gt;&lt;/marimo-ui-element&gt;, q = &lt;marimo-ui-element object-id='lEQa-17' random-id='8fa5569a-3a6c-ffd0-abbe-9be02830e1d1'&gt;&lt;marimo-slider data-initial-value='1' data-label='&amp;quot;&amp;lt;span class=&amp;#92;&amp;quot;markdown prose dark:prose-invert contents&amp;#92;&amp;quot;&amp;gt;&amp;lt;span class=&amp;#92;&amp;quot;paragraph&amp;#92;&amp;quot;&amp;gt;q&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;quot;' data-start='0' data-stop='5' data-steps='[]' data-debounce='false' data-disabled='false' data-orientation='&amp;quot;horizontal&amp;quot;' data-show-value='false' data-include-input='false' data-full-width='false'&gt;&lt;/marimo-slider&gt;&lt;/marimo-ui-element&gt;&lt;/span&gt; &lt;span class="paragraph"&gt;&lt;strong&gt;Seasonal&lt;/strong&gt; P = &lt;marimo-ui-element object-id='lEQa-18' random-id='96f000fe-b9f1-f7d4-3385-40a7a32c8f1c'&gt;&lt;marimo-slider data-initial-value='1' data-label='&amp;quot;&amp;lt;span class=&amp;#92;&amp;quot;markdown prose dark:prose-invert contents&amp;#92;&amp;quot;&amp;gt;&amp;lt;span class=&amp;#92;&amp;quot;paragraph&amp;#92;&amp;quot;&amp;gt;P&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;quot;' data-start='0' data-stop='2' data-steps='[]' data-debounce='false' data-disabled='false' data-orientation='&amp;quot;horizontal&amp;quot;' data-show-value='false' data-include-input='false' data-full-width='false'&gt;&lt;/marimo-slider&gt;&lt;/marimo-ui-element&gt;, D = &lt;marimo-ui-element object-id='lEQa-19' random-id='c725745f-ae7b-daad-2d18-8ed2cde297c2'&gt;&lt;marimo-slider data-initial-value='1' data-label='&amp;quot;&amp;lt;span class=&amp;#92;&amp;quot;markdown prose dark:prose-invert contents&amp;#92;&amp;quot;&amp;gt;&amp;lt;span class=&amp;#92;&amp;quot;paragraph&amp;#92;&amp;quot;&amp;gt;D&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;quot;' data-start='0' data-stop='1' data-steps='[]' data-debounce='false' data-disabled='false' data-orientation='&amp;quot;horizontal&amp;quot;' data-show-value='false' data-include-input='false' data-full-width='false'&gt;&lt;/marimo-slider&gt;&lt;/marimo-ui-element&gt;, Q = &lt;marimo-ui-element object-id='lEQa-20' random-id='749f7f42-4b88-aae6-bfd5-e7d82986a729'&gt;&lt;marimo-slider data-initial-value='1' data-label='&amp;quot;&amp;lt;span class=&amp;#92;&amp;quot;markdown prose dark:prose-invert contents&amp;#92;&amp;quot;&amp;gt;&amp;lt;span class=&amp;#92;&amp;quot;paragraph&amp;#92;&amp;quot;&amp;gt;Q&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;quot;' data-start='0' data-stop='2' data-steps='[]' data-debounce='false' data-disabled='false' data-orientation='&amp;quot;horizontal&amp;quot;' data-show-value='false' data-include-input='false' data-full-width='false'&gt;&lt;/marimo-slider&gt;&lt;/marimo-ui-element&gt;, s = &lt;marimo-ui-element object-id='lEQa-21' random-id='0db64585-b1a4-f0f7-4441-acf4faee2d17'&gt;&lt;marimo-number data-initial-value='24' data-label='&amp;quot;&amp;lt;span class=&amp;#92;&amp;quot;markdown prose dark:prose-invert contents&amp;#92;&amp;quot;&amp;gt;&amp;lt;span class=&amp;#92;&amp;quot;paragraph&amp;#92;&amp;quot;&amp;gt;s&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;quot;' data-start='2' data-stop='168' data-debounce='false' data-full-width='false' data-disabled='false'&gt;&lt;/marimo-number&gt;&lt;/marimo-ui-element&gt;&lt;/span&gt;&lt;/span&gt;&lt;/marimo-dict&gt;&lt;/marimo-ui-element&gt;&lt;/marimo-form&gt;</p>
 </div>
 </div>
-<div id="0280c7fb-65e6-4dd0-8070-c01726a01479" class="cell" data-execution_count="69">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>valores_n <span class="op">=</span> np.arange(<span class="dv">2</span>, <span class="dv">40000</span>, <span class="dv">10</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>medias_n <span class="op">=</span> np.zeros(<span class="bu">len</span>(valores_n))</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>sigmas_corregidas <span class="op">=</span> np.zeros(<span class="bu">len</span>(valores_n))</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, n <span class="kw">in</span> <span class="bu">enumerate</span>(valores_n):</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  muestra <span class="op">=</span> rng.choice(tdb, size<span class="op">=</span>n, replace<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  medias_n[i] <span class="op">=</span> muestra.mean()</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  sigma_hat <span class="op">=</span> muestra.std(ddof<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  sigmas_corregidas[i] <span class="op">=</span> sigma_hat <span class="op">*</span> np.sqrt((<span class="dv">1</span> <span class="op">-</span> <span class="dv">1</span><span class="op">/</span>N) <span class="op">/</span> (<span class="dv">1</span> <span class="op">-</span> <span class="dv">1</span><span class="op">/</span>n))</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">6</span>))</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].plot(valores_n, medias_n, alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].axhline(tdb.mean(), color<span class="op">=</span><span class="st">"red"</span>, ls<span class="op">=</span><span class="st">"--"</span>, label<span class="op">=</span><span class="ss">f"μ = </span><span class="sc">{</span>tdb<span class="sc">.</span>mean()<span class="sc">:.2f}</span><span class="ss">"</span>)</span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">"n"</span>, ylabel<span class="op">=</span><span class="st">"Media [°C]"</span>, title<span class="op">=</span><span class="st">"Convergencia de x̄ → μ"</span>)</span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_xscale(<span class="st">"log"</span>)</span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].legend()</span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].plot(valores_n, sigmas_corregidas, alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].axhline(tdb.std(), color<span class="op">=</span><span class="st">"red"</span>, ls<span class="op">=</span><span class="st">"--"</span>, label<span class="op">=</span><span class="ss">f"σ = </span><span class="sc">{</span>tdb<span class="sc">.</span>std()<span class="sc">:.2f}</span><span class="ss">"</span>)</span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">"n"</span>, ylabel<span class="op">=</span><span class="st">"σ corregida [°C]"</span>, title<span class="op">=</span><span class="st">"Convergencia de σ corregida → σ real"</span>)</span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xscale(<span class="st">"log"</span>)</span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].legend()</span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="008b_muestreo_lab_files/figure-html/cell-6-output-1.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<div id="2fddbc89-c92b-4f3d-9a29-fe09e011da60" class="cell" data-execution_count="71">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>error_media <span class="op">=</span> np.<span class="bu">abs</span>(medias_n <span class="op">-</span> tdb.mean())</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>error_sigma <span class="op">=</span> np.<span class="bu">abs</span>(sigmas_corregidas <span class="op">-</span> tdb.std())</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">6</span>))</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].plot(valores_n, error_media, alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">"n"</span>, ylabel<span class="op">=</span><span class="st">"|x̄ - μ| [°C]"</span>, title<span class="op">=</span><span class="st">"Error en la media"</span>)</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_xscale(<span class="st">"log"</span>)</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].plot(valores_n, error_sigma, alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">"n"</span>, ylabel<span class="op">=</span><span class="st">"|σ_corr - σ| [°C]"</span>, title<span class="op">=</span><span class="st">"Error en σ corregida"</span>)</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xscale(<span class="st">"log"</span>)</span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="008b_muestreo_lab_files/figure-html/cell-7-output-1.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
+<div id="PKri" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;marimo&quot;,&quot;value&quot;:{&quot;config&quot;:{&quot;hide_code&quot;:true}}}">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>cfg <span class="op">=</span> order_form.value</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>mo.stop(cfg <span class="kw">is</span> <span class="va">None</span>, mo.md(<span class="st">"Pick orders above and click **Fit SARIMA**."</span>))</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>order <span class="op">=</span> (cfg[<span class="st">"p"</span>], cfg[<span class="st">"d"</span>], cfg[<span class="st">"q"</span>])</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>seasonal_order <span class="op">=</span> (cfg[<span class="st">"P"</span>], cfg[<span class="st">"D"</span>], cfg[<span class="st">"Q"</span>], cfg[<span class="st">"s"</span>])</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> mo.status.spinner(<span class="st">"Fitting SARIMA..."</span>):</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    res <span class="op">=</span> SARIMAX(</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>        y_train,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>        order<span class="op">=</span>order,</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>        seasonal_order<span class="op">=</span>seasonal_order,</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>        enforce_stationarity<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>        enforce_invertibility<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    ).fit(disp<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>fc <span class="op">=</span> res.get_forecast(steps<span class="op">=</span><span class="bu">len</span>(y_test))</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>y_hat <span class="op">=</span> fc.predicted_mean</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>ci <span class="op">=</span> fc.conf_int(alpha<span class="op">=</span><span class="fl">0.05</span>)</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>burn <span class="op">=</span> <span class="bu">max</span>(seasonal_order[<span class="dv">3</span>], <span class="dv">24</span>)</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>resid <span class="op">=</span> res.resid.iloc[burn:]</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">4</span>, <span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">11</span>, <span class="dv">12</span>))</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> axes[<span class="dv">0</span>]</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>y_train.iloc[<span class="op">-</span><span class="dv">7</span> <span class="op">*</span> <span class="dv">24</span>:].plot(ax<span class="op">=</span>ax, label<span class="op">=</span><span class="st">"train (last 7 d)"</span>)</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>y_test.plot(ax<span class="op">=</span>ax, label<span class="op">=</span><span class="st">"test"</span>, color<span class="op">=</span><span class="st">"black"</span>)</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>y_hat.plot(ax<span class="op">=</span>ax, label<span class="op">=</span><span class="st">"forecast"</span>, color<span class="op">=</span><span class="st">"red"</span>)</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>ax.fill_between(ci.index, ci.iloc[:, <span class="dv">0</span>], ci.iloc[:, <span class="dv">1</span>], color<span class="op">=</span><span class="st">"red"</span>, alpha<span class="op">=</span><span class="fl">0.15</span>)</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>ax.legend(loc<span class="op">=</span><span class="st">"upper left"</span>, fontsize<span class="op">=</span><span class="dv">8</span>)</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Forecast vs holdout"</span>)</span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"tdb (°C)"</span>)</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> axes[<span class="dv">1</span>]</span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>resid.plot(ax<span class="op">=</span>ax)</span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Residuals (after burn-in)"</span>)</span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>ax.axhline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">"k"</span>, lw<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>plot_acf(resid, ax<span class="op">=</span>axes[<span class="dv">2</span>], lags<span class="op">=</span><span class="dv">48</span>)</span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>plot_pacf(resid, ax<span class="op">=</span>axes[<span class="dv">3</span>], lags<span class="op">=</span><span class="dv">48</span>, method<span class="op">=</span><span class="st">"ywm"</span>)</span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>rmse <span class="op">=</span> <span class="bu">float</span>(np.sqrt(((y_test <span class="op">-</span> y_hat) <span class="op">**</span> <span class="dv">2</span>).mean()))</span>
+<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>mae <span class="op">=</span> <span class="bu">float</span>((y_test <span class="op">-</span> y_hat).<span class="bu">abs</span>().mean())</span>
+<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a>mo.vstack([</span>
+<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a>    mo.md(</span>
+<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"**SARIMA</span><span class="sc">{</span>order<span class="sc">}</span><span class="ss"> x </span><span class="sc">{</span>seasonal_order<span class="sc">}</span><span class="ss">** &amp;nbsp;·&amp;nbsp; "</span></span>
+<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"AIC = `</span><span class="sc">{</span>res<span class="sc">.</span>aic<span class="sc">:.2f}</span><span class="ss">` &amp;nbsp;·&amp;nbsp; BIC = `</span><span class="sc">{</span>res<span class="sc">.</span>bic<span class="sc">:.2f}</span><span class="ss">` &amp;nbsp;·&amp;nbsp; "</span></span>
+<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"RMSE(test) = `</span><span class="sc">{</span>rmse<span class="sc">:.2f}</span><span class="ss"> °C` &amp;nbsp;·&amp;nbsp; MAE(test) = `</span><span class="sc">{</span>mae<span class="sc">:.2f}</span><span class="ss"> °C`"</span></span>
+<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a>    fig,</span>
+<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a>    mo.accordion({<span class="st">"Full summary"</span>: mo.md(<span class="ss">f"```</span><span class="ch">\n</span><span class="sc">{</span>res<span class="sc">.</span>summary()<span class="sc">.</span>as_text()<span class="sc">}</span><span class="ch">\n</span><span class="ss">```"</span>)}),</span>
+<span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Pick orders above and click <strong>Fit SARIMA</strong>.</p>
 </div>
 </div>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -955,13 +891,13 @@ Diferencia |σ_real - σ_teór|: 0.0422 °C</code></pre>
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../notebooks/008a_muestreo_lab.html" class="pagination-link" aria-label="Semana 4B — Muestreo y Estimación (Laboratorio)">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Semana 4B — Muestreo y Estimación (Laboratorio)</span></span>
+      <a href="../notebooks/017_SARIMA.html" class="pagination-link" aria-label="SARIMA — del modelo a un ejemplo con viento">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">SARIMA — del modelo a un ejemplo con viento</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../notebooks/009_PruebasHipotesis.html" class="pagination-link" aria-label="`stats.t.ppf(1 - alpha/2, gl)`">
-        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title"><code>stats.t.ppf(1 - alpha/2, gl)</code></span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../notebooks/019_tdb_teoria_exploracion.html" class="pagination-link" aria-label="019 · Introducción a SARIMA + exploración de `tdb`">
+        <span class="nav-page-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">019 · Introducción a SARIMA + exploración de <code>tdb</code></span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

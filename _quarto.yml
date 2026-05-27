@@ -25,10 +25,14 @@ book:
         - notebooks/009_PruebasHipotesis.ipynb
         - notebooks/010_teoria_componentes_y_descomposicion.ipynb
         - notebooks/011_laboratorio_climalab.ipynb
-        # - notebooks/012_teoria_autocorrelacion.ipynb
-        # - notebooks/013_laboratorio_autocorrelacion.ipynb
         - notebooks/014b_LaVentosa.ipynb
         - notebooks/015_ARMA_Cheatsheet.qmd
+        - notebooks/016_SARIMA_LaVentosa_src.ipynb
+        - notebooks/017_SARIMA.ipynb
+        - notebooks/018_sarima_esolmet.ipynb
+        - notebooks/019_tdb_teoria_exploracion.ipynb
+        - notebooks/020_tdb_configuracion.ipynb
+        - notebooks/021_tdb_outliers.ipynb
 
 format:
   html:

@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>17&nbsp; SARIMA — del modelo a un ejemplo con viento – Anomalías 2026-2</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../notebooks/018_sarima_esolmet.html" rel="next">
+<link href="../notebooks/016_SARIMA_LaVentosa_src.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-5ccb035bea26c1e21f80f44cf7c27909.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notebooks/001_birthday_problem.html">Clases</a></li><li class="breadcrumb-item"><a href="../notebooks/017_SARIMA.html"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">SARIMA — del modelo a un ejemplo con viento</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Anomalías 2026-2</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prefacio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../libro/intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introducción</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Clases</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/001_birthday_problem.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">El problema del cumpleaños</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/002_triangulo_pascal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">002_triangulo_pascal.html</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/003_sampling_distribution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">003_sampling_distribution.html</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/004_Central_limit_teorem.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">004_Central_limit_teorem.html</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/005_DistribucionNormal_Seleccion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">005_DistribucionNormal_Seleccion.html</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/006_experimentos_nueve.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">006_experimentos_nueve.html</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/007_muestreo_teoria.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Semana 4A — Muestreo y Estimación (Teoría)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/008a_muestreo_lab.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Semana 4B — Muestreo y Estimación (Laboratorio)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/008b_muestreo_lab.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">1. Cargar y conocer la población</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/009_PruebasHipotesis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title"><code>stats.t.ppf(1 - alpha/2, gl)</code></span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/010_teoria_componentes_y_descomposicion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Sesión 1 · Teoría</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/011_laboratorio_climalab.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Sesión 1 · Laboratorio</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/014b_LaVentosa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">AR-MA · Laboratorio · La Ventosa, Oaxaca</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/015_ARMA_Cheatsheet.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">ARMA Cheatsheet · Box-Jenkins de bolsillo</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/016_SARIMA_LaVentosa_src.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">016 · SARIMA · Laboratorio · La Ventosa, Oaxaca</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/017_SARIMA.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">SARIMA — del modelo a un ejemplo con viento</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/018_sarima_esolmet.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">018_sarima_esolmet.html</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/019_tdb_teoria_exploracion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">019 · Introducción a SARIMA + exploración de <code>tdb</code></span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/020_tdb_configuracion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">020 · Configurar SARIMA desde el código — <code>tdb</code></span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks/021_tdb_outliers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">021 · Detección de outliers con SARIMA — <code>tdb</code></span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sarima-de-un-vistazo" id="toc-sarima-de-un-vistazo" class="nav-link active" data-scroll-target="#sarima-de-un-vistazo"><span class="header-section-number">17.1</span> SARIMA de un vistazo</a>
+  <ul class="collapse">
+  <li><a href="#la-parte-no-estacional-p-d-q" id="toc-la-parte-no-estacional-p-d-q" class="nav-link" data-scroll-target="#la-parte-no-estacional-p-d-q"><span class="header-section-number">17.1.1</span> La parte no estacional <code>(p, d, q)</code></a></li>
+  <li><a href="#la-parte-estacional-p-d-q-s" id="toc-la-parte-estacional-p-d-q-s" class="nav-link" data-scroll-target="#la-parte-estacional-p-d-q-s"><span class="header-section-number">17.1.2</span> La parte estacional <code>(P, D, Q, s)</code></a></li>
+  <li><a href="#cómo-el-widget-recupera-cada-variante" id="toc-cómo-el-widget-recupera-cada-variante" class="nav-link" data-scroll-target="#cómo-el-widget-recupera-cada-variante"><span class="header-section-number">17.1.3</span> Cómo el widget recupera cada variante</a></li>
+  <li><a href="#consejos-para-esta-serie" id="toc-consejos-para-esta-serie" class="nav-link" data-scroll-target="#consejos-para-esta-serie"><span class="header-section-number">17.1.4</span> Consejos para esta serie</a></li>
+  </ul></li>
+  <li><a href="#la-parte-estacional-p-d-q-s-a-fondo" id="toc-la-parte-estacional-p-d-q-s-a-fondo" class="nav-link" data-scroll-target="#la-parte-estacional-p-d-q-s-a-fondo"><span class="header-section-number">17.2</span> La parte estacional <code>(P, D, Q, s)</code> — a fondo</a>
+  <ul class="collapse">
+  <li><a href="#una-analogía-el-marinero-con-dos-relojes" id="toc-una-analogía-el-marinero-con-dos-relojes" class="nav-link" data-scroll-target="#una-analogía-el-marinero-con-dos-relojes"><span class="header-section-number">17.2.1</span> Una analogía: el marinero con dos relojes</a></li>
+  <li><a href="#s-el-periodo-del-ciclo" id="toc-s-el-periodo-del-ciclo" class="nav-link" data-scroll-target="#s-el-periodo-del-ciclo"><span class="header-section-number">17.2.2</span> <code>s</code> — el periodo del ciclo</a></li>
+  <li><a href="#d-la-diferencia-estacional-la-perilla-más-poderosa" id="toc-d-la-diferencia-estacional-la-perilla-más-poderosa" class="nav-link" data-scroll-target="#d-la-diferencia-estacional-la-perilla-más-poderosa"><span class="header-section-number">17.2.3</span> <code>D</code> — la diferencia estacional (la perilla más poderosa)</a></li>
+  <li><a href="#p-el-ar-estacional" id="toc-p-el-ar-estacional" class="nav-link" data-scroll-target="#p-el-ar-estacional"><span class="header-section-number">17.2.4</span> <code>P</code> — el AR estacional</a></li>
+  <li><a href="#q-el-ma-estacional" id="toc-q-el-ma-estacional" class="nav-link" data-scroll-target="#q-el-ma-estacional"><span class="header-section-number">17.2.5</span> <code>Q</code> — el MA estacional</a></li>
+  <li><a href="#por-qué-se-multiplican-las-dos-partes" id="toc-por-qué-se-multiplican-las-dos-partes" class="nav-link" data-scroll-target="#por-qué-se-multiplican-las-dos-partes"><span class="header-section-number">17.2.6</span> Por qué se <strong>multiplican</strong> las dos partes</a></li>
+  <li><a href="#cómo-se-ve-en-tus-residuos" id="toc-cómo-se-ve-en-tus-residuos" class="nav-link" data-scroll-target="#cómo-se-ve-en-tus-residuos"><span class="header-section-number">17.2.7</span> Cómo se ve en tus residuos</a></li>
+  <li><a href="#aclaración-d-1-no-calcula-un-perfil-promedio-horario" id="toc-aclaración-d-1-no-calcula-un-perfil-promedio-horario" class="nav-link" data-scroll-target="#aclaración-d-1-no-calcula-un-perfil-promedio-horario"><span class="header-section-number">17.2.8</span> Aclaración: <code>D = 1</code> <strong>no</strong> calcula un perfil promedio horario</a></li>
+  <li><a href="#y-si-d-2-o-d-3-el-triángulo-de-pascal" id="toc-y-si-d-2-o-d-3-el-triángulo-de-pascal" class="nav-link" data-scroll-target="#y-si-d-2-o-d-3-el-triángulo-de-pascal"><span class="header-section-number">17.2.9</span> ¿Y si <code>D = 2</code> o <code>D = 3</code>? El triángulo de Pascal</a></li>
+  </ul></li>
+  <li><a href="#síntesis-la-ecuación-completa-de-sarima" id="toc-síntesis-la-ecuación-completa-de-sarima" class="nav-link" data-scroll-target="#síntesis-la-ecuación-completa-de-sarima"><span class="header-section-number">17.3</span> Síntesis: la ecuación completa de SARIMA</a>
+  <ul class="collapse">
+  <li><a href="#los-cuatro-polinomios-y-sus-rezagos" id="toc-los-cuatro-polinomios-y-sus-rezagos" class="nav-link" data-scroll-target="#los-cuatro-polinomios-y-sus-rezagos"><span class="header-section-number">17.3.1</span> Los cuatro polinomios y sus rezagos</a></li>
+  <li><a href="#los-polinomios-se-multiplican-y-eso-es-la-gracia" id="toc-los-polinomios-se-multiplican-y-eso-es-la-gracia" class="nav-link" data-scroll-target="#los-polinomios-se-multiplican-y-eso-es-la-gracia"><span class="header-section-number">17.3.2</span> Los polinomios se <strong>multiplican</strong> — y eso es la gracia</a></li>
+  <li><a href="#en-una-frase" id="toc-en-una-frase" class="nav-link" data-scroll-target="#en-una-frase"><span class="header-section-number">17.3.3</span> En una frase</a></li>
+  </ul></li>
+  <li><a href="#ejemplo-viento-horario-en-la-ventosa" id="toc-ejemplo-viento-horario-en-la-ventosa" class="nav-link" data-scroll-target="#ejemplo-viento-horario-en-la-ventosa"><span class="header-section-number">18</span> Ejemplo: viento horario en La Ventosa</a>
+  <ul class="collapse">
+  <li><a href="#anatomía-del-código-del-fit-pronóstico" id="toc-anatomía-del-código-del-fit-pronóstico" class="nav-link" data-scroll-target="#anatomía-del-código-del-fit-pronóstico"><span class="header-section-number">18.1</span> Anatomía del código del fit + pronóstico</a>
+  <ul class="collapse">
+  <li><a href="#leer-la-configuración-del-widget-y-validar" id="toc-leer-la-configuración-del-widget-y-validar" class="nav-link" data-scroll-target="#leer-la-configuración-del-widget-y-validar"><span class="header-section-number">18.1.1</span> 1. Leer la configuración del widget y validar</a></li>
+  <li><a href="#ajustar-el-modelo" id="toc-ajustar-el-modelo" class="nav-link" data-scroll-target="#ajustar-el-modelo"><span class="header-section-number">18.1.2</span> 2. Ajustar el modelo</a></li>
+  <li><a href="#pronóstico-sobre-el-holdout" id="toc-pronóstico-sobre-el-holdout" class="nav-link" data-scroll-target="#pronóstico-sobre-el-holdout"><span class="header-section-number">18.1.3</span> 3. Pronóstico sobre el holdout</a></li>
+  <li><a href="#limpiar-los-residuos-antes-de-diagnosticar" id="toc-limpiar-los-residuos-antes-de-diagnosticar" class="nav-link" data-scroll-target="#limpiar-los-residuos-antes-de-diagnosticar"><span class="header-section-number">18.1.4</span> 4. Limpiar los residuos antes de diagnosticar</a></li>
+  <li><a href="#panel-de-diagnóstico-22" id="toc-panel-de-diagnóstico-22" class="nav-link" data-scroll-target="#panel-de-diagnóstico-22"><span class="header-section-number">18.1.5</span> 5. Panel de diagnóstico 2×2</a></li>
+  <li><a href="#métricas-e-impresión-final" id="toc-métricas-e-impresión-final" class="nav-link" data-scroll-target="#métricas-e-impresión-final"><span class="header-section-number">18.1.6</span> 6. Métricas e impresión final</a></li>
+  <li><a href="#flujo-de-trabajo-recomendado" id="toc-flujo-de-trabajo-recomendado" class="nav-link" data-scroll-target="#flujo-de-trabajo-recomendado"><span class="header-section-number">18.1.7</span> Flujo de trabajo recomendado</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notebooks/001_birthday_problem.html">Clases</a></li><li class="breadcrumb-item"><a href="../notebooks/017_SARIMA.html"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">SARIMA — del modelo a un ejemplo con viento</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">SARIMA — del modelo a un ejemplo con viento</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div id="Hbol" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> marimo <span class="im">as</span> mo</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.tsa.statespace.sarimax <span class="im">import</span> SARIMAX</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.graphics.tsaplots <span class="im">import</span> plot_acf, plot_pacf</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Este notebook tiene <strong>dos partes</strong>:</p>
+<ol type="1">
+<li><strong>Teoría</strong> — qué es SARIMA, cómo se relaciona con AR, MA, ARMA e ARIMA, y qué significa cada uno de sus parámetros <code>(p, d, q)(P, D, Q, s)</code>.</li>
+<li><strong>Ejemplo</strong> — un ajuste interactivo sobre datos horarios de viento de La Ventosa (Oaxaca), con un widget para explorar combinaciones y diagnosticar el modelo.</li>
+</ol>
+<section id="sarima-de-un-vistazo" class="level2" data-number="17.1">
+<h2 data-number="17.1" class="anchored" data-anchor-id="sarima-de-un-vistazo"><span class="header-section-number">17.1</span> SARIMA de un vistazo</h2>
+<p>Un modelo <strong>SARIMA(p, d, q)(P, D, Q)<span class="math inline">\(_s\)</span></strong> se construye a partir de cinco ideas, en orden creciente de complejidad. Todos los modelos de abajo son casos particulares del widget — los recuperas poniendo en cero los órdenes que no quieras usar.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Modelo</th>
+<th>Ajuste del widget</th>
+<th>Qué captura</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>AR(p)</strong></td>
+<td><code>(p, 0, 0)(0, 0, 0, _)</code></td>
+<td>El valor actual depende de sus propios <code>p</code> rezagos pasados.</td>
+</tr>
+<tr class="even">
+<td><strong>MA(q)</strong></td>
+<td><code>(0, 0, q)(0, 0, 0, _)</code></td>
+<td>El valor actual depende de los últimos <code>q</code> choques (errores).</td>
+</tr>
+<tr class="odd">
+<td><strong>ARMA(p, q)</strong></td>
+<td><code>(p, 0, q)(0, 0, 0, _)</code></td>
+<td>Combina ambas ideas — solo para series estacionarias.</td>
+</tr>
+<tr class="even">
+<td><strong>ARIMA(p, d, q)</strong></td>
+<td><code>(p, d, q)(0, 0, 0, _)</code></td>
+<td>Diferencia <code>d</code> veces para quitar tendencia, luego ARMA.</td>
+</tr>
+<tr class="odd">
+<td><strong>SARIMA(p, d, q)(P, D, Q)<span class="math inline">\(_s\)</span></strong></td>
+<td><code>(p, d, q)(P, D, Q, s)</code></td>
+<td>ARIMA <strong>más</strong> una copia estacional del AR/I/MA en el rezago <code>s</code>.</td>
+</tr>
+</tbody>
+</table>
+<section id="la-parte-no-estacional-p-d-q" class="level3" data-number="17.1.1">
+<h3 data-number="17.1.1" class="anchored" data-anchor-id="la-parte-no-estacional-p-d-q"><span class="header-section-number">17.1.1</span> La parte no estacional <code>(p, d, q)</code></h3>
+<ul>
+<li><strong>p</strong> — orden autorregresivo. Usa <code>y[t-1], y[t-2], …, y[t-p]</code>.</li>
+<li><strong>d</strong> — número de diferencias regulares. <code>d=1</code> modela <code>y[t] - y[t-1]</code>; esto elimina una tendencia lenta para que el resto del modelo vea una serie estacionaria.</li>
+<li><strong>q</strong> — orden de media móvil. Usa los errores pasados <code>ε[t-1], …, ε[t-q]</code>.</li>
+</ul>
+</section>
+<section id="la-parte-estacional-p-d-q-s" class="level3" data-number="17.1.2">
+<h3 data-number="17.1.2" class="anchored" data-anchor-id="la-parte-estacional-p-d-q-s"><span class="header-section-number">17.1.2</span> La parte estacional <code>(P, D, Q, s)</code></h3>
+<p>Las mismas tres perillas, pero actuando en múltiplos del periodo estacional <code>s</code> — el modelo observa <code>y[t-s], y[t-2s], …</code> en lugar de <code>y[t-1], y[t-2], …</code>.</p>
+<ul>
+<li><strong>s</strong> — el periodo del ciclo. Para <strong>datos horarios con patrón diario</strong>, fija <code>s = 24</code>. Cada hora pronosticada queda anclada a <em>la misma hora de días previos</em>, que es justo lo que significa el “día promedio horario”: el modelo aprende su propio perfil diario, refinado por la parte no estacional <code>(p, d, q)</code> para la dinámica de corto plazo.</li>
+<li><strong>D</strong> — diferenciación estacional. <code>D=1</code> modela <code>y[t] - y[t-s]</code>. Con <code>s = 24</code> esto resta “misma hora, día anterior” y quita el ciclo diario para que el modelo se concentre en lo que cambia día a día.</li>
+<li><strong>P</strong> — AR estacional: usa <code>y[t-s], y[t-2s], …, y[t-Ps]</code>.</li>
+<li><strong>Q</strong> — MA estacional: usa errores pasados <code>ε[t-s], ε[t-2s], …, ε[t-Qs]</code>.</li>
+</ul>
+</section>
+<section id="cómo-el-widget-recupera-cada-variante" class="level3" data-number="17.1.3">
+<h3 data-number="17.1.3" class="anchored" data-anchor-id="cómo-el-widget-recupera-cada-variante"><span class="header-section-number">17.1.3</span> Cómo el widget recupera cada variante</h3>
+<p>Usa el formulario de abajo para alternar entre modelos sin reescribir código:</p>
+<ul>
+<li><strong>AR(2)</strong> → <code>p=2, d=0, q=0, P=0, D=0, Q=0</code> (s es irrelevante)</li>
+<li><strong>MA(1)</strong> → <code>p=0, d=0, q=1, P=0, D=0, Q=0</code></li>
+<li><strong>ARMA(2, 1)</strong> → <code>p=2, d=0, q=1, P=0, D=0, Q=0</code></li>
+<li><strong>ARIMA(2, 1, 1)</strong> → <code>p=2, d=1, q=1, P=0, D=0, Q=0</code></li>
+<li><strong>SARIMA(2, 0, 1)(1, 1, 1)<span class="math inline">\(_{24}\)</span></strong> → los valores por defecto; estacionalidad diaria activa.</li>
+</ul>
+</section>
+<section id="consejos-para-esta-serie" class="level3" data-number="17.1.4">
+<h3 data-number="17.1.4" class="anchored" data-anchor-id="consejos-para-esta-serie"><span class="header-section-number">17.1.4</span> Consejos para esta serie</h3>
+<ol type="1">
+<li>Empieza con <code>s = 24</code> y <code>D = 1</code> — el viento tiene un ciclo diurno fuerte, así que la diferencia estacional suele ser la perilla más útil.</li>
+<li>Si la ACF de los residuos sigue sobresaliendo en el rezago 24, sube <code>P</code> o <code>Q</code> (rara vez por encima de 2 cada uno) en lugar de <code>p</code> o <code>q</code>.</li>
+<li>Mantén <code>d + D ≤ 2</code> en total. Sobre-diferenciar infla la varianza y produce un peor pronóstico aunque el AIC baje.</li>
+<li>Compara corridas por <strong>AIC/BIC en entrenamiento</strong> <em>y</em> <strong>RMSE en el holdout</strong> — un modelo que sobreajusta luce bien en AIC pero peor en RMSE.</li>
+</ol>
+</section>
+</section>
+<section id="la-parte-estacional-p-d-q-s-a-fondo" class="level2" data-number="17.2">
+<h2 data-number="17.2" class="anchored" data-anchor-id="la-parte-estacional-p-d-q-s-a-fondo"><span class="header-section-number">17.2</span> La parte estacional <code>(P, D, Q, s)</code> — a fondo</h2>
+<section id="una-analogía-el-marinero-con-dos-relojes" class="level3" data-number="17.2.1">
+<h3 data-number="17.2.1" class="anchored" data-anchor-id="una-analogía-el-marinero-con-dos-relojes"><span class="header-section-number">17.2.1</span> Una analogía: el marinero con dos relojes</h3>
+<p>Imagina que eres marinero en La Ventosa y quieres anticipar la velocidad del viento en la próxima hora. Tienes <strong>dos relojes</strong> en la cabina:</p>
+<ul>
+<li>Un <strong>reloj de pulso</strong>, que te dice qué ha pasado en los últimos minutos: <em>"hace dos horas que el viento se viene calmando"</em>. Este reloj es la parte <strong>no estacional</strong> <code>(p, d, q)</code>: mira lo inmediato.</li>
+<li>Un <strong>almanaque del día</strong>, que te dice en qué punto del ciclo diario estás: <em>"son las 14:00, a esta hora todos los días aprieta la brisa por el calentamiento solar sobre el istmo"</em>. Este reloj es la parte <strong>estacional</strong> <code>(P, D, Q, s)</code>: mira el <strong>mismo instante de ciclos previos</strong>.</li>
+</ul>
+<p>Un buen pronóstico combina ambos. SARIMA hace exactamente eso: multiplica dos modelos ARMA, uno que opera en rezagos consecutivos <code>(1, 2, 3, …)</code> y otro que opera en rezagos estacionales <code>(s, 2s, 3s, …)</code>.</p>
+</section>
+<section id="s-el-periodo-del-ciclo" class="level3" data-number="17.2.2">
+<h3 data-number="17.2.2" class="anchored" data-anchor-id="s-el-periodo-del-ciclo"><span class="header-section-number">17.2.2</span> <code>s</code> — el periodo del ciclo</h3>
+<p>Es el <strong>intervalo del almanaque</strong>: cada cuántas observaciones se repite el patrón.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Frecuencia de los datos</th>
+<th>Ciclo que esperas</th>
+<th><code>s</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Horarios</td>
+<td>Diario</td>
+<td><code>24</code></td>
+</tr>
+<tr class="even">
+<td>Cada 30 min</td>
+<td>Diario</td>
+<td><code>48</code></td>
+</tr>
+<tr class="odd">
+<td>Diarios</td>
+<td>Semanal</td>
+<td><code>7</code></td>
+</tr>
+<tr class="even">
+<td>Mensuales</td>
+<td>Anual</td>
+<td><code>12</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Pista:</strong> si la ACF de la serie cruda muestra picos regulares en el rezago <code>k</code>, prueba <code>s = k</code>.</p>
+</section>
+<section id="d-la-diferencia-estacional-la-perilla-más-poderosa" class="level3" data-number="17.2.3">
+<h3 data-number="17.2.3" class="anchored" data-anchor-id="d-la-diferencia-estacional-la-perilla-más-poderosa"><span class="header-section-number">17.2.3</span> <code>D</code> — la diferencia estacional (la perilla más poderosa)</h3>
+<p><code>D = 1</code> transforma la serie en <code>y[t] - y[t-s]</code>. En palabras:</p>
+<blockquote class="blockquote">
+<p><em>"¿Cuánto difiere la observación de ahora respecto al mismo punto del ciclo anterior?"</em></p>
+</blockquote>
+<p>Para viento horario con <code>s = 24</code>: <em>"¿cuánto difiere el viento de hoy a las 14:00 del viento de ayer a las 14:00?"</em>. Esa resta <strong>elimina el perfil promedio diario</strong> y deja al modelo trabajando solo con las <strong>desviaciones día-a-día</strong> — que suelen ser mucho más estacionarias y fáciles de modelar.</p>
+<p><strong>Analogía:</strong> si quieres saber si hoy hace calor <em>anormal</em>, no miras la temperatura cruda — la comparas con el promedio histórico de esta misma fecha. <code>D = 1</code> hace ese "restar respecto al ciclo previo" automáticamente, sin que tengas que calcular el promedio.</p>
+</section>
+<section id="p-el-ar-estacional" class="level3" data-number="17.2.4">
+<h3 data-number="17.2.4" class="anchored" data-anchor-id="p-el-ar-estacional"><span class="header-section-number">17.2.4</span> <code>P</code> — el AR estacional</h3>
+<p>Igual que <code>p</code>, pero saltando de un ciclo al siguiente. <code>P = 1</code> dice:</p>
+<blockquote class="blockquote">
+<p><em>"El viento de hoy a las 14:00 es proporcional al viento de ayer a las 14:00, más algo de ruido."</em></p>
+</blockquote>
+<p>Con <code>P = 2</code> mira ayer <strong>y</strong> antier a la misma hora.</p>
+<p><strong>Analogía:</strong> es la <strong>memoria larga del ritmo</strong>. Como un baterista que sabe que el platillo suena fuerte en cada cuarto compás — no porque acaba de sonar fuerte (eso sería <code>p</code>), sino porque cada vez que llega a esa posición del compás, suena fuerte.</p>
+</section>
+<section id="q-el-ma-estacional" class="level3" data-number="17.2.5">
+<h3 data-number="17.2.5" class="anchored" data-anchor-id="q-el-ma-estacional"><span class="header-section-number">17.2.5</span> <code>Q</code> — el MA estacional</h3>
+<p>Igual que <code>q</code>, pero sobre los <strong>errores</strong> del ciclo anterior. <code>Q = 1</code> dice:</p>
+<blockquote class="blockquote">
+<p><em>"Si ayer a las 14:00 me equivoqué por +3 km/h, hoy a las 14:00 arrastro algo de esa corrección."</em></p>
+</blockquote>
+<p><strong>Analogía:</strong> un meteorólogo que aprende del error del día anterior a la misma hora. <em>"Ayer subestimé la tarde por 3 km/h — hoy ajusto al alza."</em></p>
+</section>
+<section id="por-qué-se-multiplican-las-dos-partes" class="level3" data-number="17.2.6">
+<h3 data-number="17.2.6" class="anchored" data-anchor-id="por-qué-se-multiplican-las-dos-partes"><span class="header-section-number">17.2.6</span> Por qué se <strong>multiplican</strong> las dos partes</h3>
+<p>SARIMA no es "ARMA + ARMA estacional" sumados, sino el <strong>producto</strong> de los polinomios no estacional y estacional. Esto hace aparecer <strong>rezagos cruzados</strong> sin gastar parámetros extra.</p>
+<p><em>Ejemplo concreto:</em> con <code>p = 1</code>, <code>P = 1</code>, <code>s = 24</code>, el modelo termina usando los rezagos <strong>1</strong>, <strong>24</strong> y <strong>25</strong> simultáneamente — porque el rezago 25 es "hace una hora del valor de ayer a esta hora". Con solo dos coeficientes capturas dinámica de corto plazo <strong>y</strong> cíclica.</p>
+</section>
+<section id="cómo-se-ve-en-tus-residuos" class="level3" data-number="17.2.7">
+<h3 data-number="17.2.7" class="anchored" data-anchor-id="cómo-se-ve-en-tus-residuos"><span class="header-section-number">17.2.7</span> Cómo se ve en tus residuos</h3>
+<p>El veredicto rápido sobre <code>(P, D, Q, s)</code> no está en el AIC — está en la <strong>ACF de los residuos</strong> (el panel inferior izquierdo del fit).</p>
+<ul>
+<li>¿Hay un pico aislado y grande en el rezago <strong>24</strong>? Te falta <code>D = 1</code> o <code>Q = 1</code>.</li>
+<li>¿Hay un decaimiento lento en los múltiplos de 24 (24, 48, 72)? Sube <code>P</code> a 1 o 2.</li>
+<li>¿Los rezagos <code>≤ 5</code> siguen con picos? Eso es la parte <strong>no estacional</strong> — ajusta <code>p</code> o <code>q</code>, no <code>P</code> ni <code>Q</code>.</li>
+</ul>
+</section>
+<section id="aclaración-d-1-no-calcula-un-perfil-promedio-horario" class="level3" data-number="17.2.8">
+<h3 data-number="17.2.8" class="anchored" data-anchor-id="aclaración-d-1-no-calcula-un-perfil-promedio-horario"><span class="header-section-number">17.2.8</span> Aclaración: <code>D = 1</code> <strong>no</strong> calcula un perfil promedio horario</h3>
+<p>Es una confusión común. SARIMA con <code>D = 1, s = 24</code> <strong>no</strong> calcula un vector de 24 promedios (uno por hora del día sobre todo el entrenamiento). Lo que hace es una <strong>diferencia rezagada</strong>:</p>
+<p><span class="math display">\[
+y'[t] \;=\; y[t] - y[t-24]
+\]</span></p>
+<p>Compara cada hora con <strong>esa misma hora del día anterior</strong> — uno solo, no el promedio de todos los días previos.</p>
+<section id="entonces-de-dónde-sale-el-perfil-diario" class="level4" data-number="17.2.8.1">
+<h4 data-number="17.2.8.1" class="anchored" data-anchor-id="entonces-de-dónde-sale-el-perfil-diario"><span class="header-section-number">17.2.8.1</span> Entonces ¿de dónde sale el "perfil diario"?</h4>
+<p>Emerge <strong>implícitamente</strong>:</p>
+<ul>
+<li>Si el ciclo diario es estable, <code>y[t]</code> y <code>y[t-24]</code> contienen aproximadamente la misma componente cíclica, y al restarlos <strong>se cancela</strong>.</li>
+<li>En <code>y'[t]</code> solo quedan las <strong>desviaciones día-a-día</strong> respecto al ciclo.</li>
+<li>El modelo <strong>nunca guarda</strong> un vector de 24 promedios — ese sería un enfoque distinto (descomposición estacional clásica, tipo <code>seasonal_decompose</code> o STL).</li>
+</ul>
+</section>
+<section id="comparación-rápida" class="level4" data-number="17.2.8.2">
+<h4 data-number="17.2.8.2" class="anchored" data-anchor-id="comparación-rápida"><span class="header-section-number">17.2.8.2</span> Comparación rápida</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Enfoque</th>
+<th>Cómo trata la estacionalidad</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>STL / <code>seasonal_decompose</code></strong></td>
+<td>Calcula un perfil explícito (p.&nbsp;ej. promedio por hora del día sobre todo el train) y lo resta.</td>
+</tr>
+<tr class="even">
+<td><strong>SARIMA con <code>D=1</code></strong></td>
+<td>Diferencia rezagada <code>y[t] - y[t-s]</code>. El perfil queda <strong>implícito</strong>.</td>
+</tr>
+<tr class="odd">
+<td><strong>SARIMA con <code>P, Q</code> (sin <code>D</code>)</strong></td>
+<td>Pondera explícitamente el valor (<code>P</code>) o el error (<code>Q</code>) del mismo instante de <strong>uno o dos ciclos</strong> anteriores — no de todo el histórico.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="lo-importante-para-tu-intuición" class="level4" data-number="17.2.8.3">
+<h4 data-number="17.2.8.3" class="anchored" data-anchor-id="lo-importante-para-tu-intuición"><span class="header-section-number">17.2.8.3</span> Lo importante para tu intuición</h4>
+<p>Cuando decimos <em>"el modelo aprende su propio perfil diario"</em> nos referimos al <strong>comportamiento efectivo</strong>, no a la mecánica interna. Lo que opera es un rezago, no un promedio. Por eso <code>D = 1</code> funciona bien aunque la serie de entrenamiento sea corta: no necesita muchas vueltas del ciclo para estimar un promedio robusto, <strong>solo necesita que el ciclo de ayer y el de hoy se parezcan</strong>.</p>
+</section>
+</section>
+<section id="y-si-d-2-o-d-3-el-triángulo-de-pascal" class="level3" data-number="17.2.9">
+<h3 data-number="17.2.9" class="anchored" data-anchor-id="y-si-d-2-o-d-3-el-triángulo-de-pascal"><span class="header-section-number">17.2.9</span> ¿Y si <code>D = 2</code> o <code>D = 3</code>? El triángulo de Pascal</h3>
+<p>Cada vez que aplicas la diferencia estacional, <strong>compones</strong> el operador consigo mismo. Si llamamos <code>L</code> al operador de rezago un paso (<code>L · y[t] = y[t-1]</code>), entonces la diferencia estacional es:</p>
+<p><span class="math display">\[
+\nabla_{s} \;=\; (1 - L^{s})
+\]</span></p>
+<p>y aplicarla <code>D</code> veces es <strong>elevarlo a la <code>D</code></strong>:</p>
+<p><span class="math display">\[
+\nabla_{s}^{D} \;=\; (1 - L^{s})^{D}
+\;=\; \sum_{k=0}^{D} \binom{D}{k}(-1)^{k}\,L^{sk}
+\]</span></p>
+<p>Esa es la <strong>fórmula binomial</strong> de toda la vida con <code>a = 1</code>, <code>b = L^{s}</code> — de ahí salen los coeficientes del <strong>triángulo de Pascal con signos alternados</strong>.</p>
+<section id="cómo-queda-con-s-24" class="level4" data-number="17.2.9.1">
+<h4 data-number="17.2.9.1" class="anchored" data-anchor-id="cómo-queda-con-s-24"><span class="header-section-number">17.2.9.1</span> Cómo queda con <code>s = 24</code></h4>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th><code>D</code></th>
+<th>Operación expandida</th>
+<th>Observaciones que entran</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>1</strong></td>
+<td><code>y[t] - y[t-24]</code></td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td><strong>2</strong></td>
+<td><code>y[t] - 2·y[t-24] + y[t-48]</code></td>
+<td>3</td>
+</tr>
+<tr class="odd">
+<td><strong>3</strong></td>
+<td><code>y[t] - 3·y[t-24] + 3·y[t-48] - y[t-72]</code></td>
+<td>4</td>
+</tr>
+<tr class="even">
+<td><strong>4</strong></td>
+<td><code>y[t] - 4·y[t-24] + 6·y[t-48] - 4·y[t-72] + y[t-96]</code></td>
+<td>5</td>
+</tr>
+</tbody>
+</table>
+<p>Los coeficientes son los renglones del triángulo:</p>
+<pre><code>D=1:   1   1
+D=2:   1   2   1
+D=3:   1   3   3   1
+D=4:   1   4   6   4   1</code></pre>
+<p>Solo que en SARIMA aparecen con <strong>signos alternados</strong> (<code>+ - + - …</code>) porque cada <code>L^{s}</code> arrastra un <code>-1</code> desde el <code>(1 - L^{s})</code> original.</p>
+</section>
+<section id="intuición-combinatoria" class="level4" data-number="17.2.9.2">
+<h4 data-number="17.2.9.2" class="anchored" data-anchor-id="intuición-combinatoria"><span class="header-section-number">17.2.9.2</span> Intuición combinatoria</h4>
+<p>Cada vez que aplicas <code>(1 - L^{s})</code>, cada observación o bien <strong>se queda donde está</strong>, o bien <strong>se rezaga <code>s</code> pasos</strong>. Después de <code>D</code> aplicaciones, una observación llega al instante <code>t - sk</code> por <span class="math inline">\(\binom{D}{k}\)</span> caminos distintos — y eso es exactamente lo que cuenta el coeficiente binomial.</p>
+</section>
+<section id="qué-interpretar-de-cada-nivel" class="level4" data-number="17.2.9.3">
+<h4 data-number="17.2.9.3" class="anchored" data-anchor-id="qué-interpretar-de-cada-nivel"><span class="header-section-number">17.2.9.3</span> Qué interpretar de cada nivel</h4>
+<ul>
+<li><code>D = 1</code> quita el <strong>nivel</strong> del ciclo: ¿cuánto cambió esta hora respecto a la misma hora de ayer?</li>
+<li><code>D = 2</code> quita además una <strong>tendencia lineal</strong> sobre el ciclo: el ciclo diario sube o baja en pendiente constante día a día.</li>
+<li><code>D = 3</code> quita una <strong>aceleración</strong> del ciclo (el ritmo de cambio del ciclo cambia). Esto ya es raro en la práctica.</li>
+</ul>
+</section>
+<section id="por-qué-d-grande-amplifica-ruido" class="level4" data-number="17.2.9.4">
+<h4 data-number="17.2.9.4" class="anchored" data-anchor-id="por-qué-d-grande-amplifica-ruido"><span class="header-section-number">17.2.9.4</span> Por qué <code>D</code> grande amplifica ruido</h4>
+<p>Mira la última columna de la tabla: cada incremento de <code>D</code> mete una observación más en la suma, <strong>y los coeficientes crecen</strong> (1, 2, 3, 4, 6, …). Estás combinando linealmente más valores, con pesos cada vez mayores y signos alternados — exactamente la receta para amplificar el ruido si el ciclo no varía con suficiente complejidad como para justificarlo.</p>
+<p>Por eso la regla práctica es <strong><code>d + D ≤ 2</code></strong>.</p>
+</section>
+</section>
+</section>
+<section id="síntesis-la-ecuación-completa-de-sarima" class="level2" data-number="17.3">
+<h2 data-number="17.3" class="anchored" data-anchor-id="síntesis-la-ecuación-completa-de-sarima"><span class="header-section-number">17.3</span> Síntesis: la ecuación completa de SARIMA</h2>
+<p>Todo lo anterior se condensa en una sola expresión. Si llamamos <code>L</code> al operador de rezago (<code>L · y[t] = y[t-1]</code>) y separamos los cuatro polinomios — AR, AR estacional, MA, MA estacional — la ecuación de SARIMA es:</p>
+<p><span class="math display">\[
+\underbrace{\Phi_P(L^{s})}_{\text{AR estacional}}\,
+\underbrace{\phi_p(L)}_{\text{AR}}\,
+\underbrace{(1-L^{s})^{D}}_{\text{dif. estacional}}\,
+\underbrace{(1-L)^{d}}_{\text{dif. regular}}\,
+y[t]
+\;=\;
+\underbrace{\Theta_Q(L^{s})}_{\text{MA estacional}}\,
+\underbrace{\theta_q(L)}_{\text{MA}}\,
+\varepsilon[t]
+\]</span></p>
+<p>Léelo <strong>de derecha a izquierda</strong> sobre <code>y[t]</code>:</p>
+<ol type="1">
+<li>Primero <strong>diferencias regulares</strong> (<code>d</code> veces, paso 1) — quitan tendencia.</li>
+<li>Luego <strong>diferencias estacionales</strong> (<code>D</code> veces, paso <code>s</code>) — quitan el ciclo.</li>
+<li>Sobre la serie ya estacionaria, aplicas AR no estacional <strong>y</strong> AR estacional <strong>simultáneamente</strong>.</li>
+<li>El lado derecho hace lo mismo con MA, pero sobre los errores <code>ε[t]</code>.</li>
+</ol>
+<section id="los-cuatro-polinomios-y-sus-rezagos" class="level3" data-number="17.3.1">
+<h3 data-number="17.3.1" class="anchored" data-anchor-id="los-cuatro-polinomios-y-sus-rezagos"><span class="header-section-number">17.3.1</span> Los cuatro polinomios y sus rezagos</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Componente</th>
+<th>Polinomio</th>
+<th>Rezagos que usa</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>AR no estacional <code>p</code></strong></td>
+<td><span class="math inline">\(\phi_p(L) = 1 - \phi_1 L - \phi_2 L^2 - \dots - \phi_p L^p\)</span></td>
+<td><code>1, 2, …, p</code> (consecutivos)</td>
+</tr>
+<tr class="even">
+<td><strong>AR estacional <code>P</code></strong></td>
+<td><span class="math inline">\(\Phi_P(L^s) = 1 - \Phi_1 L^s - \Phi_2 L^{2s} - \dots - \Phi_P L^{Ps}\)</span></td>
+<td><code>s, 2s, …, Ps</code> (saltando)</td>
+</tr>
+<tr class="odd">
+<td><strong>MA no estacional <code>q</code></strong></td>
+<td><span class="math inline">\(\theta_q(L) = 1 + \theta_1 L + \dots + \theta_q L^q\)</span></td>
+<td><code>1, 2, …, q</code></td>
+</tr>
+<tr class="even">
+<td><strong>MA estacional <code>Q</code></strong></td>
+<td><span class="math inline">\(\Theta_Q(L^s) = 1 + \Theta_1 L^s + \dots + \Theta_Q L^{Qs}\)</span></td>
+<td><code>s, 2s, …, Qs</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>(p, q)</code> y <code>(P, Q)</code> son <strong>el mismo tipo de operador</strong> — AR y MA — pero actúan a <strong>escalas temporales distintas</strong>: la no estacional mira paso a paso, la estacional mira de un ciclo al siguiente.</p>
+</section>
+<section id="los-polinomios-se-multiplican-y-eso-es-la-gracia" class="level3" data-number="17.3.2">
+<h3 data-number="17.3.2" class="anchored" data-anchor-id="los-polinomios-se-multiplican-y-eso-es-la-gracia"><span class="header-section-number">17.3.2</span> Los polinomios se <strong>multiplican</strong> — y eso es la gracia</h3>
+<p>Cuando juntas <span class="math inline">\(\phi_p(L) \cdot \Phi_P(L^s)\)</span> no solo aparecen los rezagos individuales, también aparecen <strong>rezagos cruzados gratis</strong>. Con <code>p = 1</code>, <code>P = 1</code>, <code>s = 24</code>:</p>
+<p><span class="math display">\[
+(1 - \phi_1 L)(1 - \Phi_1 L^{24})
+= 1 - \phi_1 L - \Phi_1 L^{24} + \phi_1 \Phi_1 L^{25}
+\]</span></p>
+<p>Aparece el <strong>rezago 25</strong> con coeficiente <span class="math inline">\(\phi_1 \Phi_1\)</span> — sin pagar parámetros extra. Y tiene sentido físico: <em>"hace 25 horas"</em> es <em>"hace una hora del valor de ayer a esta hora"</em>. Esa es la razón por la que SARIMA logra capturar dinámicas en múltiples escalas con muy pocos coeficientes.</p>
+</section>
+<section id="en-una-frase" class="level3" data-number="17.3.3">
+<h3 data-number="17.3.3" class="anchored" data-anchor-id="en-una-frase"><span class="header-section-number">17.3.3</span> En una frase</h3>
+<blockquote class="blockquote">
+<p><strong>SARIMA es ARMA aplicado dos veces a la vez</strong> — una en rezagos consecutivos <code>(p, q)</code> y otra en rezagos del ciclo <code>(P, Q)</code> — sobre una serie a la que primero se le quitó la tendencia (<code>d</code>) y el ciclo (<code>D</code>, <code>s</code>).</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="ejemplo-viento-horario-en-la-ventosa" class="level1" data-number="18">
+<h1 data-number="18"><span class="header-section-number">18</span> Ejemplo: viento horario en La Ventosa</h1>
+<p>Carguemos los datos, definamos la serie de entrenamiento y ajustemos un SARIMA interactivamente.</p>
+<div id="BYtC" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> <span class="st">"data/viento_la_ventosa_2023.csv"</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>viento_all <span class="op">=</span> pd.read_csv(f, skiprows<span class="op">=</span><span class="dv">3</span>, parse_dates<span class="op">=</span>[<span class="st">"time"</span>],index_col<span class="op">=</span><span class="st">"time"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>viento_all.plot(figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="017_SARIMA_files/figure-html/cell-3-output-1.png" width="822" height="313" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="RGSE" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>viento <span class="op">=</span> viento_all.loc[<span class="st">"2023-07-20"</span>:<span class="st">"2023-08-20"</span>]</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> viento[<span class="st">"wind_speed_10m (km/h)"</span>].astype(<span class="bu">float</span>).asfreq(<span class="st">"h"</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>viento.plot(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="017_SARIMA_files/figure-html/cell-4-output-1.png" width="822" height="346" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="Kclp" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;marimo&quot;,&quot;value&quot;:{&quot;config&quot;:{&quot;hide_code&quot;:true}}}">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Hold out the last 48 h as a test window for forecast evaluation.</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>horizon <span class="op">=</span> <span class="dv">48</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>y_train <span class="op">=</span> y.iloc[:<span class="op">-</span>horizon]</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>y_test <span class="op">=</span> y.iloc[<span class="op">-</span>horizon:]</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>mo.md(<span class="ss">f"Train: **</span><span class="sc">{</span><span class="bu">len</span>(y_train)<span class="sc">}</span><span class="ss">** h (</span><span class="sc">{</span>y_train<span class="sc">.</span>index[<span class="dv">0</span>]<span class="sc">}</span><span class="ss"> → </span><span class="sc">{</span>y_train<span class="sc">.</span>index[<span class="op">-</span><span class="dv">1</span>]<span class="sc">}</span><span class="ss">)  </span><span class="ch">\n</span><span class="ss">"</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f"Test:  **</span><span class="sc">{</span><span class="bu">len</span>(y_test)<span class="sc">}</span><span class="ss">** h (</span><span class="sc">{</span>y_test<span class="sc">.</span>index[<span class="dv">0</span>]<span class="sc">}</span><span class="ss"> → </span><span class="sc">{</span>y_test<span class="sc">.</span>index[<span class="op">-</span><span class="dv">1</span>]<span class="sc">}</span><span class="ss">)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Train: <strong>720</strong> h (2023-07-20 00:00:00 → 2023-08-18 23:00:00)<br>
+Test: <strong>48</strong> h (2023-08-19 00:00:00 → 2023-08-20 23:00:00)</p>
+</div>
+</div>
+<div id="emfo" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;marimo&quot;,&quot;value&quot;:{&quot;config&quot;:{&quot;hide_code&quot;:true}}}">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>order_form <span class="op">=</span> (</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    mo.md(</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">"""</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="st">        **Non-seasonal**  p = </span><span class="sc">{p}</span><span class="st">, d = </span><span class="sc">{d}</span><span class="st">, q = </span><span class="sc">{q}</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="st">        **Seasonal**      P = </span><span class="sc">{P}</span><span class="st">, D = </span><span class="sc">{D}</span><span class="st">, Q = </span><span class="sc">{Q}</span><span class="st">, s = </span><span class="sc">{s}</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="st">        """</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    .batch(</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>        p<span class="op">=</span>mo.ui.slider(<span class="dv">0</span>, <span class="dv">5</span>, value<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="st">"p"</span>),</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>        d<span class="op">=</span>mo.ui.slider(<span class="dv">0</span>, <span class="dv">2</span>, value<span class="op">=</span><span class="dv">0</span>, label<span class="op">=</span><span class="st">"d"</span>),</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>        q<span class="op">=</span>mo.ui.slider(<span class="dv">0</span>, <span class="dv">5</span>, value<span class="op">=</span><span class="dv">1</span>, label<span class="op">=</span><span class="st">"q"</span>),</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>        P<span class="op">=</span>mo.ui.slider(<span class="dv">0</span>, <span class="dv">2</span>, value<span class="op">=</span><span class="dv">1</span>, label<span class="op">=</span><span class="st">"P"</span>),</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>        D<span class="op">=</span>mo.ui.slider(<span class="dv">0</span>, <span class="dv">1</span>, value<span class="op">=</span><span class="dv">1</span>, label<span class="op">=</span><span class="st">"D"</span>),</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>        Q<span class="op">=</span>mo.ui.slider(<span class="dv">0</span>, <span class="dv">2</span>, value<span class="op">=</span><span class="dv">1</span>, label<span class="op">=</span><span class="st">"Q"</span>),</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>        s<span class="op">=</span>mo.ui.number(<span class="dv">2</span>, <span class="dv">168</span>, value<span class="op">=</span><span class="dv">24</span>, label<span class="op">=</span><span class="st">"s"</span>),</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    .form(submit_button_label<span class="op">=</span><span class="st">"Fit SARIMA"</span>)</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>order_form</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>&lt;marimo-form data-initial-value='null' data-label='null' data-element-id='&amp;quot;emfo-22&amp;quot;' data-loading='false' data-bordered='true' data-submit-button-label='&amp;quot;Fit SARIMA&amp;quot;' data-submit-button-disabled='false' data-clear-on-submit='false' data-show-clear-button='false' data-clear-button-label='&amp;quot;Clear&amp;quot;' data-should-validate='false'&gt;&lt;marimo-ui-element object-id='emfo-22' random-id='87ad85b0-9ccf-c110-1ffe-7423a12d77bd'&gt;&lt;marimo-dict data-initial-value='{&amp;quot;p&amp;quot;:2,&amp;quot;d&amp;quot;:0,&amp;quot;q&amp;quot;:1,&amp;quot;P&amp;quot;:1,&amp;quot;D&amp;quot;:1,&amp;quot;Q&amp;quot;:1,&amp;quot;s&amp;quot;:24}' data-label='null' data-element-ids='{&amp;quot;emfo-15&amp;quot;:&amp;quot;p&amp;quot;,&amp;quot;emfo-16&amp;quot;:&amp;quot;d&amp;quot;,&amp;quot;emfo-17&amp;quot;:&amp;quot;q&amp;quot;,&amp;quot;emfo-18&amp;quot;:&amp;quot;P&amp;quot;,&amp;quot;emfo-19&amp;quot;:&amp;quot;D&amp;quot;,&amp;quot;emfo-20&amp;quot;:&amp;quot;Q&amp;quot;,&amp;quot;emfo-21&amp;quot;:&amp;quot;s&amp;quot;}'&gt;&lt;span class="markdown prose dark:prose-invert contents"&gt;&lt;span class="paragraph"&gt;&lt;strong&gt;Non-seasonal&lt;/strong&gt; p = &lt;marimo-ui-element object-id='emfo-15' random-id='46fabfef-aa65-ff50-1cbd-448dd26c23b9'&gt;&lt;marimo-slider data-initial-value='2' data-label='&amp;quot;&amp;lt;span class=&amp;#92;&amp;quot;markdown prose dark:prose-invert contents&amp;#92;&amp;quot;&amp;gt;&amp;lt;span class=&amp;#92;&amp;quot;paragraph&amp;#92;&amp;quot;&amp;gt;p&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;quot;' data-start='0' data-stop='5' data-steps='[]' data-debounce='false' data-disabled='false' data-orientation='&amp;quot;horizontal&amp;quot;' data-show-value='false' data-include-input='false' data-full-width='false'&gt;&lt;/marimo-slider&gt;&lt;/marimo-ui-element&gt;, d = &lt;marimo-ui-element object-id='emfo-16' random-id='a8702a38-c9c9-1b01-48fd-51a9c308581b'&gt;&lt;marimo-slider data-initial-value='0' data-label='&amp;quot;&amp;lt;span class=&amp;#92;&amp;quot;markdown prose dark:prose-invert contents&amp;#92;&amp;quot;&amp;gt;&amp;lt;span class=&amp;#92;&amp;quot;paragraph&amp;#92;&amp;quot;&amp;gt;d&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;quot;' data-start='0' data-stop='2' data-steps='[]' data-debounce='false' data-disabled='false' data-orientation='&amp;quot;horizontal&amp;quot;' data-show-value='false' data-include-input='false' data-full-width='false'&gt;&lt;/marimo-slider&gt;&lt;/marimo-ui-element&gt;, q = &lt;marimo-ui-element object-id='emfo-17' random-id='48a6ccaa-a889-cadd-fc8c-5af3114a2855'&gt;&lt;marimo-slider data-initial-value='1' data-label='&amp;quot;&amp;lt;span class=&amp;#92;&amp;quot;markdown prose dark:prose-invert contents&amp;#92;&amp;quot;&amp;gt;&amp;lt;span class=&amp;#92;&amp;quot;paragraph&amp;#92;&amp;quot;&amp;gt;q&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;quot;' data-start='0' data-stop='5' data-steps='[]' data-debounce='false' data-disabled='false' data-orientation='&amp;quot;horizontal&amp;quot;' data-show-value='false' data-include-input='false' data-full-width='false'&gt;&lt;/marimo-slider&gt;&lt;/marimo-ui-element&gt;&lt;/span&gt; &lt;span class="paragraph"&gt;&lt;strong&gt;Seasonal&lt;/strong&gt; P = &lt;marimo-ui-element object-id='emfo-18' random-id='130834c5-6fb8-c3e7-0c8d-a5faace1e49f'&gt;&lt;marimo-slider data-initial-value='1' data-label='&amp;quot;&amp;lt;span class=&amp;#92;&amp;quot;markdown prose dark:prose-invert contents&amp;#92;&amp;quot;&amp;gt;&amp;lt;span class=&amp;#92;&amp;quot;paragraph&amp;#92;&amp;quot;&amp;gt;P&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;quot;' data-start='0' data-stop='2' data-steps='[]' data-debounce='false' data-disabled='false' data-orientation='&amp;quot;horizontal&amp;quot;' data-show-value='false' data-include-input='false' data-full-width='false'&gt;&lt;/marimo-slider&gt;&lt;/marimo-ui-element&gt;, D = &lt;marimo-ui-element object-id='emfo-19' random-id='ef248a5b-b08f-ff77-38ff-457ed75309b8'&gt;&lt;marimo-slider data-initial-value='1' data-label='&amp;quot;&amp;lt;span class=&amp;#92;&amp;quot;markdown prose dark:prose-invert contents&amp;#92;&amp;quot;&amp;gt;&amp;lt;span class=&amp;#92;&amp;quot;paragraph&amp;#92;&amp;quot;&amp;gt;D&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;quot;' data-start='0' data-stop='1' data-steps='[]' data-debounce='false' data-disabled='false' data-orientation='&amp;quot;horizontal&amp;quot;' data-show-value='false' data-include-input='false' data-full-width='false'&gt;&lt;/marimo-slider&gt;&lt;/marimo-ui-element&gt;, Q = &lt;marimo-ui-element object-id='emfo-20' random-id='a6feb7e2-c5f3-76ec-81ae-8d1039911d47'&gt;&lt;marimo-slider data-initial-value='1' data-label='&amp;quot;&amp;lt;span class=&amp;#92;&amp;quot;markdown prose dark:prose-invert contents&amp;#92;&amp;quot;&amp;gt;&amp;lt;span class=&amp;#92;&amp;quot;paragraph&amp;#92;&amp;quot;&amp;gt;Q&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;quot;' data-start='0' data-stop='2' data-steps='[]' data-debounce='false' data-disabled='false' data-orientation='&amp;quot;horizontal&amp;quot;' data-show-value='false' data-include-input='false' data-full-width='false'&gt;&lt;/marimo-slider&gt;&lt;/marimo-ui-element&gt;, s = &lt;marimo-ui-element object-id='emfo-21' random-id='162721a8-3941-5de5-ce8c-a99d77ab1985'&gt;&lt;marimo-number data-initial-value='24' data-label='&amp;quot;&amp;lt;span class=&amp;#92;&amp;quot;markdown prose dark:prose-invert contents&amp;#92;&amp;quot;&amp;gt;&amp;lt;span class=&amp;#92;&amp;quot;paragraph&amp;#92;&amp;quot;&amp;gt;s&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;quot;' data-start='2' data-stop='168' data-debounce='false' data-full-width='false' data-disabled='false'&gt;&lt;/marimo-number&gt;&lt;/marimo-ui-element&gt;&lt;/span&gt;&lt;/span&gt;&lt;/marimo-dict&gt;&lt;/marimo-ui-element&gt;&lt;/marimo-form&gt;</p>
+</div>
+</div>
+<div id="Hstk" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;marimo&quot;,&quot;value&quot;:{&quot;config&quot;:{&quot;hide_code&quot;:true}}}">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>cfg <span class="op">=</span> order_form.value</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>mo.stop(cfg <span class="kw">is</span> <span class="va">None</span>, mo.md(<span class="st">"Pick orders above and click **Fit SARIMA**."</span>))</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>order <span class="op">=</span> (cfg[<span class="st">"p"</span>], cfg[<span class="st">"d"</span>], cfg[<span class="st">"q"</span>])</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>seasonal_order <span class="op">=</span> (cfg[<span class="st">"P"</span>], cfg[<span class="st">"D"</span>], cfg[<span class="st">"Q"</span>], cfg[<span class="st">"s"</span>])</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> mo.status.spinner(<span class="st">"Fitting SARIMA..."</span>):</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    res <span class="op">=</span> SARIMAX(</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>        y_train,</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>        order<span class="op">=</span>order,</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>        seasonal_order<span class="op">=</span>seasonal_order,</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>        enforce_stationarity<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>        enforce_invertibility<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    ).fit(disp<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>fc <span class="op">=</span> res.get_forecast(steps<span class="op">=</span><span class="bu">len</span>(y_test))</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>y_hat <span class="op">=</span> fc.predicted_mean</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>ci <span class="op">=</span> fc.conf_int(alpha<span class="op">=</span><span class="fl">0.05</span>)</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>burn <span class="op">=</span> <span class="bu">max</span>(seasonal_order[<span class="dv">3</span>], <span class="dv">24</span>)</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>resid <span class="op">=</span> res.resid.iloc[burn:]</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">7</span>))</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> axes[<span class="dv">0</span>, <span class="dv">0</span>]</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>y_train.iloc[<span class="op">-</span><span class="dv">7</span> <span class="op">*</span> <span class="dv">24</span>:].plot(ax<span class="op">=</span>ax, label<span class="op">=</span><span class="st">"train (last 7 d)"</span>)</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>y_test.plot(ax<span class="op">=</span>ax, label<span class="op">=</span><span class="st">"test"</span>, color<span class="op">=</span><span class="st">"black"</span>)</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>y_hat.plot(ax<span class="op">=</span>ax, label<span class="op">=</span><span class="st">"forecast"</span>, color<span class="op">=</span><span class="st">"red"</span>)</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>ax.fill_between(ci.index, ci.iloc[:, <span class="dv">0</span>], ci.iloc[:, <span class="dv">1</span>], color<span class="op">=</span><span class="st">"red"</span>, alpha<span class="op">=</span><span class="fl">0.15</span>)</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>ax.legend(loc<span class="op">=</span><span class="st">"upper left"</span>, fontsize<span class="op">=</span><span class="dv">8</span>)</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Forecast vs holdout"</span>)</span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> axes[<span class="dv">0</span>, <span class="dv">1</span>]</span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>resid.plot(ax<span class="op">=</span>ax)</span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Residuals (after burn-in)"</span>)</span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>ax.axhline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">"k"</span>, lw<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>plot_acf(resid, ax<span class="op">=</span>axes[<span class="dv">1</span>, <span class="dv">0</span>], lags<span class="op">=</span><span class="dv">48</span>)</span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>plot_pacf(resid, ax<span class="op">=</span>axes[<span class="dv">1</span>, <span class="dv">1</span>], lags<span class="op">=</span><span class="dv">48</span>, method<span class="op">=</span><span class="st">"ywm"</span>)</span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>rmse <span class="op">=</span> <span class="bu">float</span>(np.sqrt(((y_test <span class="op">-</span> y_hat) <span class="op">**</span> <span class="dv">2</span>).mean()))</span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>mae <span class="op">=</span> <span class="bu">float</span>((y_test <span class="op">-</span> y_hat).<span class="bu">abs</span>().mean())</span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>mo.vstack([</span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>    mo.md(</span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"**SARIMA</span><span class="sc">{</span>order<span class="sc">}</span><span class="ss"> x </span><span class="sc">{</span>seasonal_order<span class="sc">}</span><span class="ss">** &amp;nbsp;·&amp;nbsp; "</span></span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"AIC = `</span><span class="sc">{</span>res<span class="sc">.</span>aic<span class="sc">:.2f}</span><span class="ss">` &amp;nbsp;·&amp;nbsp; BIC = `</span><span class="sc">{</span>res<span class="sc">.</span>bic<span class="sc">:.2f}</span><span class="ss">` &amp;nbsp;·&amp;nbsp; "</span></span>
+<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"RMSE(test) = `</span><span class="sc">{</span>rmse<span class="sc">:.2f}</span><span class="ss">` &amp;nbsp;·&amp;nbsp; MAE(test) = `</span><span class="sc">{</span>mae<span class="sc">:.2f}</span><span class="ss">`"</span></span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a>    fig,</span>
+<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a>    mo.accordion({<span class="st">"Full summary"</span>: mo.md(<span class="ss">f"```</span><span class="ch">\n</span><span class="sc">{</span>res<span class="sc">.</span>summary()<span class="sc">.</span>as_text()<span class="sc">}</span><span class="ch">\n</span><span class="ss">```"</span>)}),</span>
+<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p>Pick orders above and click <strong>Fit SARIMA</strong>.</p>
+</div>
+</div>
+<section id="anatomía-del-código-del-fit-pronóstico" class="level2" data-number="18.1">
+<h2 data-number="18.1" class="anchored" data-anchor-id="anatomía-del-código-del-fit-pronóstico"><span class="header-section-number">18.1</span> Anatomía del código del fit + pronóstico</h2>
+<p>Esta sección documenta paso a paso el código de la celda de ajuste, para que puedas adaptarlo o explicarlo. Es <strong>solo lectura</strong> — el código vivo está en la celda de arriba.</p>
+<hr>
+<section id="leer-la-configuración-del-widget-y-validar" class="level3" data-number="18.1.1">
+<h3 data-number="18.1.1" class="anchored" data-anchor-id="leer-la-configuración-del-widget-y-validar"><span class="header-section-number">18.1.1</span> 1. Leer la configuración del widget y validar</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>cfg <span class="op">=</span> order_form.value</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>mo.stop(cfg <span class="kw">is</span> <span class="va">None</span>, mo.md(<span class="st">"Pick orders above and click **Fit SARIMA**."</span>))</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>order          <span class="op">=</span> (cfg[<span class="st">"p"</span>], cfg[<span class="st">"d"</span>], cfg[<span class="st">"q"</span>])</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>seasonal_order <span class="op">=</span> (cfg[<span class="st">"P"</span>], cfg[<span class="st">"D"</span>], cfg[<span class="st">"Q"</span>], cfg[<span class="st">"s"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><code>order_form.value</code> es <code>None</code> hasta que pulsas <strong>Fit SARIMA</strong> — así evitas reajustar mientras mueves sliders.</li>
+<li><code>mo.stop(...)</code> corta la celda con un mensaje amigable si todavía no hay valores.</li>
+<li>Se separan las dos tuplas que <code>statsmodels</code> espera: la no estacional <code>(p, d, q)</code> y la estacional <code>(P, D, Q, s)</code>.</li>
+</ul>
+<hr>
+</section>
+<section id="ajustar-el-modelo" class="level3" data-number="18.1.2">
+<h3 data-number="18.1.2" class="anchored" data-anchor-id="ajustar-el-modelo"><span class="header-section-number">18.1.2</span> 2. Ajustar el modelo</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> mo.status.spinner(<span class="st">"Fitting SARIMA..."</span>):</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    res <span class="op">=</span> SARIMAX(</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>        y_train,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>        order<span class="op">=</span>order,</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>        seasonal_order<span class="op">=</span>seasonal_order,</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>        enforce_stationarity<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>        enforce_invertibility<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    ).fit(disp<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><code>SARIMAX</code> (de <code>statsmodels.tsa.statespace</code>) es la implementación en <strong>espacio de estados</strong> del modelo SARIMA, más estable que la versión clásica.</li>
+<li><code>enforce_stationarity=False</code> y <code>enforce_invertibility=False</code> permiten que el optimizador explore raíces cerca del círculo unitario sin abortar. Útil para series con seasonalidades fuertes; el costo es que tienes que vigilar tú mismo si las raíces resultan explosivas.</li>
+<li><code>disp=False</code> silencia el log del optimizador (BFGS por defecto).</li>
+<li>El <code>with mo.status.spinner(...)</code> muestra un indicador de progreso en la UI mientras dura el fit.</li>
+</ul>
+<hr>
+</section>
+<section id="pronóstico-sobre-el-holdout" class="level3" data-number="18.1.3">
+<h3 data-number="18.1.3" class="anchored" data-anchor-id="pronóstico-sobre-el-holdout"><span class="header-section-number">18.1.3</span> 3. Pronóstico sobre el holdout</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>fc    <span class="op">=</span> res.get_forecast(steps<span class="op">=</span><span class="bu">len</span>(y_test))</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>y_hat <span class="op">=</span> fc.predicted_mean</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>ci    <span class="op">=</span> fc.conf_int(alpha<span class="op">=</span><span class="fl">0.05</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><code>get_forecast(steps=h)</code> pronostica los próximos <code>h</code> pasos <strong>fuera de muestra</strong> (a partir del final de <code>y_train</code>).</li>
+<li><code>predicted_mean</code> es la mejor estimación puntual.</li>
+<li><code>conf_int(alpha=0.05)</code> devuelve un DataFrame con las cotas inferior y superior del <strong>intervalo de confianza al 95%</strong> (<code>alpha</code> es la probabilidad de error fuera del intervalo).</li>
+</ul>
+<hr>
+</section>
+<section id="limpiar-los-residuos-antes-de-diagnosticar" class="level3" data-number="18.1.4">
+<h3 data-number="18.1.4" class="anchored" data-anchor-id="limpiar-los-residuos-antes-de-diagnosticar"><span class="header-section-number">18.1.4</span> 4. Limpiar los residuos antes de diagnosticar</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>burn  <span class="op">=</span> <span class="bu">max</span>(seasonal_order[<span class="dv">3</span>], <span class="dv">24</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>resid <span class="op">=</span> res.resid.iloc[burn:]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>El filtro de Kalman necesita unos pasos para <em>"entrar en régimen"</em>; las primeras observaciones tienen residuos enormes que ensucian la ACF y los gráficos.</li>
+<li>Quitar <code>s</code> puntos iniciales (al menos 24) es suficiente para que el diagnóstico refleje el comportamiento real del modelo.</li>
+</ul>
+<hr>
+</section>
+<section id="panel-de-diagnóstico-22" class="level3" data-number="18.1.5">
+<h3 data-number="18.1.5" class="anchored" data-anchor-id="panel-de-diagnóstico-22"><span class="header-section-number">18.1.5</span> 5. Panel de diagnóstico 2×2</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">7</span>))</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co"># (0,0) Forecast vs holdout</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>y_train.iloc[<span class="op">-</span><span class="dv">7</span><span class="op">*</span><span class="dv">24</span>:].plot(ax<span class="op">=</span>axes[<span class="dv">0</span>,<span class="dv">0</span>], label<span class="op">=</span><span class="st">"train (last 7 d)"</span>)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>y_test.plot(ax<span class="op">=</span>axes[<span class="dv">0</span>,<span class="dv">0</span>], label<span class="op">=</span><span class="st">"test"</span>, color<span class="op">=</span><span class="st">"black"</span>)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>y_hat.plot(ax<span class="op">=</span>axes[<span class="dv">0</span>,<span class="dv">0</span>], label<span class="op">=</span><span class="st">"forecast"</span>, color<span class="op">=</span><span class="st">"red"</span>)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>,<span class="dv">0</span>].fill_between(ci.index, ci.iloc[:,<span class="dv">0</span>], ci.iloc[:,<span class="dv">1</span>],</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>                       color<span class="op">=</span><span class="st">"red"</span>, alpha<span class="op">=</span><span class="fl">0.15</span>)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="co"># (0,1) Residuos</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>resid.plot(ax<span class="op">=</span>axes[<span class="dv">0</span>,<span class="dv">1</span>])</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="co"># (1,0) y (1,1) ACF y PACF de residuos</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>plot_acf(resid,  ax<span class="op">=</span>axes[<span class="dv">1</span>,<span class="dv">0</span>], lags<span class="op">=</span><span class="dv">48</span>)</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>plot_pacf(resid, ax<span class="op">=</span>axes[<span class="dv">1</span>,<span class="dv">1</span>], lags<span class="op">=</span><span class="dv">48</span>, method<span class="op">=</span><span class="st">"ywm"</span>)</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Cómo leer cada panel:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Panel</th>
+<th>Qué buscar</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>(0,0) Forecast vs holdout</strong></td>
+<td>La línea roja debe seguir el patrón diario de la negra; la banda rosa debe contener la mayoría de los puntos.</td>
+</tr>
+<tr class="even">
+<td><strong>(0,1) Residuos</strong></td>
+<td>Deben oscilar alrededor de 0 sin patrones visibles (sin tendencia, sin ciclos).</td>
+</tr>
+<tr class="odd">
+<td><strong>(1,0) ACF residuos</strong></td>
+<td>Casi todas las barras dentro de la banda azul. Picos en lag 24, 48 → falta seasonal MA (<code>Q</code>) o más <code>D</code>.</td>
+</tr>
+<tr class="even">
+<td><strong>(1,1) PACF residuos</strong></td>
+<td>Lo mismo, pero diagnostica AR. Picos persistentes en lag 24 → necesitas más <code>P</code>.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="métricas-e-impresión-final" class="level3" data-number="18.1.6">
+<h3 data-number="18.1.6" class="anchored" data-anchor-id="métricas-e-impresión-final"><span class="header-section-number">18.1.6</span> 6. Métricas e impresión final</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>rmse <span class="op">=</span> <span class="bu">float</span>(np.sqrt(((y_test <span class="op">-</span> y_hat)<span class="op">**</span><span class="dv">2</span>).mean()))</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>mae  <span class="op">=</span> <span class="bu">float</span>((y_test <span class="op">-</span> y_hat).<span class="bu">abs</span>().mean())</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>mo.vstack([</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    mo.md(<span class="ss">f"**SARIMA</span><span class="sc">{</span>order<span class="sc">}</span><span class="ss"> x </span><span class="sc">{</span>seasonal_order<span class="sc">}</span><span class="ss">** · "</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>          <span class="ss">f"AIC = `</span><span class="sc">{</span>res<span class="sc">.</span>aic<span class="sc">:.2f}</span><span class="ss">` · BIC = `</span><span class="sc">{</span>res<span class="sc">.</span>bic<span class="sc">:.2f}</span><span class="ss">` · "</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>          <span class="ss">f"RMSE(test) = `</span><span class="sc">{</span>rmse<span class="sc">:.2f}</span><span class="ss">` · MAE(test) = `</span><span class="sc">{</span>mae<span class="sc">:.2f}</span><span class="ss">`"</span>),</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    fig,</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    mo.accordion({<span class="st">"Full summary"</span>: mo.md(<span class="ss">f"```</span><span class="ch">\n</span><span class="sc">{</span>res<span class="sc">.</span>summary()<span class="sc">.</span>as_text()<span class="sc">}</span><span class="ch">\n</span><span class="ss">```"</span>)}),</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><strong><code>AIC</code> / <code>BIC</code></strong> miden bondad de ajuste penalizada por número de parámetros, <strong>calculados sobre <code>y_train</code></strong>. Sirven para comparar modelos <em>en muestra</em>.</li>
+<li><strong><code>RMSE</code> / <code>MAE</code></strong> se calculan sobre <code>y_test</code> — son el veredicto <strong>fuera de muestra</strong>. Un modelo con AIC bajo pero RMSE alto está sobreajustando.</li>
+<li><code>mo.vstack([...])</code> apila resumen, figura y <code>accordion</code> colapsable con el <code>summary()</code> completo de <code>statsmodels</code>.</li>
+</ul>
+<hr>
+</section>
+<section id="flujo-de-trabajo-recomendado" class="level3" data-number="18.1.7">
+<h3 data-number="18.1.7" class="anchored" data-anchor-id="flujo-de-trabajo-recomendado"><span class="header-section-number">18.1.7</span> Flujo de trabajo recomendado</h3>
+<ol type="1">
+<li>Empieza simple: <code>(1, 0, 0)(0, 1, 0, 24)</code> — solo <code>D = 1</code> con un AR no estacional.</li>
+<li>Mira la <strong>ACF de residuos</strong>. ¿Pico grande en lag 24? Sube <code>Q</code> a 1. ¿Picos en lag 1–5? Sube <code>q</code> a 1.</li>
+<li>Compara <strong>AIC</strong> entre variantes — debe bajar al añadir parámetros útiles.</li>
+<li>Confirma siempre con el <strong>RMSE en el holdout</strong>. Si AIC baja pero RMSE no, descarta esa variante.</li>
+<li>Cuando la ACF de residuos esté "limpia" (casi todas las barras dentro de la banda azul), terminaste.</li>
+</ol>
+
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../notebooks/016_SARIMA_LaVentosa_src.html" class="pagination-link" aria-label="016 · SARIMA · Laboratorio · La Ventosa, Oaxaca">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">016 · SARIMA · Laboratorio · La Ventosa, Oaxaca</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../notebooks/018_sarima_esolmet.html" class="pagination-link" aria-label="018_sarima_esolmet.html">
+        <span class="nav-page-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">018_sarima_esolmet.html</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
