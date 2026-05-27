@@ -448,15 +448,46 @@ def _(mo):
     mo.md(r"""
     ### 3.6 · ACF y PACF de la serie diferenciada — `(p, q, P, Q)`
 
-    Sobre `Δ₂₄ y` (la transformación que ya es estacionaria):
+    Ya decidimos `d = 0, D = 1, s = 24`. **Ahora, sobre la serie ya
+    estacionaria, leemos la ACF y la PACF para proponer los órdenes que
+    faltan `(p, q, P, Q)`.** La celda de abajo dibuja esas dos funciones a
+    mano (con barras) en vez de usar `plot_acf`/`plot_pacf`, solo para tener
+    control total del estilo; el cálculo es el mismo.
 
-    - **ACF (autocorrelación)** — picos significativos en lags 1, 2, … sugieren
-      **`q`**. Picos en `s, 2s, …` sugieren **`Q`**.
-    - **PACF (autocorrelación parcial)** — picos en lags 1, 2, … sugieren
-      **`p`**. Picos en `s, 2s, …` sugieren **`P`**.
+    **Por qué sobre `Δ₂₄ y` y no sobre la serie cruda.** SARIMA modela lo que
+    queda *después* de diferenciar. Por eso primero aplicamos la diferencia
+    estacional —`Δ₂₄y_t = y_t − y_{t−24}`, cada hora menos la misma hora de
+    ayer— y recién sobre ese residuo medimos la autocorrelación. (Los primeros
+    24 valores quedan en `NaN` porque no tienen "ayer"; se descartan.)
 
-    Las líneas grises punteadas marcan la banda ±1.96/√n (intervalo del 95%
-    para "ruido blanco"). Los picos que sobresalen son los relevantes.
+    **La regla de lectura** — ACF y PACF se leen siempre **juntas**:
+
+    | Función | Mide | Sus picos sugieren |
+    |---|---|---|
+    | **ACF** (autocorrelación) | correlación bruta con el rezago `k` | **MA**: lags 1, 2, … → **`q`**; lags `s, 2s` → **`Q`** |
+    | **PACF** (parcial) | correlación con el rezago `k` *descontando* los intermedios | **AR**: lags 1, 2, … → **`p`**; lags `s, 2s` → **`P`** |
+
+    Mnemotecnia: **ACF → MA (`q, Q`)**, **PACF → AR (`p, P`)**.
+
+    **Por qué la banda ±1.96/√n.** Las líneas grises punteadas marcan la
+    **banda de significancia del 95% bajo la hipótesis de ruido blanco**. El
+    argumento: si la serie diferenciada fuera ruido blanco puro, sus
+    autocorrelaciones muestrales $\hat r_k$ no serían exactamente 0 por azar,
+    sino que se distribuirían aprox. $\hat r_k \sim \mathcal{N}(0,\, 1/n)$
+    (resultado de Bartlett). Su desviación estándar es $1/\sqrt{n}$, y el
+    intervalo del 95% de una normal es $\pm 1.96\,\sigma = \pm 1.96/\sqrt{n}$.
+    Con $n \approx 648$ sale $\approx \pm 0.077$.
+
+    > **Cómo se lee:** una barra **dentro** de la banda gris es
+    > indistinguible de cero (ruido, no la modelamos); una barra que
+    > **sobresale** es un pico estadísticamente significativo → ese lag
+    > aporta estructura y hay que capturarlo con el parámetro correspondiente.
+    > Es el criterio objetivo que reemplaza el "se ve grande a ojo".
+
+    Calculamos hasta el **lag 48 = 2 ciclos diarios** a propósito: para juzgar
+    lo estacional hace falta ver tanto `s = 24` como `2s = 48` (las líneas
+    naranjas). Si solo llegáramos a 24 no podríamos distinguir entre "basta
+    con `Q = 1`" y "hace falta más memoria estacional".
     """)
     return
 
@@ -581,6 +612,55 @@ def _(mo):
     - **Bloque "Ljung-Box (L1) (Q)" y "Jarque-Bera"** — el primero mide
       autocorrelación residual en lag 1 (queremos p alto); el segundo
       mide normalidad de los residuos (informativo, no crítico).
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    **Lectura del `summary` de M1.**
+
+    Los cuatro `coef` son los parámetros que el modelo aprendió del train y
+    usa para pronosticar. Cada uno multiplica un término de la ecuación:
+
+    | en el `summary` | símbolo | qué multiplica | valor | `P>|z|` |
+    |---|---|---|---|---|
+    | `ar.L1`    | $\phi_1$   | $w_{t-1}$ (hace 1 h)            | **0.897**  | 0.000 ✅ |
+    | `ma.L1`    | $\theta_1$ | $\varepsilon_{t-1}$ (error 1 h) | 0.015      | 0.712 ❌ |
+    | `ar.S.L24` | $\Phi_1$   | $w_{t-24}$ (ayer a esta hora)  | 0.006      | 0.892 ❌ |
+    | `ma.S.L24` | $\Theta_1$ | $\varepsilon_{t-24}$ (error de ayer) | **−0.835** | 0.000 ✅ |
+
+    (`sigma2 = 0.290` no es un coeficiente del modelo: es la varianza
+    estimada del ruido $\varepsilon$.)
+
+    Sobre la serie ya diferenciada $w_t = \Delta_{24}y_t = y_t - y_{t-24}$:
+
+    $$w_t = \underbrace{0.897}_{\phi_1}\, w_{t-1} + \varepsilon_t + \underbrace{0.015}_{\theta_1}\,\varepsilon_{t-1} + \underbrace{0.006}_{\Phi_1}\, w_{t-24} - \underbrace{0.835}_{\Theta_1}\,\varepsilon_{t-24}$$
+
+    **Qué cuenta con estos números:**
+
+    - $\phi_1 = 0.897$ (cerca de 1) → **mucha inercia hora a hora**: la
+      próxima hora es casi la actual. Es el término que más trabaja.
+    - $\Theta_1 = -0.835$ → **MA estacional fuerte**: corrige según el error
+      que el modelo cometió *ayer a esta misma hora*. El otro caballo de
+      batalla.
+    - $\theta_1$ y $\Phi_1$ → **prácticamente cero y no significativos**
+      (`P>|z|` de 0.71 y 0.89). Están en la ecuación pero casi no aportan →
+      candidatos a eliminar.
+
+    - **`Prob(Q): 0.98`** (Ljung-Box en lag 1) → alto = bien, sin
+      autocorrelación residual obvia. El Ljung-Box a lags 10/24/48 lo
+      calculamos en §4.5.
+    - **AIC = 1076.97, BIC = 1099.33** → por sí solos no dicen nada; son el
+      número que compararemos contra M2 y M3 (más bajo = mejor).
+
+    > **Pista para iterar.** Que `ma.L1` y `ar.S.L24` salgan ≈0 y no
+    > significativos sugiere que sus términos (`q = 1` y `P = 1`) sobran: un
+    > modelo más simple como `(1, 0, 0)(0, 1, 1)₂₄` ajustaría casi igual con
+    > menos parámetros. Ese es el camino de *simplificar*; en §7–§8
+    > exploramos el opuesto (añadir parámetros) para comparar ambas
+    > direcciones. La regla concreta para decidir está en el recetario de §6.
     """)
     return
 
@@ -740,6 +820,42 @@ def _(plot_pacf, resid_M1):
     for _k in (24, 48):
         fig_pacf_resM1.axes[0].axvline(_k, color="orange", linestyle=":", alpha=0.6)
     fig_pacf_resM1
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    #### ¿Qué es un QQ-plot?
+
+    "QQ" = **quantile-quantile**. Es una gráfica para responder *"¿estos
+    datos siguen una distribución Normal?"* comparando sus cuantiles con los
+    que tendría una Normal teórica.
+
+    **La idea.** Un cuantil es el valor por debajo del cual cae cierto
+    porcentaje de los datos (la mediana es el cuantil 50%). El QQ-plot
+    ordena tus residuos, calcula a qué cuantil corresponde cada uno, y los
+    pone en un eje contra el valor que esa misma posición tendría si los
+    datos fueran exactamente Normales en el otro eje. Cada punto es un
+    residuo.
+
+    **Cómo se lee:**
+
+    - Si los datos son Normales, **todos los puntos caen sobre la diagonal**
+      (la recta gris punteada). Cuantil observado = cuantil teórico.
+    - **Puntos que se curvan en los extremos** (colas) → hay más valores
+      extremos de lo que predeciría una Normal: "colas pesadas". Es el caso
+      típico de residuos con algún pico grande ocasional.
+    - **Forma de "S"** → asimetría (la distribución está sesgada).
+
+    Estandarizamos los residuos antes —restar la media, dividir entre la
+    desviación— para compararlos contra una Normal estándar $\mathcal{N}(0,1)$.
+
+    > **Para qué nos sirve aquí.** Es solo **informativo**: SARIMA no exige
+    > que los residuos sean Normales. Si las colas se desvían un poco, los
+    > intervalos de confianza del forecast son algo optimistas en los
+    > extremos, nada más. No es motivo para cambiar el modelo.
+    """)
     return
 
 
